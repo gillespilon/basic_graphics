@@ -40,7 +40,6 @@ df.head()
 
 ax = df.plot.line(y='Target',
                   legend=False,
-#                  style='.',
                   color=c[0])
 df.plot.line(y='Actual',
              legend=False,
