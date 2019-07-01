@@ -9,6 +9,7 @@ Line plot, performance to target
 # - Prediction interval
 
 import pandas as pd
+import matplotlib
 import matplotlib.cm as cm
 import matplotlib.axes as axes
 import matplotlib.pyplot as plt
@@ -18,6 +19,9 @@ c = cm.Paired.colors
 # c[0] c[1] ... c[11]
 # See "paired" in "qualitative colormaps"
 # https://matplotlib.org/tutorials/colors/colormaps.html
+
+
+matplotlib.use('Cairo')
 
 
 def despine(ax: axes.Axes) -> None:
