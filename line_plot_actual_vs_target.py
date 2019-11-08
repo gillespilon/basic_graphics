@@ -2,6 +2,9 @@
 
 '''
 Line plot, performance to target
+
+time -f '%e' ./line_plot_actual_vs_target.py
+./line_plot_actual_vs_target.py
 '''
 
 # TODO:
@@ -26,7 +29,8 @@ matplotlib.use('Cairo')
 def despine(ax: axes.Axes) -> None:
     'Remove the top and right spines of a graph'
     for spine in 'right', 'top':
-        ax.spines[spine].set_color('none')
+#         ax.spines[spine].set_visible(False)
+        ax.spines[spine].set_visible(False)
 
 
 df = pd.read_csv('actual_vs_target.csv',
