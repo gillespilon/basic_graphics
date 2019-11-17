@@ -46,11 +46,11 @@ ax = df.plot.line(y='Target',
                   legend=False,
                   color=c[0])
 df.plot.line(y='Actual',
-             legend=False,
+             ax=ax,
              style='.',
-             color=c[1],
              figsize=(9, 6),
-             ax=ax)
+             legend=False,
+             color=c[1])
 ax.set_xlabel('Date', fontweight='bold')
 ax.set_ylabel('Weight (kg)', fontweight='bold')
 ax.autoscale(enable=True)
