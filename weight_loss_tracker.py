@@ -15,6 +15,9 @@ import pandas as pd
 import matplotlib
 import matplotlib.cm as cm
 import matplotlib.axes as axes
+from matplotlib.dates import DateFormatter, DayLocator
+from matplotlib.ticker import NullFormatter
+from matplotlib.ticker import NullLocator
 
 
 c = cm.Paired.colors
@@ -53,6 +56,10 @@ df.plot.line(y='Actual',
              color=c[1])
 ax.set_xlabel('Date', fontweight='bold')
 ax.set_ylabel('Weight (kg)', fontweight='bold')
+ax.xaxis.set_minor_locator(NullLocator())
+ax.xaxis.set_major_locator(DayLocator())
+ax.xaxis.set_minor_formatter(NullFormatter())
+ax.xaxis.set_major_formatter(DateFormatter('%d'))
 ax.autoscale(enable=True)
 ax.set_title('Scatter Plot of Weight Loss',
              fontweight='bold')
