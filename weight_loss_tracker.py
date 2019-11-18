@@ -51,7 +51,7 @@ ax = df.plot.line(y='Target',
 df.plot.line(y='Actual',
              ax=ax,
              style='.',
-             figsize=(9, 6),
+             figsize=(12, 6),
              legend=False,
              color=c[1])
 ax.set_xlabel('Date', fontweight='bold')
