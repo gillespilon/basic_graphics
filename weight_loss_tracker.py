@@ -37,12 +37,17 @@ def despine(ax: axes.Axes) -> None:
         ax.spines[spine].set_visible(False)
 
 
+# df = pd.read_csv('weight.csv',
+#                  parse_dates=True,
+#                  index_col='Date')
+
+
 df = pd.read_csv('weight.csv',
-                 parse_dates=True,
-                 index_col='Date')
+                 parse_dates=['Date'])
 
 
-df.head()
+print(df.head())
+print(df.dtypes)
 
 
 ax = df.plot.line(y='Target',
