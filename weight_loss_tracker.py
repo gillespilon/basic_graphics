@@ -73,3 +73,8 @@ despine(ax)
 
 ax.figure.savefig('weight.svg',
                   format='svg')
+
+if __name__ == '__main__':
+    pass
+    # df = read_data()
+    # plot_weight(df)
