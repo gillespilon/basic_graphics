@@ -21,6 +21,7 @@ from matplotlib.ticker import NullLocator
 
 
 c = cm.Paired.colors
+fighw = (8, 6)
 
 
 matplotlib.use('Cairo')
