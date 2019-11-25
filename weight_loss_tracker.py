@@ -22,6 +22,7 @@ from matplotlib.ticker import NullLocator
 
 c = cm.Paired.colors
 fighw = (8, 6)
+fig_title = 'Weight loss analysis'
 
 
 matplotlib.use('Cairo')
