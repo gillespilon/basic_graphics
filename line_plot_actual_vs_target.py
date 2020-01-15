@@ -14,16 +14,11 @@ import matplotlib.cm as cm
 import matplotlib.pyplot as plt
 from matplotlib.dates import DateFormatter, MonthLocator
 from matplotlib.ticker import NullFormatter, NullLocator
-pd.plotting.register_matplotlib_converters(explicit=True)
-
-
-# c[0] c[1] ... c[11]
-# See "paired" in "qualitative colormaps"
-# https://matplotlib.org/tutorials/colors/colormaps.html
-c = cm.Paired.colors
 
 
 matplotlib.use('Cairo')
+c = cm.Paired.colors
+pd.plotting.register_matplotlib_converters(explicit=True)
 
 
 def despine(ax: axes.Axes) -> None:
