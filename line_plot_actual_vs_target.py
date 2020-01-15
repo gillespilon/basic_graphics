@@ -36,17 +36,13 @@ def despine(ax: axes.Axes) -> None:
         ax.spines[spine].set_visible(False)
 
 
-if __name__ == '__main__':
-    df = pd.read_csv('actual_vs_target.csv', parse_dates=['Date'])
+def plot_two_lines(data, axis_title, x_axis_label, y_axis_label):
     figure_width_height = (8, 6)
-    axis_title = 'Plot of Savings Target vs Actual'
-    x_axis_label = 'Date'
-    y_axis_label = 'USD'
     fig = plt.figure(figsize=figure_width_height)
     ax = fig.add_subplot(111)
-    ax.plot(df['Date'], df['Target'], label='Target',
+    ax.plot(data['Date'], data['Target'], label='Target',
             linestyle='-', color=c[0])
-    ax.plot(df['Date'], df['Actual'], label='Actual', marker='o',
+    ax.plot(data['Date'], data['Actual'], label='Actual', marker='o',
             linestyle='-', color=c[1])
     ax.set_title(axis_title, fontweight='bold')
     ax.set_xlabel(x_axis_label, fontweight='bold')
@@ -56,4 +52,12 @@ if __name__ == '__main__':
     ax.xaxis.set_major_formatter(DateFormatter('%y-%m'))
     ax.xaxis.set_minor_formatter(NullFormatter())
     ax.legend(frameon=False)
+    return ax
+
+
+if __name__ == '__main__':
+    data = pd.read_csv('actual_vs_target.csv', parse_dates=['Date'])
+    axis_title = 'Plot of Savings Target vs Actual'
+    x_axis_label, y_axis_label = ('Date', 'USD')
+    ax = plot_two_lines(data, axis_title, x_axis_label, y_axis_label)
     despine(ax)
