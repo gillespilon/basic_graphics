@@ -7,10 +7,6 @@ time -f '%e' ./line_plot_actual_vs_target.py
 ./line_plot_actual_vs_target.py
 '''
 
-# TODO:
-# - Confidence interval
-# - Prediction interval
-
 import pandas as pd
 import matplotlib
 import matplotlib.axes as axes
