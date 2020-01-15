@@ -39,9 +39,6 @@ df = pd.read_csv('actual_vs_target.csv',
                  index_col='Date')
 
 
-df.head()
-
-
 ax = df.plot.line(y='Target',
                   legend=False,
                   color=c[0])
