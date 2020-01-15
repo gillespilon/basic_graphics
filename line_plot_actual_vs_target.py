@@ -51,7 +51,7 @@ df.plot.line(y='Actual',
              figsize=(9, 6),
              ax=ax)
 ax.set_xlabel('Date', fontweight='bold')
-ax.set_ylabel('$', fontweight='bold')
+ax.set_ylabel('USD', fontweight='bold')
 ax.autoscale(enable=True)
 ax.set_title('Scatter Plot of Target vs Actual',
              fontweight='bold')
