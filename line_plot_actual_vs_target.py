@@ -22,7 +22,11 @@ pd.plotting.register_matplotlib_converters(explicit=True)
 
 
 def despine(ax: axes.Axes) -> None:
-    'Remove the top and right spines of a graph'
+    '''
+    Remove the top and right spines of a graph.
+
+    There is only one x axis, on the bottom, and one y axis, on the left.
+    '''
     for spine in 'right', 'top':
         ax.spines[spine].set_visible(False)
 
