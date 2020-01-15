@@ -13,8 +13,9 @@ time -f '%e' ./line_plot_actual_vs_target.py
 
 import pandas as pd
 import matplotlib
-import matplotlib.cm as cm
 import matplotlib.axes as axes
+import matplotlib.cm as cm
+import matplotlib.pyplot as plt
 
 
 c = cm.Paired.colors
