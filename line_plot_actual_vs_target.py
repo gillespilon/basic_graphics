@@ -48,7 +48,7 @@ def plot_two_lines(data, axis_title, x_axis_label, y_axis_label):
 
 if __name__ == '__main__':
     data = pd.read_csv('actual_vs_target.csv', parse_dates=['Date'])
-    axis_title = 'Plot of Savings Target vs Actual'
-    x_axis_label, y_axis_label = ('Date', 'USD')
+    axis_title, x_axis_label, y_axis_label = ('Date', 'USD',
+                                              'Savings Target vs Actual')
     ax = plot_two_lines(data, axis_title, x_axis_label, y_axis_label)
     despine(ax)
