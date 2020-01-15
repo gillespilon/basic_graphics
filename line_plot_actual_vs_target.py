@@ -59,3 +59,4 @@ despine(ax)
 
 
 ax.figure.savefig('target_vs_actual.svg', format='svg')
+ax.figure.savefig('target_vs_actual.png', format='png')
