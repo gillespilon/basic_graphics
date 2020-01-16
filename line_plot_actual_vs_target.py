@@ -56,3 +56,5 @@ if __name__ == '__main__':
                                               'Savings Target vs Actual')
     ax = plot_two_lines(data, axis_title, x_axis_label, y_axis_label)
     despine(ax)
+    ax.figure.savefig('actual_vs_target.svg', format='svg')
+    ax.figure.savefig('actual_vs_target.png', format='png')
