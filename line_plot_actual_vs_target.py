@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
 '''
-Line plot, performance to target
+Actual vs target line plots
 
 time -f '%e' ./line_plot_actual_vs_target.py
 ./line_plot_actual_vs_target.py
