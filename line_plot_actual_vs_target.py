@@ -7,11 +7,13 @@ time -f '%e' ./line_plot_actual_vs_target.py
 ./line_plot_actual_vs_target.py
 '''
 
+import numpy as np
 import pandas as pd
 import matplotlib
 import matplotlib.axes as axes
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
+import statsmodels.api as sm
 from matplotlib.dates import DateFormatter, MonthLocator
 from matplotlib.ticker import NullFormatter, NullLocator
 
@@ -19,6 +21,17 @@ from matplotlib.ticker import NullFormatter, NullLocator
 matplotlib.use('Cairo')
 c = cm.Paired.colors
 pd.plotting.register_matplotlib_converters(explicit=True)
+
+
+def main():
+    data = pd.read_csv('actual_vs_target.csv', parse_dates=['Date'])
+    x_axis_label, y_axis_label, axis_title = ('Date', 'USD',
+                                              'Savings Target vs Actual')
+    data = regression(data)
+    ax = plot_three_lines(data, axis_title, x_axis_label, y_axis_label)
+    despine(ax)
+    ax.figure.savefig('actual_vs_target.svg', format='svg')
+    ax.figure.savefig('actual_vs_target.png', format='png')
 
 
 def despine(ax: axes.Axes) -> None:
@@ -31,7 +44,7 @@ def despine(ax: axes.Axes) -> None:
         ax.spines[spine].set_visible(False)
 
 
-def plot_two_lines(data, axis_title, x_axis_label, y_axis_label):
+def plot_three_lines(data, axis_title, x_axis_label, y_axis_label):
     figure_width_height = (8, 6)
     fig = plt.figure(figsize=figure_width_height)
     ax = fig.add_subplot(111)
@@ -39,6 +52,8 @@ def plot_two_lines(data, axis_title, x_axis_label, y_axis_label):
             linestyle='-', color=c[0])
     ax.plot(data['Date'], data['Actual'], label='Actual', marker='o',
             linestyle='-', color=c[1])
+    ax.plot(data['Date'], data['Predicted'], label='Predicted',
+            linestyle='-', color=c[2])
     ax.set_title(axis_title, fontweight='bold')
     ax.set_xlabel(x_axis_label, fontweight='bold')
     ax.set_ylabel(y_axis_label, fontweight='bold')
@@ -50,11 +65,21 @@ def plot_two_lines(data, axis_title, x_axis_label, y_axis_label):
     return ax
 
 
+def regression(data: pd.DataFrame) -> pd.DataFrame:
+    '''
+    Estimate a linear regression line
+    Y is a float
+    X is a datetime64ns
+    Convert X to a float with first value set to 0 number of days between
+    subsequent values
+    '''
+    data['DateDelta'] = (data['Date'] - data['Date']
+                         .min())/np.timedelta64(1, 'D')
+    model = sm.OLS(data['Actual'], sm.add_constant(data['DateDelta']),
+                   missing='drop').fit()
+    data['Predicted'] = model.fittedvalues
+    return data
+
+
 if __name__ == '__main__':
-    data = pd.read_csv('actual_vs_target.csv', parse_dates=['Date'])
-    axis_title, x_axis_label, y_axis_label = ('Date', 'USD',
-                                              'Savings Target vs Actual')
-    ax = plot_two_lines(data, axis_title, x_axis_label, y_axis_label)
-    despine(ax)
-    ax.figure.savefig('actual_vs_target.svg', format='svg')
-    ax.figure.savefig('actual_vs_target.png', format='png')
+    main()
