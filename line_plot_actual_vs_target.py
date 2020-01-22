@@ -24,7 +24,9 @@ pd.plotting.register_matplotlib_converters(explicit=True)
 
 
 def main():
-    data = pd.read_csv('actual_vs_target.csv', parse_dates=['Date'])
+    data = pd.read_excel('actual_vs_target.ods',
+                         engine='odf',
+                         parse_dates=['Date'])
     x_axis_label, y_axis_label, axis_title = ('Date', 'USD',
                                               'Savings Target vs Actual')
     data = regression(data)
@@ -48,10 +50,10 @@ def plot_three_lines(data, axis_title, x_axis_label, y_axis_label):
     figure_width_height = (8, 6)
     fig = plt.figure(figsize=figure_width_height)
     ax = fig.add_subplot(111)
-    ax.plot(data['Date'], data['Target'], label='Target',
+    ax.plot(data['Date'], data['TargetBalance'], label='TargetBalance',
             linestyle='-', color=c[0])
-    ax.plot(data['Date'], data['Actual'], label='Actual', marker='o',
-            linestyle='-', color=c[1])
+    ax.plot(data['Date'], data['ActualBalance'], label='ActualBalance',
+            linestyle='-', color=c[1], marker='.')
     ax.plot(data['Date'], data['Predicted'], label='Predicted',
             linestyle='-', color=c[2])
     ax.set_title(axis_title, fontweight='bold')
@@ -59,7 +61,7 @@ def plot_three_lines(data, axis_title, x_axis_label, y_axis_label):
     ax.set_ylabel(y_axis_label, fontweight='bold')
     ax.xaxis.set_major_locator(MonthLocator())
     ax.xaxis.set_minor_locator(NullLocator())
-    ax.xaxis.set_major_formatter(DateFormatter('%y-%m'))
+    ax.xaxis.set_major_formatter(DateFormatter('%m'))
     ax.xaxis.set_minor_formatter(NullFormatter())
     ax.legend(frameon=False)
     return ax
@@ -75,7 +77,7 @@ def regression(data: pd.DataFrame) -> pd.DataFrame:
     '''
     data['DateDelta'] = (data['Date'] - data['Date']
                          .min())/np.timedelta64(1, 'D')
-    model = sm.OLS(data['Actual'], sm.add_constant(data['DateDelta']),
+    model = sm.OLS(data['ActualBalance'], sm.add_constant(data['DateDelta']),
                    missing='drop').fit()
     data['Predicted'] = model.fittedvalues
     return data
