@@ -37,14 +37,14 @@ def main():
     ax.figure.savefig('cubic_spline.svg', format='svg')
 
 
-def create_example_data():
+def estimate_cubic_spline(example_data_x, example_data_y):
     '''
-    This function creates data to use for the spline function.
-    It is not required if you have real data.
+    In a real-life data set you would comment out this line.
     '''
-    x_values = np.arange(10)  # create values 0 to 9, increments of 1
-    y_values = np.sin(x_values)
-    return x_values, y_values
+    # create values -0.5 to 9.6, increments of 0.1
+    example_data_x = np.arange(-0.5, 9.6, 0.1)
+    example_data_y = cs(example_data_x, example_data_y)
+    return x, y
 
 
 def despine(ax: axes.Axes) -> None:
