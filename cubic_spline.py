@@ -27,22 +27,23 @@ def main():
     x_axis_label, y_axis_label, axis_title = (
         'Independent value', 'Dependent value', 'Cubic Spline'
     )
-    x1 = np.arange(10)  # create x values from 0 to 9, increments of 1
-    y1 = np.sin(x1)
+    example_data_x, example_data_y = create_example_data()
     x2 = np.arange(-0.5, 9.6, 0.1)  # create x from 0.5 to 9.5, increment 0.1
-    y2 = cs(x1, y1)
-    ax = cubic_spline(x1, y1, x2, y2, x_axis_label, y_axis_label, axis_title)
+    y2 = cs(example_data_x, example_data_y)
+    ax = cubic_spline(example_data_x, example_data_y,
+                     x2, y2,
+                     x_axis_label, y_axis_label, axis_title)
     despine(ax)
     ax.figure.savefig('cubic_spline.svg', format='svg')
 
 
-def create_example_data(x, y):
+def create_example_data():
     '''
     This function creates data to use for the spline function.
     It is not required if you have real data.
     '''
     x_values = np.arange(10)  # create values 0 to 9, increments of 1
-    y_values = np.sin(x)
+    y_values = np.sin(x_values)
     return x_values, y_values
 
 
