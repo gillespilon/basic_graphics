@@ -36,6 +36,16 @@ def main():
     ax.figure.savefig('cubic_spline.svg', format='svg')
 
 
+def create_example_data(x, y):
+    '''
+    This function creates data to use for the spline function.
+    It is not required if you have real data.
+    '''
+    x_values = np.arange(10)  # create values 0 to 9, increments of 1
+    y_values = np.sin(x)
+    return x_values, y_values
+
+
 def despine(ax: axes.Axes) -> None:
     '''
     Remove the top and right spines of a graph.
