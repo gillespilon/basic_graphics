@@ -32,11 +32,17 @@ def main():
         'Dependent value',
         'Cubic Spline'
     )
-    raw_data = read_data_file()
-    raw_data_x_values = raw_data.iloc[:, 0]
-    raw_data_y_values = raw_data.iloc[:, 1]
-    spline_data_x_values = np.arange(-0.5, 9.6, 0.1)  # create x from 0.5 to 9.5, increment 0.1
+    raw_data_x_values, raw_data_y_values = read_data_file()
+    minimum = raw_data_x_values.min()
+    maximum = raw_data_x_values.max()
+    increment = (maximum - minimum)/100
+    print('increment ', type(increment))
+    spline_data_x_values = np.arange(minimum, maximum, increment)
     spline_data_y_values = cs(raw_data_x_values, raw_data_y_values)
+    print(type(raw_data_x_values))
+    print(type(raw_data_y_values))
+    print(type(spline_data_x_values))
+    print(type(spline_data_y_values))
     ax = plot_scatter_line(raw_data_x_values, raw_data_y_values,
                            spline_data_x_values, spline_data_y_values,
                            x_axis_label, y_axis_label, axis_title)
@@ -56,7 +62,7 @@ def read_data_file():
         except FileNotFoundError:
             print(f'File {file_name} does not exist. Please try again.')
         else:
-            return data
+            return data.iloc[:, 0], data.iloc[:, 1]
 
 
 def despine(ax: axes.Axes) -> None:
