@@ -10,10 +10,10 @@ import numpy as np
 
 
 filename = ('data_file.csv')
-columns = ['data_x_values', 'data_y_values']
-data_x_values = np.arange(10)
-data_y_values = np.sin(data_x_values)
-array = np.array([data_x_values, data_y_values])
+columns = ['raw_data_x', 'raw_data_y']
+raw_data_x_values = np.arange(10)
+raw_data_y_values = np.sin(raw_data_x_values)
+array = np.array([raw_data_x_values, raw_data_y_values])
 data = pd.DataFrame(
     array.T,
     columns=columns
