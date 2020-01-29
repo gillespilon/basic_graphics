@@ -37,7 +37,7 @@ def main():
     raw_data_y_values = raw_data.iloc[:, 1]
     x2 = np.arange(-0.5, 9.6, 0.1)  # create x from 0.5 to 9.5, increment 0.1
     y2 = cs(raw_data_x_values, raw_data_y_values)
-    ax = plot_cubic_spline(raw_data_x_values, raw_data_y_values,
+    ax = plot_scatter_line(raw_data_x_values, raw_data_y_values,
                       x2, y2,
                       x_axis_label, y_axis_label, axis_title)
     despine(ax)
@@ -69,7 +69,7 @@ def despine(ax: axes.Axes) -> None:
         ax.spines[spine].set_visible(False)
 
 
-def plot_cubic_spline(raw_data_x_values, raw_data_y_values,
+def plot_scatter_line(raw_data_x_values, raw_data_y_values,
                  x2, y2,
                  x_axis_label, y_axis_label, axis_title):
     figure_width_height = (8, 6)
