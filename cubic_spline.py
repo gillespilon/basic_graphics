@@ -3,11 +3,6 @@
 '''
 Cubic spline plot
 
-This script has several functions to estimate a cubic spline for a data set
-with one X and one Y, plot the data as a scatter plot, and plot the cubic
-spline as a line that fits the data.
-
-Specific to Linux:
 time -f '%e' ./cubic_spline.py
 ./cubic_spline.py
 '''
@@ -27,24 +22,13 @@ def main():
     x_axis_label, y_axis_label, axis_title = (
         'Independent value', 'Dependent value', 'Cubic Spline'
     )
-    example_data_x, example_data_y = create_example_data()
+    x1 = np.arange(10)  # create x values from 0 to 9, increments of 1
+    y1 = np.sin(x1)
     x2 = np.arange(-0.5, 9.6, 0.1)  # create x from 0.5 to 9.5, increment 0.1
-    y2 = cs(example_data_x, example_data_y)
-    ax = cubic_spline(example_data_x, example_data_y,
-                     x2, y2,
-                     x_axis_label, y_axis_label, axis_title)
+    y2 = cs(x1, y1)
+    ax = cubic_spline(x1, y1, x2, y2, x_axis_label, y_axis_label, axis_title)
     despine(ax)
     ax.figure.savefig('cubic_spline.svg', format='svg')
-
-
-def estimate_cubic_spline(example_data_x, example_data_y):
-    '''
-    In a real-life data set you would comment out this line.
-    '''
-    # create values -0.5 to 9.6, increments of 0.1
-    example_data_x = np.arange(-0.5, 9.6, 0.1)
-    example_data_y = cs(example_data_x, example_data_y)
-    return x, y
 
 
 def despine(ax: axes.Axes) -> None:
@@ -74,3 +58,4 @@ def cubic_spline(x1, y1, x2, y2, x_axis_label, y_axis_label, axis_title):
 
 if __name__ == '__main__':
     main()
+
