@@ -65,4 +65,3 @@ def cubic_spline(x1, y1, x2, y2, x_axis_label, y_axis_label, axis_title):
 
 if __name__ == '__main__':
     main()
-
