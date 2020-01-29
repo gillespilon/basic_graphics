@@ -27,21 +27,22 @@ c = cm.Paired.colors
 
 
 def main():
-    x_axis_label, y_axis_label, axis_title = (
+    x_axis_label, y_axis_label, axis_title, graph_file_name = (
         'Independent value',
         'Dependent value',
-        'Cubic Spline'
+        'Cubic Spline',
+        'cubic_spline.svg'
     )
     raw_data_x_values, raw_data_y_values = read_data_file()
     spline_data_x_values, spline_data_y_values = estimate_cubic_spline(
             raw_data_x_values,
             raw_data_y_values
     )
-    ax = plot_scatter_line(raw_data_x_values, raw_data_y_values,
-                           spline_data_x_values, spline_data_y_values,
-                           x_axis_label, y_axis_label, axis_title)
-    despine(ax)
-    ax.figure.savefig('cubic_spline.svg', format='svg')
+    plot_scatter_line(
+       raw_data_x_values, raw_data_y_values,
+       spline_data_x_values, spline_data_y_values,
+       x_axis_label, y_axis_label, axis_title, graph_file_name
+    )
 
 
 def read_data_file():
@@ -63,7 +64,7 @@ def estimate_cubic_spline(raw_data_x_values, raw_data_y_values):
     minimum = raw_data_x_values.min()
     maximum = raw_data_x_values.max()
     increment = (maximum - minimum)/100
-    spline_data_x_values = np.arange(minimum, maximum, increment)
+    spline_data_x_values = np.arange(minimum, maximum + increment, increment)
     spline_data_y_values = cs(raw_data_x_values, raw_data_y_values)
     return spline_data_x_values, spline_data_y_values
 
@@ -81,7 +82,7 @@ def despine(ax: axes.Axes) -> None:
 def plot_scatter_line(
         raw_data_x_values, raw_data_y_values,
         spline_data_x_values, spline_data_y_values,
-        x_axis_label, y_axis_label, axis_title
+        x_axis_label, y_axis_label, axis_title, graph_file_name
 ):
     figure_width_height = (8, 6)
     fig = plt.figure(figsize=figure_width_height)
@@ -105,7 +106,9 @@ def plot_scatter_line(
     ax.set_xlabel(x_axis_label, fontweight='bold')
     ax.set_ylabel(y_axis_label, fontweight='bold')
     ax.legend(frameon=False)
-    return ax
+    despine(ax)
+    ax.figure.savefig(graph_file_name, format='svg')
+    return
 
 
 if __name__ == '__main__':
