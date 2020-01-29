@@ -3,6 +3,13 @@
 '''
 Cubic spline plot
 
+This script has several functions:
+
+- Estimate a cubic spline for one X and one Y
+- Plot the raw data as a scatter plot
+- Plot the cubic spline as a line plot
+
+Specific to Linux:
 time -f '%e' ./cubic_spline.py
 ./cubic_spline.py
 '''
