@@ -27,7 +27,9 @@ c = cm.Paired.colors
 
 def main():
     x_axis_label, y_axis_label, axis_title = (
-        'Independent value', 'Dependent value', 'Cubic Spline'
+        'Independent value',
+        'Dependent value',
+        'Cubic Spline'
     )
     x1 = np.arange(10)  # create x values from 0 to 9, increments of 1
     y1 = np.sin(x1)
