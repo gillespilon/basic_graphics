@@ -35,10 +35,10 @@ def main():
     raw_data = read_data_file()
     raw_data_x_values = raw_data.iloc[:, 0]
     raw_data_y_values = raw_data.iloc[:, 1]
-    x2 = np.arange(-0.5, 9.6, 0.1)  # create x from 0.5 to 9.5, increment 0.1
+    spline_data_x_values = np.arange(-0.5, 9.6, 0.1)  # create x from 0.5 to 9.5, increment 0.1
     y2 = cs(raw_data_x_values, raw_data_y_values)
     ax = plot_scatter_line(raw_data_x_values, raw_data_y_values,
-                           x2, y2,
+                           spline_data_x_values, y2,
                            x_axis_label, y_axis_label, axis_title)
     despine(ax)
     ax.figure.savefig('cubic_spline.svg', format='svg')
@@ -70,14 +70,14 @@ def despine(ax: axes.Axes) -> None:
 
 
 def plot_scatter_line(raw_data_x_values, raw_data_y_values,
-                      x2, y2,
-                      x_axis_label, y_axis_label, axis_title):
+                 spline_data_x_values, y2,
+                 x_axis_label, y_axis_label, axis_title):
     figure_width_height = (8, 6)
     fig = plt.figure(figsize=figure_width_height)
     ax = fig.add_subplot(111)
     ax.plot(raw_data_x_values, raw_data_y_values, marker='o', linestyle='None',
             color=c[1], label='data')
-    ax.plot(x2, y2(x2), marker='None', linestyle='-',
+    ax.plot(spline_data_x_values, y2(spline_data_x_values), marker='None', linestyle='-',
             color=c[5], label='cubic spline')
     ax.set_title(axis_title, fontweight='bold')
     ax.set_xlabel(x_axis_label, fontweight='bold')
