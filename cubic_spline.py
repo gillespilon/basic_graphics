@@ -24,6 +24,7 @@ from scipy.interpolate import CubicSpline as cs
 
 
 c = cm.Paired.colors
+figure_width_height = (8, 6)
 
 
 def main():
@@ -41,7 +42,8 @@ def main():
     plot_scatter_line(
        raw_data_x_values, raw_data_y_values,
        spline_data_x_values, spline_data_y_values,
-       x_axis_label, y_axis_label, axis_title, graph_file_name
+       x_axis_label, y_axis_label, axis_title,
+       figure_width_height, graph_file_name
     )
 
 
@@ -82,10 +84,10 @@ def despine(ax: axes.Axes) -> None:
 def plot_scatter_line(
         raw_data_x_values, raw_data_y_values,
         spline_data_x_values, spline_data_y_values,
-        x_axis_label, y_axis_label, axis_title, graph_file_name
+        x_axis_label, y_axis_label, axis_title,
+        figure_size, graph_file_name
 ):
-    figure_width_height = (8, 6)
-    fig = plt.figure(figsize=figure_width_height)
+    fig = plt.figure(figsize=figure_size)
     ax = fig.add_subplot(111)
     ax.plot(
         raw_data_x_values,
