@@ -2,6 +2,9 @@
 
 '''
 Create a dataframe with two columns for cubic_spline.py
+
+time -f '%e' ./create_data_for_spline.py
+./create_data_for_spline.py
 '''
 
 
