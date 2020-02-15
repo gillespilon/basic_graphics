@@ -28,6 +28,10 @@ fig_title = 'Weight loss analysis'
 matplotlib.use('Cairo')
 
 
+def main()
+    pass
+
+
 def despine(ax: axes.Axes) -> None:
     '''
     Remove the top and right spines of a graph.
