@@ -13,17 +13,20 @@ time -f '%e' ./weight_loss_tracker.py
 
 import pandas as pd
 import matplotlib
-import matplotlib.cm as cm
 import matplotlib.axes as axes
+import matplotlib.cm as cm
+import matplotlib.pyplot as plt
 from matplotlib.dates import DateFormatter, DayLocator
 from matplotlib.ticker import NullFormatter
 from matplotlib.ticker import NullLocator
 
 
 c = cm.Paired.colors
-fighw = (8, 6)
+figure_width_height = (8, 6)
 fig_title = 'Weight loss analysis'
 file_name = 'weight.csv'
+column_target = 'Target'
+column_actual = 'Actual'
 
 
 matplotlib.use('Cairo')
@@ -31,17 +34,34 @@ matplotlib.use('Cairo')
 
 def main():
     data = read_data(file_name)
-    print(data.head())
-    print(data.dtypes)
-    ax = data.plot.line(y='Target',
-                      legend=False,
-                      color=c[0])
-    data.plot.line(y='Actual',
-                 ax=ax,
-                 style='.',
-                 figsize=(12, 6),
-                 legend=False,
-                 color=c[1])
+    plot_line(data, column_target, column_actual)
+
+
+def despine(ax: axes.Axes) -> None:
+    '''
+    Remove the top and right spines of a graph.
+
+    There is only one x axis, on the bottom, and one y axis, on the left.
+    '''
+    for spine in 'right', 'top':
+        ax.spines[spine].set_visible(False)
+
+
+def read_data(filename):
+    data = pd.read_excel('weight.ods', engine='odf', parse_dates=['Date'])
+    return data
+
+
+def plot_line(dataframe, columntarget, columnactual):
+    fig = plt.figure(figsize=figure_width_height)
+    ax = fig.add_subplot(111)
+    ax.plot(dataframe(columntarget), legend=False, color=c[0])
+    dataframe.plot.line(
+        y='Actual',
+        ax=ax,
+        style='.',
+        legend=False,
+        color=c[1])
     ax.set_xlabel('Date', fontweight='bold')
     ax.set_ylabel('Weight (kg)', fontweight='bold')
     ax.xaxis.set_minor_locator(NullLocator())
@@ -56,28 +76,5 @@ def main():
                       format='svg')
 
 
-def despine(ax: axes.Axes) -> None:
-    '''
-    Remove the top and right spines of a graph.
-
-    There is only one x axis, on the bottom, and one y axis, on the left.
-    '''
-    for spine in 'right', 'top':
-        ax.spines[spine].set_visible(False)
-
-
-def plot_line(filename, columnname):
-    pass
-
-
-def read_data(filename):
-    # data = pd.read_csv('weight.csv',
-    #                  parse_dates=True,
-    #                  index_col='Date')
-    data = pd.read_csv('weight.csv', parse_dates=['Date'])
-
-
 if __name__ == '__main__':
     main()
-    # data = read_data()
-    # plot_weight(data)
