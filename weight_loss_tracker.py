@@ -23,13 +23,37 @@ from matplotlib.ticker import NullLocator
 c = cm.Paired.colors
 fighw = (8, 6)
 fig_title = 'Weight loss analysis'
+file_name = 'weight.csv'
 
 
 matplotlib.use('Cairo')
 
 
-def main()
-    pass
+def main():
+    data = read_data(file_name)
+    print(data.head())
+    print(data.dtypes)
+    ax = data.plot.line(y='Target',
+                      legend=False,
+                      color=c[0])
+    data.plot.line(y='Actual',
+                 ax=ax,
+                 style='.',
+                 figsize=(12, 6),
+                 legend=False,
+                 color=c[1])
+    ax.set_xlabel('Date', fontweight='bold')
+    ax.set_ylabel('Weight (kg)', fontweight='bold')
+    ax.xaxis.set_minor_locator(NullLocator())
+    ax.xaxis.set_major_locator(DayLocator())
+    ax.xaxis.set_minor_formatter(NullFormatter())
+    ax.xaxis.set_major_formatter(DateFormatter('%d'))
+    ax.autoscale(enable=True)
+    ax.set_title('Scatter Plot of Weight Loss',
+                 fontweight='bold')
+    despine(ax)
+    ax.figure.savefig('weight.svg',
+                      format='svg')
 
 
 def despine(ax: axes.Axes) -> None:
@@ -46,44 +70,14 @@ def plot_line(filename, columnname):
     pass
 
 
-# df = pd.read_csv('weight.csv',
-#                  parse_dates=True,
-#                  index_col='Date')
+def read_data(filename):
+    # data = pd.read_csv('weight.csv',
+    #                  parse_dates=True,
+    #                  index_col='Date')
+    data = pd.read_csv('weight.csv', parse_dates=['Date'])
 
-
-df = pd.read_csv('weight.csv',
-                 parse_dates=['Date'])
-
-
-print(df.head())
-print(df.dtypes)
-
-
-ax = df.plot.line(y='Target',
-                  legend=False,
-                  color=c[0])
-df.plot.line(y='Actual',
-             ax=ax,
-             style='.',
-             figsize=(12, 6),
-             legend=False,
-             color=c[1])
-ax.set_xlabel('Date', fontweight='bold')
-ax.set_ylabel('Weight (kg)', fontweight='bold')
-ax.xaxis.set_minor_locator(NullLocator())
-ax.xaxis.set_major_locator(DayLocator())
-ax.xaxis.set_minor_formatter(NullFormatter())
-ax.xaxis.set_major_formatter(DateFormatter('%d'))
-ax.autoscale(enable=True)
-ax.set_title('Scatter Plot of Weight Loss',
-             fontweight='bold')
-despine(ax)
-
-
-ax.figure.savefig('weight.svg',
-                  format='svg')
 
 if __name__ == '__main__':
-    pass
-    # df = read_data()
-    # plot_weight(df)
+    main()
+    # data = read_data()
+    # plot_weight(data)
