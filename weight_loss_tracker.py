@@ -42,6 +42,10 @@ def despine(ax: axes.Axes) -> None:
         ax.spines[spine].set_visible(False)
 
 
+def plot_line(filename, columnname):
+    pass
+
+
 # df = pd.read_csv('weight.csv',
 #                  parse_dates=True,
 #                  index_col='Date')
