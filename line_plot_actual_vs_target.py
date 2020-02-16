@@ -59,12 +59,12 @@ def plot_three_lines(data, axis_title, x_axis_label, y_axis_label):
     ax.set_title(axis_title, fontweight='bold')
     ax.set_xlabel(x_axis_label, fontweight='bold')
     ax.set_ylabel(y_axis_label, fontweight='bold')
-    for row, text in enumerate(data['Annotation']):
-        ax.annotate(text, (data['Date'][row],
-                           data['ActualBalance'][row]),
-                    xytext=(20, 0),
-                    textcoords='offset points',
-                    arrowprops=dict(arrowstyle="->"))
+    # for row, text in enumerate(data['Annotation']):
+    #     ax.annotate(text, (data['Date'][row],
+    #                        data['ActualBalance'][row]),
+    #                 xytext=(20, 0),
+    #                 textcoords='offset points',
+    #                 arrowprops=dict(arrowstyle="->"))
     ax.xaxis.set_major_locator(MonthLocator())
     ax.xaxis.set_minor_locator(NullLocator())
     ax.xaxis.set_major_formatter(DateFormatter('%m'))
