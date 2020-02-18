@@ -55,8 +55,17 @@ def read_data(filename):
 def plot_line(dataframe, columntarget, columnactual, figure_width_height):
     fig = plt.figure(figsize=figure_width_height)
     ax = fig.add_subplot(111)
-    ax.plot(dataframe[columntarget], color=c[0])
-    ax.plot(dataframe[columnactual], color=c[1], marker='.', markersize=10, linestyle='')
+    ax.plot(
+        dataframe[columntarget],
+        color=c[0]
+    )
+    ax.plot(dataframe[
+        columnactual],
+        color=c[1],
+        marker='.',
+        markersize=10,
+        linestyle='-'
+    )
     # ax.set_xlabel('Date', fontweight='bold')
     # ax.set_ylabel('Weight (kg)', fontweight='bold')
     # ax.xaxis.set_minor_locator(NullLocator())
