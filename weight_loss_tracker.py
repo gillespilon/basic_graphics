@@ -16,7 +16,7 @@ import matplotlib
 import matplotlib.axes as axes
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
-from matplotlib.dates import DateFormatter, DayLocator, MonthLocator, YearLocator
+from matplotlib.dates import DateFormatter, MonthLocator
 from matplotlib.ticker import NullFormatter
 from matplotlib.ticker import NullLocator
 
@@ -38,7 +38,8 @@ matplotlib.use('Cairo')
 
 def main():
     data = read_data(file_name)
-    plot_line(data, column_x, column_target, column_actual, figure_width_height,
+    plot_line(data, column_x, column_target, column_actual,
+              figure_width_height,
               title, xlabel, ylabel)
 
 
