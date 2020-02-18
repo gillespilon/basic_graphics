@@ -27,6 +27,9 @@ fig_title = 'Weight loss analysis'
 file_name = 'weight.ods'
 column_target = 'Target'
 column_actual = 'Actual'
+title = 'Plot of Weight Loss'
+xlabel = 'Date'
+ylabel = 'Weight (kg)'
 
 
 matplotlib.use('Cairo')
@@ -34,7 +37,8 @@ matplotlib.use('Cairo')
 
 def main():
     data = read_data(file_name)
-    plot_line(data, column_target, column_actual, figure_width_height)
+    plot_line(data, column_target, column_actual, figure_width_height,
+              title, xlabel, ylabel)
 
 
 def despine(ax: axes.Axes) -> None:
@@ -52,7 +56,8 @@ def read_data(filename):
     return data
 
 
-def plot_line(dataframe, columntarget, columnactual, figure_width_height):
+def plot_line(dataframe, columntarget, columnactual, figure_width_height,
+              title, xlabel, ylabel):
     fig = plt.figure(figsize=figure_width_height)
     ax = fig.add_subplot(111)
     ax.plot(
@@ -66,15 +71,14 @@ def plot_line(dataframe, columntarget, columnactual, figure_width_height):
         markersize=10,
         linestyle='-'
     )
-    # ax.set_xlabel('Date', fontweight='bold')
-    # ax.set_ylabel('Weight (kg)', fontweight='bold')
+    ax.set_title('Scatter Plot of Weight Loss', fontweight='bold')
+    ax.set_xlabel('Date', fontweight='bold')
+    ax.set_ylabel('Weight (kg)', fontweight='bold')
     # ax.xaxis.set_minor_locator(NullLocator())
     # ax.xaxis.set_major_locator(DayLocator())
     # ax.xaxis.set_minor_formatter(NullFormatter())
     # ax.xaxis.set_major_formatter(DateFormatter('%d'))
     # ax.autoscale(enable=True)
-    # ax.set_title('Scatter Plot of Weight Loss',
-    #              fontweight='bold')
     # despine(ax)
     ax.figure.savefig('weight.svg',
                       format='svg')
