@@ -16,7 +16,7 @@ import matplotlib
 import matplotlib.axes as axes
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
-from matplotlib.dates import DateFormatter, DayLocator
+from matplotlib.dates import DateFormatter, DayLocator, MonthLocator, YearLocator
 from matplotlib.ticker import NullFormatter
 from matplotlib.ticker import NullLocator
 
@@ -25,6 +25,7 @@ c = cm.Paired.colors
 figure_width_height = (8, 6)
 fig_title = 'Weight loss analysis'
 file_name = 'weight.ods'
+column_x = 'Date'
 column_target = 'Target'
 column_actual = 'Actual'
 title = 'Plot of Weight Loss'
@@ -37,7 +38,7 @@ matplotlib.use('Cairo')
 
 def main():
     data = read_data(file_name)
-    plot_line(data, column_target, column_actual, figure_width_height,
+    plot_line(data, column_x, column_target, column_actual, figure_width_height,
               title, xlabel, ylabel)
 
 
@@ -56,16 +57,19 @@ def read_data(filename):
     return data
 
 
-def plot_line(dataframe, columntarget, columnactual, figure_width_height,
+def plot_line(dataframe, columnx, columntarget, columnactual,
+              figure_width_height,
               title, xlabel, ylabel):
     fig = plt.figure(figsize=figure_width_height)
     ax = fig.add_subplot(111)
     ax.plot(
+        dataframe[columnx],
         dataframe[columntarget],
         color=c[0]
     )
-    ax.plot(dataframe[
-        columnactual],
+    ax.plot(
+        dataframe[columnx],
+        dataframe[columnactual],
         color=c[1],
         marker='.',
         markersize=10,
@@ -74,11 +78,13 @@ def plot_line(dataframe, columntarget, columnactual, figure_width_height,
     ax.set_title('Scatter Plot of Weight Loss', fontweight='bold')
     ax.set_xlabel('Date', fontweight='bold')
     ax.set_ylabel('Weight (kg)', fontweight='bold')
-    # ax.xaxis.set_minor_locator(NullLocator())
+    ax.xaxis.set_minor_locator(NullLocator())
     # ax.xaxis.set_major_locator(DayLocator())
-    # ax.xaxis.set_minor_formatter(NullFormatter())
+    ax.xaxis.set_major_locator(MonthLocator())
+    ax.xaxis.set_minor_formatter(NullFormatter())
     # ax.xaxis.set_major_formatter(DateFormatter('%d'))
-    # ax.autoscale(enable=True)
+    ax.xaxis.set_major_formatter(DateFormatter('%Y-%m'))
+    ax.autoscale(enable=True)
     # despine(ax)
     ax.figure.savefig('weight.svg',
                       format='svg')
