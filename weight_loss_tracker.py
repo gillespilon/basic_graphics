@@ -24,7 +24,7 @@ from matplotlib.ticker import NullLocator
 c = cm.Paired.colors
 figure_width_height = (8, 6)
 fig_title = 'Weight loss analysis'
-file_name = 'weight.csv'
+file_name = 'weight.ods'
 column_target = 'Target'
 column_actual = 'Actual'
 
@@ -34,7 +34,7 @@ matplotlib.use('Cairo')
 
 def main():
     data = read_data(file_name)
-    plot_line(data, column_target, column_actual)
+    plot_line(data, column_target, column_actual, figure_width_height)
 
 
 def despine(ax: axes.Axes) -> None:
@@ -48,30 +48,25 @@ def despine(ax: axes.Axes) -> None:
 
 
 def read_data(filename):
-    data = pd.read_excel('weight.ods', engine='odf', parse_dates=['Date'])
+    data = pd.read_excel(filename, engine='odf', parse_dates=['Date'])
     return data
 
 
-def plot_line(dataframe, columntarget, columnactual):
+def plot_line(dataframe, columntarget, columnactual, figure_width_height):
     fig = plt.figure(figsize=figure_width_height)
     ax = fig.add_subplot(111)
-    ax.plot(dataframe(columntarget), legend=False, color=c[0])
-    dataframe.plot.line(
-        y='Actual',
-        ax=ax,
-        style='.',
-        legend=False,
-        color=c[1])
-    ax.set_xlabel('Date', fontweight='bold')
-    ax.set_ylabel('Weight (kg)', fontweight='bold')
-    ax.xaxis.set_minor_locator(NullLocator())
-    ax.xaxis.set_major_locator(DayLocator())
-    ax.xaxis.set_minor_formatter(NullFormatter())
-    ax.xaxis.set_major_formatter(DateFormatter('%d'))
-    ax.autoscale(enable=True)
-    ax.set_title('Scatter Plot of Weight Loss',
-                 fontweight='bold')
-    despine(ax)
+    ax.plot(dataframe[columntarget], color=c[0])
+    ax.plot(dataframe[columnactual], color=c[1], marker='.', markersize=10, linestyle='')
+    # ax.set_xlabel('Date', fontweight='bold')
+    # ax.set_ylabel('Weight (kg)', fontweight='bold')
+    # ax.xaxis.set_minor_locator(NullLocator())
+    # ax.xaxis.set_major_locator(DayLocator())
+    # ax.xaxis.set_minor_formatter(NullFormatter())
+    # ax.xaxis.set_major_formatter(DateFormatter('%d'))
+    # ax.autoscale(enable=True)
+    # ax.set_title('Scatter Plot of Weight Loss',
+    #              fontweight='bold')
+    # despine(ax)
     ax.figure.savefig('weight.svg',
                       format='svg')
 
