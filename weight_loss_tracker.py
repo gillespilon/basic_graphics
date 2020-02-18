@@ -85,7 +85,7 @@ def plot_line(dataframe, columnx, columntarget, columnactual,
     # ax.xaxis.set_major_formatter(DateFormatter('%d'))
     ax.xaxis.set_major_formatter(DateFormatter('%Y-%m'))
     ax.autoscale(enable=True)
-    # despine(ax)
+    despine(ax)
     ax.figure.savefig('weight.svg',
                       format='svg')
 
