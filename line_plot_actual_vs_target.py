@@ -14,7 +14,6 @@ time -f '%e' ./line_plot_actual_vs_target.py
 
 import numpy as np
 import pandas as pd
-import matplotlib
 import matplotlib.axes as axes
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
