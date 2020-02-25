@@ -19,7 +19,6 @@ from matplotlib.dates import DateFormatter, MonthLocator
 from matplotlib.ticker import NullFormatter, NullLocator
 
 
-matplotlib.use('Cairo')
 c = cm.Paired.colors
 
 
