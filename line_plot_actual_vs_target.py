@@ -3,6 +3,10 @@
 '''
 Actual vs target line plots
 
+- Line plot of target value (y) versus date (x)
+- Line plot of actual value (y) versus date (x)
+- Line plot of predicted value (y) versus date (x) using linear regression
+
 time -f '%e' ./line_plot_actual_vs_target.py
 ./line_plot_actual_vs_target.py
 '''
