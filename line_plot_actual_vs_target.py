@@ -24,6 +24,7 @@ from matplotlib.ticker import NullFormatter, NullLocator
 
 
 c = cm.Paired.colors
+figure_width_height = (8, 6)
 
 
 def main():
@@ -33,7 +34,8 @@ def main():
     x_axis_label, y_axis_label, axis_title = ('Date', 'USD',
                                               'Savings Target vs Actual')
     data = regression(data)
-    ax = plot_three_lines(data, axis_title, x_axis_label, y_axis_label)
+    ax = plot_three_lines(data, axis_title, x_axis_label, y_axis_label,
+                          figure_width_height)
     despine(ax)
     ax.figure.savefig('actual_vs_target.svg', format='svg')
     ax.figure.savefig('actual_vs_target.png', format='png')
@@ -49,8 +51,8 @@ def despine(ax: axes.Axes) -> None:
         ax.spines[spine].set_visible(False)
 
 
-def plot_three_lines(data, axis_title, x_axis_label, y_axis_label):
-    figure_width_height = (8, 6)
+def plot_three_lines(data, axis_title, x_axis_label, y_axis_label,
+                     figure_width_height):
     fig = plt.figure(figsize=figure_width_height)
     ax = fig.add_subplot(111)
     ax.plot(data['Date'], data['TargetBalance'], label='TargetBalance',
