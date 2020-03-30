@@ -12,6 +12,9 @@ time -f '%e' ./line_plot_actual_vs_target.py
 '''
 
 
+from typing import Tuple
+
+
 import numpy as np
 import pandas as pd
 import matplotlib.axes as axes
@@ -50,8 +53,10 @@ def despine(ax: axes.Axes) -> None:
         ax.spines[spine].set_visible(False)
 
 
-def plot_three_lines(data, axis_title, x_axis_label, y_axis_label,
-                     figure_width_height):
+def plot_three_lines(
+    data: pd.DataFrame, axis_title: str, x_axis_label: str, y_axis_label: str,
+    figure_width_height: Tuple[int, int]
+):
     fig = plt.figure(figsize=figure_width_height)
     ax = fig.add_subplot(111)
     ax.plot(data['Date'], data['TargetBalance'], label='TargetBalance',
@@ -63,12 +68,13 @@ def plot_three_lines(data, axis_title, x_axis_label, y_axis_label,
     ax.set_title(axis_title, fontweight='bold')
     ax.set_xlabel(x_axis_label, fontweight='bold')
     ax.set_ylabel(y_axis_label, fontweight='bold')
-    # for row, text in enumerate(data['Annotation']):
-    #     ax.annotate(text, (data['Date'][row],
-    #                        data['ActualBalance'][row]),
-    #                 xytext=(20, 0),
-    #                 textcoords='offset points',
-    #                 arrowprops=dict(arrowstyle="->"))
+#     for row, text in enumerate(data['Annotation']):
+#         if len(text) > 0:
+#             ax.annotate(text, (data['Date'][row],
+#                                data['ActualBalance'][row]),
+#                         xytext=(20, 0),
+#                         textcoords='offset points',
+#                         arrowprops=dict(arrowstyle="->"))
     ax.xaxis.set_major_locator(MonthLocator())
     ax.xaxis.set_minor_locator(NullLocator())
     ax.xaxis.set_major_formatter(DateFormatter('%m'))
