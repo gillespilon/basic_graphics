@@ -30,14 +30,23 @@ figure_width_height = (8, 6)
 
 
 def main():
-    data = pd.read_excel('actual_vs_target.ods',
-                         engine='odf',
-                         parse_dates=['Date'])
-    x_axis_label, y_axis_label, axis_title = ('Date', 'USD',
-                                              'Savings Target vs Actual')
+    data = pd.read_excel(
+        'actual_vs_target.ods',
+        engine='odf',
+        parse_dates=['Date']
+    )
+    x_axis_label, y_axis_label, axis_title = (
+        'Date', 'USD',
+        'Savings Target vs Actual'
+    )
     data = regression(data)
-    ax = plot_three_lines(data, axis_title, x_axis_label, y_axis_label,
-                          figure_width_height)
+    ax = plot_three_lines(
+        data,
+        axis_title,
+        x_axis_label,
+        y_axis_label,
+        figure_width_height
+    )
     despine(ax)
     ax.figure.savefig('actual_vs_target.svg', format='svg')
     ax.figure.savefig('actual_vs_target.png', format='png')
@@ -54,27 +63,64 @@ def despine(ax: axes.Axes) -> None:
 
 
 def plot_three_lines(
-    data: pd.DataFrame, axis_title: str, x_axis_label: str, y_axis_label: str,
+    data: pd.DataFrame,
+    axis_title: str,
+    x_axis_label: str,
+    y_axis_label: str,
     figure_width_height: Tuple[int, int]
-):
+) -> axes.Axes:
+    '''
+    Create three line plots:
+    - Target vs date
+    - Actual vs date
+    - Predicted vs date
+    '''
     fig = plt.figure(figsize=figure_width_height)
     ax = fig.add_subplot(111)
-    ax.plot(data['Date'], data['TargetBalance'], label='TargetBalance',
-            linestyle='-', color=c[0])
-    ax.plot(data['Date'], data['ActualBalance'], label='ActualBalance',
-            linestyle='-', color=c[1], marker='.')
-    ax.plot(data['Date'], data['Predicted'], label='Predicted',
-            linestyle='-', color=c[2])
+    ax.plot(
+        data['Date'],
+        data['TargetBalance'],
+        label='TargetBalance',
+        linestyle='-',
+        color=c[0]
+    )
+    ax.plot(
+        data['Date'],
+        data['ActualBalance'],
+        label='ActualBalance',
+        linestyle='-',
+        color=c[1],
+        marker='.'
+    )
+    ax.plot(
+        data['Date'],
+        data['Predicted'],
+        label='Predicted',
+        linestyle='-',
+        color=c[2]
+    )
     ax.set_title(axis_title, fontweight='bold')
     ax.set_xlabel(x_axis_label, fontweight='bold')
     ax.set_ylabel(y_axis_label, fontweight='bold')
 #     for row, text in enumerate(data['Annotation']):
-#         if len(text) > 0:
-#             ax.annotate(text, (data['Date'][row],
-#                                data['ActualBalance'][row]),
-#                         xytext=(20, 0),
-#                         textcoords='offset points',
-#                         arrowprops=dict(arrowstyle="->"))
+#         print(type(data['Annotation']))
+#         ax.annotate(text, (data['Date'][row],
+#                            data['ActualBalance'][row]),
+#                     xytext=(20, 0),
+#                     textcoords='offset points',
+#                     arrowprops=dict(arrowstyle="->"))
+#     for item in data['Annotation']:
+#         if item != np.nan :
+#             print(item)
+#         else:
+#             pass
+#     ax.annotate(
+#         'USG bonus',
+#         xy=('2020-03-15', 23275.12),
+#         xytext=(20, 0),
+#         textcoords='offset points',
+#         arrowprops=dict(arrowstyle="->")
+#     )
     ax.xaxis.set_major_locator(MonthLocator())
     ax.xaxis.set_minor_locator(NullLocator())
     ax.xaxis.set_major_formatter(DateFormatter('%m'))
@@ -93,8 +139,11 @@ def regression(data: pd.DataFrame) -> pd.DataFrame:
     '''
     data['DateDelta'] = (data['Date'] - data['Date']
                          .min())/np.timedelta64(1, 'D')
-    model = sm.OLS(data['ActualBalance'], sm.add_constant(data['DateDelta']),
-                   missing='drop').fit()
+    model = sm.OLS(
+        data['ActualBalance'],
+        sm.add_constant(data['DateDelta']),
+        missing='drop'
+    ).fit()
     data['Predicted'] = model.fittedvalues
     return data
 
