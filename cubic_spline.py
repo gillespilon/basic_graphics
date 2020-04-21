@@ -30,8 +30,8 @@ parser = '%Y-%m-%d %H:%M:%S'
 file_name = [
     'raw_data_integer_float.csv',
     'raw_data_datetime_float.csv',
-    'dataframe_small.csv',
-    'dataframe_small_integer.csv'
+    'dataframe_small_datetime_integer.csv',
+    'dataframe_small_integer_integer.csv'
 ]
 abscissa_name = ['abscissa', 'datetime', 'datetime', 'abscissa']
 ordinate_name = ['ordinate', 'observed', 'observed', 'ordinate']
@@ -44,8 +44,8 @@ ordinate_predicted_name = [
 graph_file_name = [
     'cubic_spline_integer_float',
     'cubic_spline_datetime_float',
-    'cubic_spline_dataframe_small',
-    'cubic_spline_dataframe_small_integer'
+    'cubic_spline_dataframe_small_datetime_integer',
+    'cubic_spline_dataframe_small_integer_integer'
 ]
 date_time_parser = [None, parser, parser, None]
 date_formatter = [None, '%m-%d', '%m-%d', None]
