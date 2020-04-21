@@ -5,70 +5,103 @@ Cubic spline plot
 
 This script has several functions:
 
-- Estimate a cubic spline for one X and one Y
+- Estimate a cubic spline for abscissa, ordinate = integer, float
+- Estimate a cubic spline for abscissa, ordinate = datetime, float
 - Plot the raw data as a scatter plot
 - Plot the cubic spline as a line plot
 
-Specific to Linux:
 time -f '%e' ./cubic_spline.py
 ./cubic_spline.py
 '''
 
 
-import numpy as np
+from typing import Tuple
 import matplotlib.axes as axes
 import matplotlib.cm as cm
+from matplotlib.dates import DateFormatter, DayLocator
+from matplotlib.ticker import NullFormatter, NullLocator
 import matplotlib.pyplot as plt
 import pandas as pd
-from scipy.interpolate import CubicSpline as cs
+import datasense as ds
 
 
 c = cm.Paired.colors
+parser = '%Y-%m-%d %H:%M:%S'
+file_name = [
+    'raw_data_integer_float.csv',
+    'raw_data_datetime_float.csv',
+    'dataframe_small.csv',
+    'dataframe_small_integer.csv'
+]
+abscissa_name = ['abscissa', 'datetime', 'datetime', 'abscissa']
+ordinate_name = ['ordinate', 'observed', 'observed', 'ordinate']
+ordinate_predicted_name = [
+    'ordinate_predicted',
+    'ordinate_predicted',
+    'ordinate_predicted',
+    'ordinate_predicted'
+]
+graph_file_name = [
+    'cubic_spline_integer_float',
+    'cubic_spline_datetime_float',
+    'cubic_spline_dataframe_small',
+    'cubic_spline_dataframe_small_integer'
+]
+date_time_parser = [None, parser, parser, None]
+date_formatter = [None, '%m-%d', '%m-%d', None]
+column_names_sort = [False, False, False, False]
 figure_width_height = (8, 6)
+x_axis_label = 'Abscissa'
+y_axis_label = 'Ordinate'
+axis_title = 'Cubic Spline'
 
 
 def main():
-    x_axis_label, y_axis_label, axis_title, graph_file_name = (
-        'Independent value',
-        'Dependent value',
-        'Cubic Spline',
-        'cubic_spline.svg'
-    )
-    raw_data_x_values, raw_data_y_values = read_data_file()
-    spline_data_x_values, spline_data_y_values = estimate_cubic_spline(
-            raw_data_x_values,
-            raw_data_y_values
-    )
-    plot_scatter_line(
-       raw_data_x_values, raw_data_y_values,
-       spline_data_x_values, spline_data_y_values,
-       x_axis_label, y_axis_label, axis_title,
-       figure_width_height, graph_file_name
-    )
-
-
-def read_data_file():
-    '''
-    The data file is presumed to have an index (row names or values),
-    a first column with x values, and a second column with y values.
-    '''
-    while True:
-        file_name = input('CSV file name to read? ')
-        try:
-            data = pd.read_csv(file_name, index_col=None)
-        except FileNotFoundError:
-            print(f'File {file_name} does not exist. Please try again.')
+    for (
+        filename,
+        abscissaname,
+        ordinatename,
+        ordinatepredictedname,
+        datetimeparser,
+        columnnamessort,
+        dateformatter,
+        graphfilename
+    ) in zip(
+        file_name,
+        abscissa_name,
+        ordinate_name,
+        ordinate_predicted_name,
+        date_time_parser,
+        column_names_sort,
+        date_formatter,
+        graph_file_name
+    ):
+        data = ds.read_file(
+            filename,
+            abscissaname,
+            datetimeparser,
+            columnnamessort
+        )
+        if datetimeparser is True:
+            data[abscissaname] = pd.to_numeric(data[abscissaname])
+            spline = ds.cubic_spline(data, abscissaname, ordinatename)
+            data[ordinatepredictedname] = spline(data[abscissaname])
+            data[abscissaname] = data[abscissaname].astype('datetime64[ns]')
         else:
-            return data.iloc[:, 0], data.iloc[:, 1]
-
-
-def estimate_cubic_spline(raw_data_x_values, raw_data_y_values):
-    minimum = raw_data_x_values.min()
-    maximum = raw_data_x_values.max()
-    increment = (maximum - minimum)/100
-    spline_data_x_values = np.arange(minimum, maximum + increment, increment)
-    spline_data_y_values = cs(raw_data_x_values, raw_data_y_values)
-    return spline_data_x_values, spline_data_y_values
+            spline = ds.cubic_spline(data, abscissaname, ordinatename)
+            data[ordinatepredictedname] = spline(data[abscissaname])
+        plot_graph(
+            data,
+            abscissaname,
+            ordinatename,
+            ordinatepredictedname,
+            figure_width_height,
+            dateformatter,
+            graphfilename,
+            axis_title,
+            x_axis_label,
+            y_axis_label
+        )
 
 
 def despine(ax: axes.Axes) -> None:
@@ -81,36 +114,44 @@ def despine(ax: axes.Axes) -> None:
         ax.spines[spine].set_visible(False)
 
 
-def plot_scatter_line(
-        raw_data_x_values, raw_data_y_values,
-        spline_data_x_values, spline_data_y_values,
-        x_axis_label, y_axis_label, axis_title,
-        figure_size, graph_file_name
-):
-    fig = plt.figure(figsize=figure_size)
+def plot_graph(
+    df: pd.DataFrame,
+    columnx: str,
+    columny: str,
+    columnz: str,
+    figurewidthheight: Tuple[int, int],
+    dateformat: str,
+    graphname: str,
+    graphtitle: str,
+    xaxislabel: str,
+    yaxislabel: str
+) -> None:
+    fig = plt.figure(figsize=figurewidthheight)
     ax = fig.add_subplot(111)
     ax.plot(
-        raw_data_x_values,
-        raw_data_y_values,
-        marker='o',
-        linestyle='None',
-        color=c[1],
-        label='data'
+        df[columnx],
+        df[columny],
+        marker='.',
+        linestyle='',
+        color=c[1]
     )
     ax.plot(
-        spline_data_x_values,
-        spline_data_y_values(spline_data_x_values),
-        marker='None',
+        df[columnx],
+        df[columnz],
+        marker=None,
         linestyle='-',
-        color=c[5], label='cubic spline'
+        color=c[5]
     )
-    ax.set_title(axis_title, fontweight='bold')
-    ax.set_xlabel(x_axis_label, fontweight='bold')
-    ax.set_ylabel(y_axis_label, fontweight='bold')
-    ax.legend(frameon=False)
+    if dateformat:
+        ax.xaxis.set_major_locator(DayLocator())
+        ax.xaxis.set_minor_locator(NullLocator())
+        ax.xaxis.set_major_formatter(DateFormatter(dateformat))
+        ax.xaxis.set_minor_formatter(NullFormatter())
+    ax.set_title(graphtitle, fontweight='bold')
+    ax.set_xlabel(xaxislabel, fontweight='bold')
+    ax.set_ylabel(yaxislabel, fontweight='bold')
     despine(ax)
-    ax.figure.savefig(graph_file_name, format='svg')
-    return
+    ax.figure.savefig(f'{graphname}.svg', format='svg')
 
 
 if __name__ == '__main__':
