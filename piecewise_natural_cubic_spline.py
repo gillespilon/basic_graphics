@@ -10,6 +10,7 @@ time -f '%e' ./piecewise_natural_cubic_spline.py
 
 from multiprocessing import Pool
 from typing import List, Tuple
+import itertools
 import basis_expansions as bsx
 import matplotlib.axes as axes
 import matplotlib.cm as cm
@@ -19,35 +20,39 @@ from sklearn.linear_model import LinearRegression
 from sklearn.pipeline import Pipeline
 
 # Data set must not contain NaN, inf, or -inf
-file_name = ['observed.csv', 'predicted.csv']
+file_names = ['observed.csv', 'predicted.csv']
+features = ['abscissa']
+targets = ['ordinate']
 figure_width_height = (6, 4)
 x_axis_label = 'Abscissa'
 y_axis_label = 'Ordinate'
 axis_title = 'Piecewise natural cubic spline'
-# Change this list to try different amounts of smoothing
 num_knots = [
     10, 20, 30, 40, 50, 60, 70, 80, 90, 100,
-    110, 120, 130, 140, 150, 160, 170, 180, 190, 200,
-    210, 220, 230, 240, 250, 260, 270, 280, 290, 300,
+    # 110, 120, 130, 140, 150, 160, 170, 180, 190, 200,
+    # 210, 220, 230, 240, 250, 260, 270, 280, 290, 300,
 ]
 c = cm.Paired.colors
 
 
 def main():
-    for file in file_name:
+    for file, target, feature in itertools.product(
+        file_names, targets, features
+    ):
         data = pd.read_csv(file)
-        x = data['abscissa']
-        y = data['ordinate']
+        x = data[feature]
+        y = data[target]
         min_val = min(x)
         max_val = max(x)
-        t = ((x, y, min_val, max_val, file, knot) for knot in num_knots)
+        t = ((x, y, min_val, max_val, file, target, feature, knot)
+             for knot in num_knots)
         with Pool() as pool:
-            for _ in pool.imap_unordered(plot_cubic_thing, t):
+            for _ in pool.imap_unordered(plot_scatter_line, t):
                 pass
 
 
-def plot_cubic_thing(t: Tuple[str, str]) -> None:
-    x, y, min_val, max_val, filename, numknots = t
+def plot_scatter_line(t: Tuple[str, str]) -> None:
+    x, y, min_val, max_val, file, target, feature, numknots = t
     model = get_natural_cubic_spline(
         x, y, min_val, max_val, n_knots=numknots
     )
@@ -59,13 +64,19 @@ def plot_cubic_thing(t: Tuple[str, str]) -> None:
         label=f'number knots = {numknots}'
     )
     ax.legend(frameon=False, loc='best')
-    ax.set_title(axis_title, fontweight='bold')
-    ax.set_xlabel(x_axis_label, fontweight='bold')
-    ax.set_ylabel(y_axis_label, fontweight='bold')
+    ax.set_title(
+        f'{axis_title}\n'
+        f'file: {file} '
+        f'column: {target}'
+    )
+    ax.set_xlabel(x_axis_label)
+    ax.set_ylabel(y_axis_label)
     despine(ax)
     ax.figure.savefig(
-        f'natural_cubic_spline_'
-        f'{filename.strip(".csv")}_{numknots}.svg',
+        f'spline_'
+        f'{file.strip(".csv")}_'
+        f'{target}_{feature}_'
+        f'{numknots}.svg',
         format='svg'
     )
 
