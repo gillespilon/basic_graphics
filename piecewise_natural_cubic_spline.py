@@ -2,6 +2,23 @@
 
 
 '''
+References
+
+[Drury, Matthew. Basis Expansions](https://github.com/madrury/basis-expansions)
+
+[Leal, Lois Anne. Numerical Interpolation: Natural Cubic Spline]
+(https://towardsdatascience.com/numerical-interpolation-natural-cubic-spline
+-52c1157b98ac)
+
+[SAS/GRAPH SYMBOL Statement (INTERPOL=SM&lt;nn&gt;&lt;P&gt;&lt;S&gt;)]
+(https://documentation.sas.com/?docsetId=graphref&docsetTarget=n0c0j84n1e2jz9n
+1bhkn41o3v0d6.htm&docsetVersion=9.4&locale=en#p115cutvcmx2dln1cdo96duwmxru)
+
+[Wikipedia. Smoothing spline](https://en.wikipedia.org/wiki/Smoothing_spline)
+
+[Wikipedia. Spline (mathematics)]
+(https://en.wikipedia.org/wiki/Spline_(mathematics))
+
 time -f '%e' ./piecewise_natural_cubic_spline.py
 time -f '%e' ./piecewise_natural_cubic_spline.py
 ./piecewise_natural_cubic_spline.py
