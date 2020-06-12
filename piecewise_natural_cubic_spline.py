@@ -41,19 +41,23 @@ import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.pipeline import Pipeline
 
+
 # Data set must not contain NaN, inf, or -inf
-file_names = ['observed.csv', 'predicted.csv']
-features = ['abscissa']
-targets = ['ordinate']
+parameters = pd.read_excel(
+    'parameters.ods', engine='odf', index_col=False
+)
+file_names = [x for x in parameters['File names']
+              if str(x) != 'nan']
+targets = [x for x in parameters['Targets']
+           if str(x) != 'nan']
+features = [x for x in parameters['Features']
+            if str(x) != 'nan']
+num_knots = [int(x) for x in parameters['Number of knots']
+             if str(x) != 'nan']
 figure_width_height = (6, 4)
 x_axis_label = 'Abscissa'
 y_axis_label = 'Ordinate'
 axis_title = 'Piecewise natural cubic spline'
-num_knots = [
-    10, 20, 30, 40, 50, 60, 70, 80, 90, 100,
-    # 110, 120, 130, 140, 150, 160, 170, 180, 190, 200,
-    # 210, 220, 230, 240, 250, 260, 270, 280, 290, 300,
-]
 c = cm.Paired.colors
 
 
