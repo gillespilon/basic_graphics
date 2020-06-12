@@ -25,14 +25,16 @@ References
 (https://en.wikipedia.org/wiki/Spline_(mathematics))
 
 time -f '%e' ./piecewise_natural_cubic_spline.py
-time -f '%e' ./piecewise_natural_cubic_spline.py
 ./piecewise_natural_cubic_spline.py
 '''
 
 
 from multiprocessing import Pool
+from pathlib import Path
+from shutil import rmtree
 from typing import List, Tuple
 import itertools
+import sys
 import basis_expansions as bsx
 import matplotlib.axes as axes
 import matplotlib.cm as cm
@@ -54,7 +56,8 @@ features = [x for x in parameters['Features']
             if str(x) != 'nan']
 num_knots = [int(x) for x in parameters['Number of knots']
              if str(x) != 'nan']
-figure_width_height = (6, 4)
+graphics_directory = 'piecewise_natural_cubic_spline_graphs'
+figure_width_height = (9, 5)
 x_axis_label = 'Abscissa'
 y_axis_label = 'Ordinate'
 axis_title = 'Piecewise natural cubic spline'
@@ -62,19 +65,64 @@ c = cm.Paired.colors
 
 
 def main():
+    original_stdout = sys.stdout
+    sys.stdout = open('view_spline_graphs.html', 'w')
+    html_header()
     for file, target, feature in itertools.product(
         file_names, targets, features
     ):
         data = pd.read_csv(file)
         x = data[feature]
         y = data[target]
-        min_val = min(x)
-        max_val = max(x)
+        min_val=min(x)
+        max_val=max(x)
         t = ((x, y, min_val, max_val, file, target, feature, knot)
              for knot in num_knots)
         with Pool() as pool:
             for _ in pool.imap_unordered(plot_scatter_line, t):
                 pass
+        for knot in num_knots:
+            print(
+                f'<p><img src="{graphics_directory}/'
+                f'spline_{file.strip(".csv")}_'
+                f'{target}_{feature}_{knot}.svg"/></p>'
+            )
+    html_footer()
+
+
+def set_up_graphics_directory(graphdir: str) -> None:
+    '''
+    Create an empty directory
+    '''
+    try:
+        rmtree(graphdir)
+    except Exception:
+        pass
+    Path(graphdir).mkdir(parents=True, exist_ok=True)
+
+
+def html_header():
+    print('<!DOCTYPE html>')
+    print('<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">')
+    print('<head>')
+    print('<meta charset="utf-8"/>')
+    print(
+        '<meta content="width=device-width, initial-scale=1.0, '
+        'user-scalable=yes" name="viewport"/>'
+    )
+    print('<title>Piecewise natural cubic spline graphs</title>')
+    print('</head>')
+    print('<body>')
+    print(
+        '<h1 class="title"'
+        ' id="piecewise-natural-cubic-spline-graphs">'
+        'Piecewise natural cubic spline graphs</h1>'
+    )
+
+
+def html_footer():
+    print('</body>')
+    print('</html>')
 
 
 def plot_scatter_line(t: Tuple[str, str]) -> None:
@@ -99,7 +147,8 @@ def plot_scatter_line(t: Tuple[str, str]) -> None:
     ax.set_ylabel(y_axis_label)
     despine(ax)
     ax.figure.savefig(
-        f'spline_'
+        f'{graphics_directory}'
+        f'/spline_'
         f'{file.strip(".csv")}_'
         f'{target}_{feature}_'
         f'{numknots}.svg',
