@@ -2,6 +2,11 @@
 
 
 '''
+A piecewise natural cubic spline (cubic curves in the interior segments, linear
+in the exterior segments) is used to interpolate points to fit the data while
+smoothing out the noise. A large number of data are fitted with low-degree
+polynomials, to eliminate excessive oscillations and non-convergence.
+
 References
 
 [Drury, Matthew. Basis Expansions](https://github.com/madrury/basis-expansions)
