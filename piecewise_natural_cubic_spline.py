@@ -74,8 +74,8 @@ def main():
         data = pd.read_csv(file)
         x = data[feature]
         y = data[target]
-        min_val=min(x)
-        max_val=max(x)
+        min_val = min(x)
+        max_val = max(x)
         t = ((x, y, min_val, max_val, file, target, feature, knot)
              for knot in num_knots)
         with Pool() as pool:
@@ -88,6 +88,8 @@ def main():
                 f'{target}_{feature}_{knot}.svg"/></p>'
             )
     html_footer()
+    sys.stdout.close()
+    sys.stdout = original_stdout
 
 
 def set_up_graphics_directory(graphdir: str) -> None:
@@ -173,7 +175,7 @@ def natural_cubic_spline(
     maxval: int = None,
     numberknots: int = None,
     listknots: List[int] = None
-):
+) -> Pipeline:
     '''
     Piecewise natural cubic spline
 
