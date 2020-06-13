@@ -127,8 +127,8 @@ def html_footer():
 
 def plot_scatter_line(t: Tuple[str, str]) -> None:
     x, y, min_val, max_val, file, target, feature, numknots = t
-    model = get_natural_cubic_spline(
-        x, y, min_val, max_val, n_knots=numknots
+    model = natural_cubic_spline(
+        x, y, min_val, max_val, numberknots=numknots
     )
     fig = plt.figure(figsize=figure_width_height)
     ax = fig.add_subplot(111)
@@ -166,46 +166,33 @@ def despine(ax: axes.Axes) -> None:
         ax.spines[spine].set_visible(False)
 
 
-def get_natural_cubic_spline(
+def natural_cubic_spline(
     x: pd.Series,
     y: pd.Series,
     minval: int = None,
     maxval: int = None,
-    n_knots: int = None,
-    knots: List[int] = None
+    numberknots: int = None,
+    listknots: List[int] = None
 ):
     '''
-    Natural cubic spline model
+    Piecewise natural cubic spline
 
-    For the knots, give (a) `knots` (as an array) or
-    (b) minval, maxval and n_knots.
+    Provide numberknots or listknots
 
-    If the knots are not directly specified, the resulting knots are
-    equally-spaced within the *interior* of (max, min).  That is,
-    the endpoints are *not* included as knots.
+    If numberknots is given, the calculated knots are equally-spaced
+    within minval and maxval. The endpoints are not included as knots.
 
-    Parameters
-    ----------
-    x: pd.Series
-    y: pd.Series
-    minval: minimum of interval containing the knots.
-    maxval: maximum of the interval containing the knots.
-    n_knots: the number of knots to create.
-    knots: the knots.
-
-    Returns
-    --------
-    model: a model object
-        The returned model will have following method:
-        - predict(x):
-            x is a numpy array. This will return the predicted
-            y-values.
+    minval:       the minimum of the interval containing the knots
+    maxval:       the maximum of the interval containing the knots
+    numberknots:  the number of knots to create.
+    listknots:    the knots
+    model:        the model object
     '''
-    if knots:
-        spline = bsx.NaturalCubicSpline(knots=knots)
+    if listknots:
+        spline = bsx.NaturalCubicSpline(knots=listknots)
     else:
         spline = bsx.NaturalCubicSpline(
-            max=maxval, min=minval, n_knots=n_knots
+            max=maxval, min=minval, n_knots=numberknots
         )
     p = Pipeline([
         ('natural_cubic_spline', spline),
