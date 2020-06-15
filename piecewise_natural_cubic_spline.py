@@ -26,22 +26,22 @@ References
 
 time -f '%e' ./piecewise_natural_cubic_spline.py
 ./piecewise_natural_cubic_spline.py
+
+The graphs can be viewed with the view_spline_graphs.html file created.
 '''
 
 
 from multiprocessing import Pool
 from pathlib import Path
 from shutil import rmtree
-from typing import List, Tuple
+from typing import Tuple
 import itertools
 import sys
-import basis_expansions as bsx
+import datasense as ds
 import matplotlib.axes as axes
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
 import pandas as pd
-from sklearn.linear_model import LinearRegression
-from sklearn.pipeline import Pipeline
 
 
 # Data set must not contain NaN, inf, or -inf
@@ -129,7 +129,7 @@ def html_footer():
 
 def plot_scatter_line(t: Tuple[str, str]) -> None:
     x, y, min_val, max_val, file, target, feature, numknots = t
-    model = natural_cubic_spline(
+    model = ds.natural_cubic_spline(
         x, y, min_val, max_val, numberknots=numknots
     )
     fig = plt.figure(figsize=figure_width_height)
@@ -166,42 +166,6 @@ def despine(ax: axes.Axes) -> None:
     '''
     for spine in 'right', 'top':
         ax.spines[spine].set_visible(False)
-
-
-def natural_cubic_spline(
-    x: pd.Series,
-    y: pd.Series,
-    minval: int = None,
-    maxval: int = None,
-    numberknots: int = None,
-    listknots: List[int] = None
-) -> Pipeline:
-    '''
-    Piecewise natural cubic spline
-
-    Provide numberknots or listknots
-
-    If numberknots is given, the calculated knots are equally-spaced
-    within minval and maxval. The endpoints are not included as knots.
-
-    minval:       the minimum of the interval containing the knots
-    maxval:       the maximum of the interval containing the knots
-    numberknots:  the number of knots to create.
-    listknots:    the knots
-    model:        the model object
-    '''
-    if listknots:
-        spline = bsx.NaturalCubicSpline(knots=listknots)
-    else:
-        spline = bsx.NaturalCubicSpline(
-            max=maxval, min=minval, n_knots=numberknots
-        )
-    p = Pipeline([
-        ('natural_cubic_spline', spline),
-        ('linear_regression', LinearRegression(fit_intercept=True))
-    ])
-    p.fit(x, y)
-    return p
 
 
 if __name__ == '__main__':
