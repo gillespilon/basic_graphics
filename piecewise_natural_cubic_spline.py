@@ -67,6 +67,7 @@ c = cm.Paired.colors
 
 
 def main():
+    set_up_graphics_directory(graphics_directory)
     original_stdout = sys.stdout
     sys.stdout = open('view_spline_graphs.html', 'w')
     html_header()
