@@ -46,7 +46,9 @@ import pandas as pd
 
 # Data set must not contain NaN, inf, or -inf
 parameters = pd.read_excel(
-    'parameters.ods', engine='odf', index_col=False
+    'piecewise_natural_cubic_spline_parameters.ods',
+    engine='odf',
+    index_col=False
 )
 file_names = [x for x in parameters['File names']
               if str(x) != 'nan']
