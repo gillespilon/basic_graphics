@@ -32,16 +32,19 @@ The graphs can be viewed with the view_spline_graphs.html file created.
 
 
 from multiprocessing import Pool
-from pathlib import Path
+from datetime import datetime
 from shutil import rmtree
+from pathlib import Path
 from typing import Tuple
 import itertools
 import sys
-import datasense as ds
+
+import matplotlib.pyplot as plt
 import matplotlib.axes as axes
 import matplotlib.cm as cm
-import matplotlib.pyplot as plt
+import datasense as ds
 import pandas as pd
+import ezgmail
 
 
 # Data set must not contain NaN, inf, or -inf
@@ -93,7 +96,11 @@ def main():
     html_footer()
     sys.stdout.close()
     sys.stdout = original_stdout
-
+    ezgmail.send(
+        'gillespilon13@gmail.com',
+        'subject: Piecewise natural cubic spline',
+        'Piecewise natural cubic spline run complete.'
+    )
 
 def set_up_graphics_directory(graphdir: str) -> None:
     '''
