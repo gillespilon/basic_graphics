@@ -32,7 +32,6 @@ The graphs can be viewed with the view_spline_graphs.html file created.
 
 
 from multiprocessing import Pool
-from datetime import datetime
 from shutil import rmtree
 from pathlib import Path
 from typing import Tuple
@@ -101,6 +100,7 @@ def main():
         'subject: Piecewise natural cubic spline',
         'Piecewise natural cubic spline run complete.'
     )
+
 
 def set_up_graphics_directory(graphdir: str) -> None:
     '''
