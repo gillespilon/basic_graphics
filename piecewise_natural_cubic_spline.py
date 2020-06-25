@@ -71,6 +71,7 @@ c = cm.Paired.colors
 parser = '%Y-%m-%d %H:%M:%S'
 date_formatter = '%m'
 
+
 def main():
     set_up_graphics_directory(graphics_directory)
     original_stdout = sys.stdout
@@ -86,8 +87,8 @@ def main():
         dates = True
         x = pd.to_numeric(data[feature])
         y = data[target]
-        min_val=min(x)
-        max_val=max(x)
+        min_val = min(x)
+        max_val = max(x)
         t = ((x, y, min_val, max_val, file, target, feature, knot, dates)
              for knot in num_knots)
         with Pool() as pool:
@@ -144,7 +145,9 @@ def html_footer():
     print('</html>')
 
 
-def plot_scatter_line(t: Tuple[str, str]) -> None:
+def plot_scatter_line(
+        t: Tuple[pd.Series, pd.Series, int, int, str, str, str, int, bool]
+) -> None:
     x, y, min_val, max_val, file, target, feature, numknots, dates = t
     model = ds.natural_cubic_spline(
         x, y, min_val, max_val, numberknots=numknots
