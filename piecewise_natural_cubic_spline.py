@@ -38,6 +38,8 @@ from typing import Tuple
 import itertools
 import sys
 
+from matplotlib.ticker import NullFormatter, NullLocator
+from matplotlib.dates import DateFormatter, MonthLocator
 import matplotlib.pyplot as plt
 import matplotlib.axes as axes
 import matplotlib.cm as cm
@@ -66,7 +68,8 @@ x_axis_label = 'Abscissa'
 y_axis_label = 'Ordinate'
 axis_title = 'Piecewise natural cubic spline'
 c = cm.Paired.colors
-
+parser = '%Y-%m-%d %H:%M:%S'
+date_formatter = '%m'
 
 def main():
     set_up_graphics_directory(graphics_directory)
@@ -76,12 +79,18 @@ def main():
     for file, target, feature in itertools.product(
         file_names, targets, features
     ):
-        data = pd.read_csv(file)
-        x = data[feature]
+        # Data set must not contain NaN, inf, or -inf
+        # data = pd.read_csv(file)
+        data = ds.read_file(
+            file, feature, parser, False
+        )
+        data[target] = data[target].fillna(data[target].mean())
+        dates = True
+        x = pd.to_numeric(data[feature])
         y = data[target]
-        min_val = min(x)
-        max_val = max(x)
-        t = ((x, y, min_val, max_val, file, target, feature, knot)
+        min_val=min(x)
+        max_val=max(x)
+        t = ((x, y, min_val, max_val, file, target, feature, knot, dates)
              for knot in num_knots)
         with Pool() as pool:
             for _ in pool.imap_unordered(plot_scatter_line, t):
@@ -138,17 +147,26 @@ def html_footer():
 
 
 def plot_scatter_line(t: Tuple[str, str]) -> None:
-    x, y, min_val, max_val, file, target, feature, numknots = t
+    x, y, min_val, max_val, file, target, feature, numknots, dates = t
     model = ds.natural_cubic_spline(
         x, y, min_val, max_val, numberknots=numknots
     )
+    if dates:
+        xx = x.astype('datetime64[ns]')
+    else:
+        xx = x
     fig = plt.figure(figsize=figure_width_height)
     ax = fig.add_subplot(111)
-    ax.plot(x, y, ls='', marker='.', color=c[1], alpha=0.20)
+    ax.plot(xx, y, ls='', marker='.', color=c[1], alpha=0.20)
     ax.plot(
-        x, model.predict(x), marker='', color=c[5],
+        xx, model.predict(x), marker='', color=c[5],
         label=f'number knots = {numknots}'
     )
+    if dates:
+        ax.xaxis.set_major_locator(MonthLocator())
+        ax.xaxis.set_minor_locator(NullLocator())
+        ax.xaxis.set_major_formatter(DateFormatter(date_formatter))
+        ax.xaxis.set_minor_formatter(NullFormatter())
     ax.legend(frameon=False, loc='best')
     ax.set_title(
         f'{axis_title}\n'
