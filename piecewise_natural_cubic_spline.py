@@ -79,8 +79,6 @@ def main():
     for file, target, feature in itertools.product(
         file_names, targets, features
     ):
-        # Data set must not contain NaN, inf, or -inf
-        # data = pd.read_csv(file)
         data = ds.read_file(
             file, feature, parser, False
         )
@@ -151,22 +149,21 @@ def plot_scatter_line(t: Tuple[str, str]) -> None:
     model = ds.natural_cubic_spline(
         x, y, min_val, max_val, numberknots=numknots
     )
-    if dates:
-        xx = x.astype('datetime64[ns]')
-    else:
-        xx = x
     fig = plt.figure(figsize=figure_width_height)
     ax = fig.add_subplot(111)
+    if dates:
+        xx = x.astype('datetime64[ns]')
+        ax.xaxis.set_major_locator(MonthLocator())
+        ax.xaxis.set_minor_locator(NullLocator())
+        ax.xaxis.set_major_formatter(DateFormatter(date_formatter))
+        ax.xaxis.set_minor_formatter(NullFormatter())
+    else:
+        xx = x
     ax.plot(xx, y, ls='', marker='.', color=c[1], alpha=0.20)
     ax.plot(
         xx, model.predict(x), marker='', color=c[5],
         label=f'number knots = {numknots}'
     )
-    if dates:
-        ax.xaxis.set_major_locator(MonthLocator())
-        ax.xaxis.set_minor_locator(NullLocator())
-        ax.xaxis.set_major_formatter(DateFormatter(date_formatter))
-        ax.xaxis.set_minor_formatter(NullFormatter())
     ax.legend(frameon=False, loc='best')
     ax.set_title(
         f'{axis_title}\n'
