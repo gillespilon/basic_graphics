@@ -38,8 +38,6 @@ from typing import Tuple
 import itertools
 import sys
 
-from matplotlib.ticker import NullFormatter, NullLocator
-from matplotlib.dates import DateFormatter, MonthLocator
 import matplotlib.pyplot as plt
 import matplotlib.axes as axes
 import matplotlib.cm as cm
