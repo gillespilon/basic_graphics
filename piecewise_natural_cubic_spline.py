@@ -85,11 +85,9 @@ def main():
         )
         data[target] = data[target].fillna(data[target].mean())
         dates = True
-        x = pd.to_numeric(data[feature])
+        X = pd.to_numeric(data[feature])
         y = data[target]
-        min_val = min(x)
-        max_val = max(x)
-        t = ((x, y, min_val, max_val, file, target, feature, knot, dates)
+        t = ((X, y, file, target, feature, knot, dates)
              for knot in num_knots)
         with Pool() as pool:
             for _ in pool.imap_unordered(plot_scatter_line, t):
@@ -148,23 +146,20 @@ def html_footer():
 def plot_scatter_line(
         t: Tuple[pd.Series, pd.Series, int, int, str, str, str, int, bool]
 ) -> None:
-    x, y, min_val, max_val, file, target, feature, numknots, dates = t
+    X, y, file, target, feature, numknots, dates = t
     model = ds.natural_cubic_spline(
-        x, y, min_val, max_val, numberknots=numknots
+        X, y, numberknots=numknots
     )
     fig = plt.figure(figsize=figure_width_height)
     ax = fig.add_subplot(111)
     if dates:
-        xx = x.astype('datetime64[ns]')
-        ax.xaxis.set_major_locator(MonthLocator())
-        ax.xaxis.set_minor_locator(NullLocator())
-        ax.xaxis.set_major_formatter(DateFormatter(date_formatter))
-        ax.xaxis.set_minor_formatter(NullFormatter())
+        XX = X.astype('datetime64[ns]')
+        fig.autofmt_xdate()
     else:
-        xx = x
-    ax.plot(xx, y, ls='', marker='.', color=c[1], alpha=0.20)
+        XX = X
+    ax.plot(XX, y, ls='', marker='.', color=c[1], alpha=0.20)
     ax.plot(
-        xx, model.predict(x), marker='', color=c[5],
+        XX, model.predict(X), marker='', color=c[5],
         label=f'number knots = {numknots}'
     )
     ax.legend(frameon=False, loc='best')
