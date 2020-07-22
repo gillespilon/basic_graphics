@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
 '''
-Weight loss tracker using a line plot and fixed target line
+Create a line plot of weight and a fixed target line
 
 time -f '%e' ./weight_loss_tracker.py
 ./weight_loss_tracker.py
@@ -11,20 +11,20 @@ time -f '%e' ./weight_loss_tracker.py
 # - Confidence interval
 # - Prediction interval
 
-import pandas as pd
-import matplotlib
+from typing import Tuple
+
+import matplotlib.dates as mdates
+import matplotlib.pyplot as plt
 import matplotlib.axes as axes
 import matplotlib.cm as cm
-import matplotlib.pyplot as plt
-from matplotlib.dates import DateFormatter, MonthLocator
-from matplotlib.ticker import NullFormatter
-from matplotlib.ticker import NullLocator
+import pandas as pd
 
 
 c = cm.Paired.colors
 figure_width_height = (8, 6)
-fig_title = 'Weight loss analysis'
-file_name = 'weight.ods'
+fig_title = 'Weight loss'
+file_name_data = 'weight.ods'
+file_name_graph = 'weight.svg'
 column_x = 'Date'
 column_target = 'Target'
 column_actual = 'Actual'
@@ -33,14 +33,12 @@ xlabel = 'Date'
 ylabel = 'Weight (kg)'
 
 
-matplotlib.use('Cairo')
-
-
 def main():
-    data = read_data(file_name)
-    plot_line(data, column_x, column_target, column_actual,
-              figure_width_height,
-              title, xlabel, ylabel)
+    data = read_data(file_name_data)
+    plot_line(
+        data, column_x, column_target, column_actual,
+        file_name_graph, figure_width_height, title, xlabel, ylabel
+    )
 
 
 def despine(ax: axes.Axes) -> None:
@@ -53,16 +51,26 @@ def despine(ax: axes.Axes) -> None:
         ax.spines[spine].set_visible(False)
 
 
-def read_data(filename):
+def read_data(filename: str) -> pd.DataFrame:
     data = pd.read_excel(filename, engine='odf', parse_dates=['Date'])
     return data
 
 
-def plot_line(dataframe, columnx, columntarget, columnactual,
-              figure_width_height,
-              title, xlabel, ylabel):
-    fig = plt.figure(figsize=figure_width_height)
+def plot_line(
+    dataframe: pd.DataFrame,
+    columnx: str,
+    columntarget: str,
+    columnactual: str,
+    filenamegraph: str,
+    figurewidthheight: Tuple[int, int],
+    title: str,
+    xlabel: str,
+    ylabel: str
+) -> None:
+    fig = plt.figure(figsize=figurewidthheight)
     ax = fig.add_subplot(111)
+    fig.autofmt_xdate()
+    ax.fmt_xdata = mdates.DateFormatter('%Y-%m-%d')
     ax.plot(
         dataframe[columnx],
         dataframe[columntarget],
@@ -76,19 +84,11 @@ def plot_line(dataframe, columnx, columntarget, columnactual,
         markersize=10,
         linestyle='-'
     )
-    ax.set_title('Scatter Plot of Weight Loss', fontweight='bold')
-    ax.set_xlabel('Date', fontweight='bold')
-    ax.set_ylabel('Weight (kg)', fontweight='bold')
-    ax.xaxis.set_minor_locator(NullLocator())
-    # ax.xaxis.set_major_locator(DayLocator())
-    ax.xaxis.set_major_locator(MonthLocator())
-    ax.xaxis.set_minor_formatter(NullFormatter())
-    # ax.xaxis.set_major_formatter(DateFormatter('%d'))
-    ax.xaxis.set_major_formatter(DateFormatter('%Y-%m'))
-    ax.autoscale(enable=True)
+    ax.set_title(fig_title, fontweight='bold')
+    ax.set_xlabel(xlabel, fontweight='bold')
+    ax.set_ylabel(ylabel, fontweight='bold')
     despine(ax)
-    ax.figure.savefig('weight.svg',
-                      format='svg')
+    ax.figure.savefig(filenamegraph, format='svg')
 
 
 if __name__ == '__main__':
