@@ -68,9 +68,11 @@ def plot_line(
     ylabel: str
 ) -> None:
     fig = plt.figure(figsize=figurewidthheight)
+    loc = mdates.AutoDateLocator()
+    fmt = mdates.AutoDateFormatter(loc)
     ax = fig.add_subplot(111)
-    fig.autofmt_xdate()
-    ax.fmt_xdata = mdates.DateFormatter('%Y-%m-%d')
+    ax.xaxis.set_major_locator(loc)
+    ax.xaxis.set_major_formatter(fmt)
     ax.plot(
         dataframe[columnx],
         dataframe[columntarget],
@@ -88,6 +90,7 @@ def plot_line(
     ax.set_xlabel(xlabel, fontweight='bold')
     ax.set_ylabel(ylabel, fontweight='bold')
     despine(ax)
+    fig.autofmt_xdate()
     ax.figure.savefig(filenamegraph, format='svg')
 
 
