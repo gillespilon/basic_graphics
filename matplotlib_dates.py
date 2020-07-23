@@ -59,14 +59,19 @@ def main():
         f'datetimes: {data["datetimes"].dtype}\n'
         f'dates    : {data["dates"].dtype}\n'
     )
-    plot_line(
+    # plot_line_two_subplots(
+    #     data, column_abscissa, column_ordinate,
+    #     file_name_graph, figure_width_height, figure_title, axis_title,
+    #     abscissa_label, ordinate_label, c
+    # )
+    plot_line_one_subplot(
         data, column_abscissa, column_ordinate,
         file_name_graph, figure_width_height, figure_title, axis_title,
         abscissa_label, ordinate_label, c
     )
 
 
-def plot_line(
+def plot_line_two_subplots(
     dataframe: pd.DataFrame,
     columnx: str,
     columny: str,
@@ -108,6 +113,38 @@ def plot_line(
     ax2.set_title(axistitle, fontweight='bold')
     ax2.set_xlabel(xlabel, fontweight='bold')
     ax2.set_ylabel(ylabel, fontweight='bold')
+    fig.savefig(filenamegraph, format='svg')
+
+
+def plot_line_one_subplot(
+    dataframe: pd.DataFrame,
+    columnx: str,
+    columny: str,
+    filenamegraph: str,
+    figurewidthheight: Tuple[float],
+    figuretitle: str,
+    axistitle: str,
+    xlabel: str,
+    ylabel: str,
+    c: Tuple[Tuple[float]]
+) -> None:
+    fig = plt.figure(figsize=figurewidthheight)
+    loc = mdates.AutoDateLocator()
+    fmt = mdates.AutoDateFormatter(loc)
+    ax = fig.add_subplot(111)
+    ax.xaxis.set_major_locator(loc)
+    ax.xaxis.set_major_formatter(fmt)
+    fig.autofmt_xdate()
+    ax.plot(
+        dataframe[columnx],
+        dataframe[columny],
+        color=c[0]
+    )
+    despine(ax)
+    fig.suptitle(figuretitle, fontweight='bold', fontsize=16)
+    ax.set_title(axistitle, fontweight='bold')
+    ax.set_xlabel(xlabel, fontweight='bold')
+    ax.set_ylabel(ylabel, fontweight='bold')
     fig.savefig(filenamegraph, format='svg')
 
 
