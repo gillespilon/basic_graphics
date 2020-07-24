@@ -89,14 +89,39 @@ def main():
     #     file_name_graph, figure_width_height, figure_title, axis_title,
     #     abscissa_label, ordinate_label, c
     # )
+    # Test line plot x y, smoothing None
     fig, ax = ds.plot_line_x_y(
-        data['datetimes_one'], data['ordinate_one'],
+        data['datetimes_one'],
+        data['ordinate_one'],
         figure_width_height
     )
     plot_pretty(
-        fig, ax, file_name_graph, figure_title, axis_title,
-        abscissa_label, ordinate_label, c
+        fig,
+        ax,
+        'matplotlib_dates_line_plot.svg',
+        figure_title, axis_title,
+        abscissa_label,
+        ordinate_label,
+        c
     )
+    # Test scatter plot x y, smoothing None
+    fig, ax = ds.plot_scatter_x_y(
+        data['datetimes_one'],
+        data['ordinate_one'],
+        figure_width_height
+    )
+    plot_pretty(
+        fig,
+        ax,
+        'matplotlib_dates_scatter_plot.svg',
+        figure_title,
+        axis_title,
+        abscissa_label,
+        ordinate_label,
+        c
+    )
+    # Test line plot x y, smoothing = 'natural_cubic_spline'
+    # Test scatter plot x y, smoothing = 'natural_cubic_spline'
 
 
 def plot_pretty(
