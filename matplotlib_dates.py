@@ -125,6 +125,40 @@ def main():
         figure_title,
         axis_title,
     )
+    # Test lineleft lineright plot x y1, y2, smoothing None
+    ax1, ax2 = ds.plot_lineleft_lineright_x_y1_y2(
+        data[column_abscissa_datetime_one],
+        data[column_ordinate_one],
+        data[column_ordinate_two],
+    )
+    plot_pretty(
+        fig,
+        ax1,
+        'matplotlib_dates_lineleft_lineright_plot.svg',
+        abscissa_label,
+        ordinate_label,
+        c,
+        figure_title,
+        axis_title,
+    )
+    # Test lineleft lineright plot x y1, y2, smoothing Yes
+    ax1, ax2 = ds.plot_lineleft_lineright_x_y1_y2(
+        data[column_abscissa_datetime_one],
+        data[column_ordinate_one],
+        data[column_ordinate_two],
+        smoothing='natural_cubic_spline',
+        numknots=5
+    )
+    plot_pretty(
+        fig,
+        ax1,
+        'matplotlib_dates_lineleft_lineright_plot_smoothing.svg',
+        abscissa_label,
+        ordinate_label,
+        c,
+        figure_title,
+        axis_title,
+    )
     # Test line plot x y, smoothing = 'natural_cubic_spline'
     fig, ax = ds.plot_line_x_y(
         data[column_abscissa_datetime_one],
