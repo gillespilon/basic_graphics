@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
 '''
-Actual vs target line plots
+Line plots of actual and target data, and regression line of actual data.
 
 - Line plot of target value (y) versus date (x)
 - Line plot of actual value (y) versus date (x)
@@ -11,18 +11,15 @@ time -f '%e' ./line_plot_actual_vs_target.py
 ./line_plot_actual_vs_target.py
 '''
 
-
 from typing import Tuple
 
-
-import numpy as np
-import pandas as pd
-import matplotlib.axes as axes
-import matplotlib.cm as cm
 import matplotlib.pyplot as plt
+import matplotlib.axes as axes
 import statsmodels.api as sm
-from matplotlib.dates import DateFormatter, MonthLocator
-from matplotlib.ticker import NullFormatter, NullLocator
+import matplotlib.cm as cm
+import datasense as ds
+import pandas as pd
+import numpy as np
 
 
 c = cm.Paired.colors
@@ -40,24 +37,24 @@ def main():
         'Savings Target vs Actual'
     )
     data = regression(data)
-    ax = plot_three_lines(
+    fig, ax = plot_three_lines(
         data,
         axis_title,
         x_axis_label,
-        y_axis_label,
-        figure_width_height
+        y_axis_label
     )
+    ds.format_dates(fig, ax)
     despine(ax)
     ax.figure.savefig('actual_vs_target.svg', format='svg')
-    ax.figure.savefig('actual_vs_target.png', format='png')
 
 
-def despine(ax: axes.Axes) -> None:
+def despine(ax: axes.Axes) -> Tuple[plt.figure, axes.Axes]:
     '''
     Remove the top and right spines of a graph.
 
     There is only one x axis, on the bottom, and one y axis, on the left.
     '''
+
     for spine in 'right', 'top':
         ax.spines[spine].set_visible(False)
 
@@ -66,8 +63,7 @@ def plot_three_lines(
     data: pd.DataFrame,
     axis_title: str,
     x_axis_label: str,
-    y_axis_label: str,
-    figure_width_height: Tuple[int, int]
+    y_axis_label: str
 ) -> axes.Axes:
     '''
     Create three line plots:
@@ -75,6 +71,7 @@ def plot_three_lines(
     - Actual vs date
     - Predicted vs date
     '''
+
     fig = plt.figure(figsize=figure_width_height)
     ax = fig.add_subplot(111)
     ax.plot(
@@ -102,6 +99,7 @@ def plot_three_lines(
     ax.set_title(axis_title, fontweight='bold')
     ax.set_xlabel(x_axis_label, fontweight='bold')
     ax.set_ylabel(y_axis_label, fontweight='bold')
+    ax.legend(frameon=False)
 #     for row, text in enumerate(data['Annotation']):
 #         print(type(data['Annotation']))
 #         ax.annotate(text, (data['Date'][row],
@@ -121,30 +119,34 @@ def plot_three_lines(
 #         textcoords='offset points',
 #         arrowprops=dict(arrowstyle="->")
 #     )
-    ax.xaxis.set_major_locator(MonthLocator())
-    ax.xaxis.set_minor_locator(NullLocator())
-    ax.xaxis.set_major_formatter(DateFormatter('%m'))
-    ax.xaxis.set_minor_formatter(NullFormatter())
-    ax.legend(frameon=False)
-    return ax
+    return (fig, ax)
 
 
-def regression(data: pd.DataFrame) -> pd.DataFrame:
+def regression(
+    data: pd.DataFrame,
+    model: str = 'linear'
+) -> pd.DataFrame:
     '''
-    Estimate a linear regression line
+    Estimate a regression line.
+
     Y is a float
     X is a datetime64ns
     Convert X to a float with first value set to 0 number of days between
     subsequent values
     '''
+
     data['DateDelta'] = (data['Date'] - data['Date']
                          .min())/np.timedelta64(1, 'D')
-    model = sm.OLS(
-        data['ActualBalance'],
-        sm.add_constant(data['DateDelta']),
-        missing='drop'
-    ).fit()
-    data['Predicted'] = model.fittedvalues
+    if model == 'linear':
+        model = sm.OLS(
+            data['ActualBalance'],
+            sm.add_constant(data['DateDelta']),
+            missing='drop'
+        ).fit()
+        data['Predicted'] = model.fittedvalues
+    else:
+        # TODO: quadratic, cubic, etc.
+        print('Feature not implemented.')
     return data
 
 
