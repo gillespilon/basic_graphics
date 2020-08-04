@@ -32,9 +32,9 @@ The graphs can be viewed with the view_spline_graphs.html file created.
 
 
 from multiprocessing import Pool
+from typing import List, Tuple
 from shutil import rmtree
 from pathlib import Path
-from typing import Tuple
 import itertools
 import sys
 
@@ -46,31 +46,15 @@ import pandas as pd
 import ezgmail
 
 
-# Data set must not contain NaN, inf, or -inf
-parameters = pd.read_excel(
-    'piecewise_natural_cubic_spline_parameters.ods',
-    engine='odf',
-    index_col=False
-)
-file_names = [x for x in parameters['File names']
-              if str(x) != 'nan']
-targets = [x for x in parameters['Targets']
-           if str(x) != 'nan']
-features = [x for x in parameters['Features']
-            if str(x) != 'nan']
-num_knots = [int(x) for x in parameters['Number of knots']
-             if str(x) != 'nan']
-graphics_directory = 'piecewise_natural_cubic_spline_graphs'
-figure_width_height = (9, 5)
-x_axis_label = 'Abscissa'
-y_axis_label = 'Ordinate'
-axis_title = 'Piecewise natural cubic spline'
-c = cm.Paired.colors
-parser = '%Y-%m-%d %H:%M:%S'
-date_formatter = '%m'
-
-
 def main():
+    global figure_width_height, c, axis_title, x_axis_label, y_axis_label,\
+        graphics_directory
+    file_names, targets, features, num_knots, graphics_directory, \
+        figure_width_height, x_axis_label, y_axis_label, axis_title, c, \
+        parser = parameters()
+    print('file_names', file_names)
+    print('targets', targets)
+    print('features', features)
     set_up_graphics_directory(graphics_directory)
     original_stdout = sys.stdout
     sys.stdout = open('view_spline_graphs.html', 'w')
@@ -79,7 +63,10 @@ def main():
         file_names, targets, features
     ):
         data = ds.read_file(
-            file, feature, parser, False
+            filename=file,
+            abscissa=feature,
+            datetimeparser=parser,
+            indexcol=False
         )
         data[target] = data[target].fillna(data[target].mean())
         dates = True
@@ -104,6 +91,69 @@ def main():
         'subject: Piecewise natural cubic spline',
         'Piecewise natural cubic spline run complete.'
     )
+
+
+def parameters(
+) -> (
+    List[str],
+    List[str],
+    List[str],
+    List[int],
+    str,
+    Tuple[int, int],
+    str,
+    str,
+    str,
+    Tuple[Tuple[float]],
+    str,
+    str
+):
+    '''
+    Set parameters.
+    '''
+
+    parameters = ds.read_file(
+        filename='piecewise_natural_cubic_spline_parameters.ods'
+    )
+    filenames = [x for x in parameters['File names'] if str(x) != 'nan']
+    targets = [x for x in parameters['Targets'] if str(x) != 'nan']
+    features = [x for x in parameters['Features'] if str(x) != 'nan']
+    numknots = [x for x in parameters['Number of knots'] if str(x) != 'nan']
+    datetimeparser = parameters['Other parameter values'][0]
+    graphicsdirectory = parameters['Other parameter values'][1]
+    figurewidthheight = eval(parameters['Other parameter values'][2])
+    xaxislabel = parameters['Other parameter values'][3]
+    yaxislabel = parameters['Other parameter values'][4]
+    axistitle = parameters['Other parameter values'][5]
+    c = cm.Paired.colors
+    return (
+        filenames, targets, features, numknots, graphicsdirectory,
+        figurewidthheight, xaxislabel, yaxislabel, axistitle, c, datetimeparser
+    )
+
+
+def page_break() -> None:
+    '''
+    Creates a page break for html output.
+    '''
+
+    print('<p style="page-break-after: always">')
+    print('<p style="page-break-before: always">')
+
+
+def summary(
+    elapsedtime: float,
+    readfilename: List[str],
+    savefilename: List[str]
+) -> None:
+    '''
+    Print report summary.
+    '''
+
+    print('<h1>Report summary</h1>')
+    print(f'Execution time: {elapsedtime:.3f} s')
+    print(f'Files read    : {readfilename}')
+    print(f'Files saved   : {savefilename}')
 
 
 def set_up_graphics_directory(graphdir: str) -> None:
