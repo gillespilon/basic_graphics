@@ -35,6 +35,7 @@ from multiprocessing import Pool
 from typing import List, Tuple
 from shutil import rmtree
 from pathlib import Path
+import webbrowser
 import itertools
 import sys
 
@@ -51,21 +52,21 @@ def main():
         graphics_directory
     file_names, targets, features, num_knots, graphics_directory, \
         figure_width_height, x_axis_label, y_axis_label, axis_title, c, \
-        parser = parameters()
+        date_time_parser, output_url, header_title, header_id = parameters()
     print('file_names', file_names)
     print('targets', targets)
     print('features', features)
     set_up_graphics_directory(graphics_directory)
     original_stdout = sys.stdout
     sys.stdout = open('view_spline_graphs.html', 'w')
-    html_header()
+    ds.html_header(header_title, header_id)
     for file, target, feature in itertools.product(
         file_names, targets, features
     ):
         data = ds.read_file(
             filename=file,
             abscissa=feature,
-            datetimeparser=parser,
+            datetimeparser=date_time_parser,
             indexcol=False
         )
         data[target] = data[target].fillna(data[target].mean())
@@ -83,14 +84,15 @@ def main():
                 f'spline_{file.strip(".csv")}_'
                 f'{target}_{feature}_{knot}.svg"/></p>'
             )
-    html_footer()
+    ds.html_footer()
     sys.stdout.close()
     sys.stdout = original_stdout
-    ezgmail.send(
-        'gillespilon13@gmail.com',
-        'subject: Piecewise natural cubic spline',
-        'Piecewise natural cubic spline run complete.'
-    )
+    webbrowser.open_new_tab(output_url)
+    # ezgmail.send(
+    #     'gillespilon13@gmail.com',
+    #     'subject: Piecewise natural cubic spline',
+    #     'Piecewise natural cubic spline run complete.'
+    # )
 
 
 def parameters(
@@ -125,10 +127,14 @@ def parameters(
     xaxislabel = parameters['Other parameter values'][3]
     yaxislabel = parameters['Other parameter values'][4]
     axistitle = parameters['Other parameter values'][5]
+    outputurl = parameters['Other parameter values'][6]
+    headertitle = parameters['Other parameter values'][7]
+    headerid = parameters['Other parameter values'][8]
     c = cm.Paired.colors
     return (
         filenames, targets, features, numknots, graphicsdirectory,
-        figurewidthheight, xaxislabel, yaxislabel, axistitle, c, datetimeparser
+        figurewidthheight, xaxislabel, yaxislabel, axistitle, c,
+        datetimeparser, outputurl, headertitle, headerid
     )
 
 
@@ -165,30 +171,6 @@ def set_up_graphics_directory(graphdir: str) -> None:
     except Exception:
         pass
     Path(graphdir).mkdir(parents=True, exist_ok=True)
-
-
-def html_header():
-    print('<!DOCTYPE html>')
-    print('<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">')
-    print('<head>')
-    print('<meta charset="utf-8"/>')
-    print(
-        '<meta content="width=device-width, initial-scale=1.0, '
-        'user-scalable=yes" name="viewport"/>'
-    )
-    print('<title>Piecewise natural cubic spline graphs</title>')
-    print('</head>')
-    print('<body>')
-    print(
-        '<h1 class="title"'
-        ' id="piecewise-natural-cubic-spline-graphs">'
-        'Piecewise natural cubic spline graphs</h1>'
-    )
-
-
-def html_footer():
-    print('</body>')
-    print('</html>')
 
 
 def plot_scatter_line(
