@@ -53,9 +53,6 @@ def main():
     file_names, targets, features, num_knots, graphics_directory, \
         figure_width_height, x_axis_label, y_axis_label, axis_title, c, \
         date_time_parser, output_url, header_title, header_id = parameters()
-    print('file_names', file_names)
-    print('targets', targets)
-    print('features', features)
     set_up_graphics_directory(graphics_directory)
     original_stdout = sys.stdout
     sys.stdout = open('view_spline_graphs.html', 'w')
