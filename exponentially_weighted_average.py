@@ -37,6 +37,9 @@ def main():
         figure_width_height, column_names_sort, date_time_parser,\
         date_formatter, c, alpha_value, function, output_url,\
         header_title, header_id = parameters()
+    original_stdout = sys.stdout
+    sys.stdout = open(output_url, 'w')
+    ds.html_header(header_title, header_id)
     for (
         filename,
         abscissaname,
@@ -76,6 +79,11 @@ def main():
             x_axis_label,
             y_axis_label
         )
+    print('<p>Just a test</p>')
+    ds.html_footer()
+    sys.stdout.close()
+    sys.stdout = original_stdout
+    webbrowser.open_new_tab(output_url)
 
 
 def parameters() -> (
