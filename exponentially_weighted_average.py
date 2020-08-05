@@ -26,14 +26,8 @@ import matplotlib.axes as axes
 import matplotlib.cm as cm
 import datasense as ds
 import pandas as pd
-
-
-alpha_value = 1.0
-function = 'mean'
-figure_width_height = (8, 6)
-x_axis_label = 'Abscissa'
-y_axis_label = 'Ordinate'
-axis_title = 'Exponentially Weighted Average'
+import webbrowser
+import sys
 
 
 def main():
@@ -41,7 +35,8 @@ def main():
     file_names, graph_file_names, abscissa_names, ordinate_names,\
         ordinate_predicted_names, x_axis_label, y_axis_label, axis_title,\
         figure_width_height, column_names_sort, date_time_parser,\
-        date_formatter, c = parameters()
+        date_formatter, c, alpha_value, function, output_url,\
+        header_title, header_id = parameters()
     for (
         filename,
         abscissaname,
@@ -96,6 +91,11 @@ def parameters() -> (
     List[bool],
     List[str],
     List[str],
+    str,
+    float,
+    str,
+    str,
+    str,
     str
 ):
     '''
@@ -131,10 +131,16 @@ def parameters() -> (
                      for split
                      in unsplit.split(',')]
     c = cm.Paired.colors
+    alphavalue = parameters['Other parameter values'][6]
+    function = parameters['Other parameter values'][7]
+    outputurl = parameters['Other parameter values'][8]
+    headertitle = parameters['Other parameter values'][9]
+    headerid = parameters['Other parameter values'][10]
     return (
         filenames, graphfilenames, abscissanames, ordinatenames,
         ordinatepredictednames, xaxislabel, yaxislabel, axistitle,
-        figurewidthheight, columnnamessort, datetimeparser, dateformatter, c
+        figurewidthheight, columnnamessort, datetimeparser, dateformatter, c,
+        alphavalue, function, outputurl, headertitle, headerid
     )
 
 
