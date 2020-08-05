@@ -17,43 +17,19 @@ time -f '%e' ./exponentially_weighted_average.py
 '''
 
 
-from typing import Tuple
+from typing import List, Tuple
+
+from matplotlib.ticker import NullFormatter, NullLocator
+from matplotlib.dates import DateFormatter, DayLocator
+import matplotlib.pyplot as plt
 import matplotlib.axes as axes
 import matplotlib.cm as cm
-from matplotlib.dates import DateFormatter, DayLocator
-from matplotlib.ticker import NullFormatter, NullLocator
-import matplotlib.pyplot as plt
-import pandas as pd
 import datasense as ds
+import pandas as pd
 
 
-c = cm.Paired.colors
 alpha_value = 1.0
 function = 'mean'
-parser = '%Y-%m-%d %H:%M:%S'
-file_name = [
-    'raw_data_integer_float.csv',
-    'raw_data_datetime_float.csv',
-    'dataframe_small_datetime_integer.csv',
-    'dataframe_small_integer_integer.csv'
-]
-abscissa_name = ['abscissa', 'datetime', 'datetime', 'abscissa']
-ordinate_name = ['ordinate', 'observed', 'observed', 'ordinate']
-ordinate_predicted_name = [
-    'ordinate_predicted',
-    'ordinate_predicted',
-    'ordinate_predicted',
-    'ordinate_predicted'
-]
-graph_file_name = [
-    'exponentially_weighted_average_integer_float',
-    'exponentially_weighted_average_datetime_float',
-    'exponentially_weighted_average_dataframe_small_datetime_integer',
-    'exponentially_weighted_average_dataframe_small_integer_integer'
-]
-date_time_parser = [None, parser, parser, None]
-date_formatter = [None, '%m-%d', '%m-%d', None]
-column_names_sort = [False, False, False, False]
 figure_width_height = (8, 6)
 x_axis_label = 'Abscissa'
 y_axis_label = 'Ordinate'
@@ -61,6 +37,11 @@ axis_title = 'Exponentially Weighted Average'
 
 
 def main():
+    global figure_width_height, c
+    file_names, graph_file_names, abscissa_names, ordinate_names,\
+        ordinate_predicted_names, x_axis_label, y_axis_label, axis_title,\
+        figure_width_height, column_names_sort, date_time_parser,\
+        date_formatter, c = parameters()
     for (
         filename,
         abscissaname,
@@ -71,14 +52,14 @@ def main():
         dateformatter,
         graphfilename
     ) in zip(
-        file_name,
-        abscissa_name,
-        ordinate_name,
-        ordinate_predicted_name,
+        file_names,
+        abscissa_names,
+        ordinate_names,
+        ordinate_predicted_names,
         date_time_parser,
         column_names_sort,
         date_formatter,
-        graph_file_name
+        graph_file_names
     ):
         data = ds.read_file(
             filename,
@@ -100,6 +81,61 @@ def main():
             x_axis_label,
             y_axis_label
         )
+
+
+def parameters() -> (
+    List[str],
+    List[str],
+    List[str],
+    List[str],
+    List[str],
+    str,
+    str,
+    str,
+    Tuple[float],
+    List[bool],
+    List[str],
+    List[str],
+    str
+):
+    '''
+    Set parameters.
+    '''
+
+    parameters = ds.read_file(
+        filename='exponentially_weighted_average_parameters.ods'
+    )
+    filenames = [x for x in parameters['File names'] if str(x) != 'nan']
+    graphfilenames = [x for x in parameters['Graph file names']
+                      if str(x) != 'nan']
+    abscissanames = [x for x in parameters['Abscissa names']
+                     if str(x) != 'nan']
+    ordinatenames = [x for x in parameters['Ordinate names']
+                     if str(x) != 'nan']
+    ordinatepredictednames = [x for x in parameters['Ordinate predicted names']
+                              if str(x) != 'nan']
+    xaxislabel = parameters['Other parameter values'][0]
+    yaxislabel = parameters['Other parameter values'][1]
+    axistitle = parameters['Other parameter values'][2]
+    figurewidthheight = eval(parameters['Other parameter values'][3])
+    columnnamessort = [x for x in parameters['Column names sort']
+                       if str(x) != 'nan']
+    datetimeparser = [x for x in parameters['Date time parser']
+                      if str(x) != 'nan']
+    dateformatter = [None
+                     if split.strip() == 'None' else
+                     split.strip()
+                     for unsplit
+                     in parameters['Date formatter']
+                     if str(unsplit) != 'nan'
+                     for split
+                     in unsplit.split(',')]
+    c = cm.Paired.colors
+    return (
+        filenames, graphfilenames, abscissanames, ordinatenames,
+        ordinatepredictednames, xaxislabel, yaxislabel, axistitle,
+        figurewidthheight, columnnamessort, datetimeparser, dateformatter, c
+    )
 
 
 def despine(ax: axes.Axes) -> None:
