@@ -67,18 +67,17 @@ def main():
         )
         data[ordinatepredictedname] = data[ordinatename]\
             .ewm(alpha=alpha_value).mean()
-        plot_graph(
-            data,
-            abscissaname,
-            ordinatename,
-            ordinatepredictedname,
-            figure_width_height,
-            dateformatter,
-            graphfilename,
-            axis_title,
-            x_axis_label,
-            y_axis_label
+        fig, ax = ds.plot_line_line_x_y1_y2(
+            X=data[abscissaname],
+            y1=data[ordinatename],
+            y2=data[ordinatepredictedname],
+            figuresize=figure_width_height
         )
+        ax.set_title(axis_title, fontweight='bold')
+        ax.set_xlabel(x_axis_label, fontweight='bold')
+        ax.set_ylabel(y_axis_label, fontweight='bold')
+        despine(ax)
+        ax.figure.savefig(f'{graphfilename}.svg', format='svg')
     print('<p>Just a test</p>')
     ds.html_footer()
     sys.stdout.close()
@@ -160,46 +159,6 @@ def despine(ax: axes.Axes) -> None:
     '''
     for spine in 'right', 'top':
         ax.spines[spine].set_visible(False)
-
-
-def plot_graph(
-    df: pd.DataFrame,
-    columnx: str,
-    columny: str,
-    columnz: str,
-    figurewidthheight: Tuple[int, int],
-    dateformat: str,
-    graphname: str,
-    graphtitle: str,
-    xaxislabel: str,
-    yaxislabel: str
-) -> None:
-    fig = plt.figure(figsize=figurewidthheight)
-    ax = fig.add_subplot(111)
-    ax.plot(
-        df[columnx],
-        df[columny],
-        marker='.',
-        linestyle='',
-        color=c[1]
-    )
-    ax.plot(
-        df[columnx],
-        df[columnz],
-        marker=None,
-        linestyle='-',
-        color=c[5]
-    )
-    if dateformat:
-        ax.xaxis.set_major_locator(DayLocator())
-        ax.xaxis.set_minor_locator(NullLocator())
-        ax.xaxis.set_major_formatter(DateFormatter(dateformat))
-        ax.xaxis.set_minor_formatter(NullFormatter())
-    ax.set_title(graphtitle, fontweight='bold')
-    ax.set_xlabel(xaxislabel, fontweight='bold')
-    ax.set_ylabel(yaxislabel, fontweight='bold')
-    despine(ax)
-    ax.figure.savefig(f'{graphname}.svg', format='svg')
 
 
 if __name__ == '__main__':
