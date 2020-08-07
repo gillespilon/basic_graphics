@@ -177,18 +177,24 @@ def plot_scatter_line(
     model = ds.natural_cubic_spline(
         X, y, numberknots=numknots
     )
-    fig = plt.figure(figsize=figure_width_height)
-    ax = fig.add_subplot(111)
-    if dates:
-        XX = X.astype('datetime64[ns]')
-        fig.autofmt_xdate()
-    else:
-        XX = X
-    ax.plot(XX, y, ls='', marker='.', color=c[1], alpha=0.20)
-    ax.plot(
-        XX, model.predict(X), marker='', color=c[5],
-        label=f'number knots = {numknots}'
+    fig, ax = ds.plot_scatter_line_x_y1_y2(
+        X=X,
+        y1=y,
+        y2=model.predict(X),
+        figuresize=figure_width_height
     )
+    # fig = plt.figure(figsize=figure_width_height)
+    # ax = fig.add_subplot(111)
+    # if dates:
+    #     XX = X.astype('datetime64[ns]')
+    #     fig.autofmt_xdate()
+    # else:
+    #     XX = X
+    # ax.plot(XX, y, ls='', marker='.', color=c[1], alpha=0.20)
+    # ax.plot(
+    #     XX, model.predict(X), marker='', color=c[5],
+    #     label=f'number knots = {numknots}'
+    # )
     ax.legend(frameon=False, loc='best')
     ax.set_title(
         f'{axis_title}\n'
