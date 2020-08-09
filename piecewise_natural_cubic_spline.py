@@ -181,20 +181,9 @@ def plot_scatter_line(
         X=X,
         y1=y,
         y2=model.predict(X),
-        figuresize=figure_width_height
+        figuresize=figure_width_height,
+        labellegendy2=f'number knots = {numknots}'
     )
-    # fig = plt.figure(figsize=figure_width_height)
-    # ax = fig.add_subplot(111)
-    # if dates:
-    #     XX = X.astype('datetime64[ns]')
-    #     fig.autofmt_xdate()
-    # else:
-    #     XX = X
-    # ax.plot(XX, y, ls='', marker='.', color=c[1], alpha=0.20)
-    # ax.plot(
-    #     XX, model.predict(X), marker='', color=c[5],
-    #     label=f'number knots = {numknots}'
-    # )
     ax.legend(frameon=False, loc='best')
     ax.set_title(
         f'{axis_title}\n'
