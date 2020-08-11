@@ -62,9 +62,7 @@ def main():
     ):
         data = ds.read_file(
             filename=file,
-            abscissa=feature,
-            datetimeparser=date_time_parser,
-            indexcol=False
+            abscissa=feature
         )
         data[target] = data[target].fillna(data[target].mean())
         dates = True
@@ -177,8 +175,12 @@ def plot_scatter_line(
     model = ds.natural_cubic_spline(
         X, y, numberknots=numknots
     )
+    if dates:
+        XX = X.astype('datetime64[ns]')
+    else:
+        XX = X
     fig, ax = ds.plot_scatter_line_x_y1_y2(
-        X=X,
+        X=XX,
         y1=y,
         y2=model.predict(X),
         figuresize=figure_width_height,
