@@ -19,24 +19,20 @@ time -f '%e' ./exponentially_weighted_average.py
 
 from typing import List, Tuple
 
-from matplotlib.ticker import NullFormatter, NullLocator
-from matplotlib.dates import DateFormatter, DayLocator
-import matplotlib.pyplot as plt
 import matplotlib.axes as axes
 import matplotlib.cm as cm
 import datasense as ds
-import pandas as pd
 import webbrowser
 import sys
 
 
 def main():
-    global figure_width_height, c
+    global figure_width_height, c, date_time_parser
     file_names, graph_file_names, abscissa_names, ordinate_names,\
         ordinate_predicted_names, x_axis_label, y_axis_label, axis_title,\
         figure_width_height, column_names_sort, date_time_parser,\
         date_formatter, c, alpha_value, function, output_url,\
-        header_title, header_id = parameters()
+        header_title, header_id, parser = parameters()
     original_stdout = sys.stdout
     sys.stdout = open(output_url, 'w')
     ds.html_header(header_title, header_id)
@@ -59,26 +55,33 @@ def main():
         date_formatter,
         graph_file_names
     ):
-        data = ds.read_file(
-            filename,
-            abscissaname,
-            datetimeparser,
-            columnnamessort
-        )
+        if datetimeparser == 'None':
+            data = ds.read_file(
+                filename=filename,
+                abscissa=abscissaname,
+                columnnamessort=columnnamessort
+            )
+        else:
+            data = ds.read_file(
+                filename=filename,
+                abscissa=abscissaname,
+                datetimeparser=parser,
+                columnnamessort=columnnamessort
+            )
         data[ordinatepredictedname] = data[ordinatename]\
             .ewm(alpha=alpha_value).mean()
-        fig, ax = ds.plot_line_line_x_y1_y2(
+        fig, ax = ds.plot_scatter_line_x_y1_y2(
             X=data[abscissaname],
             y1=data[ordinatename],
             y2=data[ordinatepredictedname],
             figuresize=figure_width_height
         )
+        fig.autofmt_xdate()
         ax.set_title(axis_title, fontweight='bold')
         ax.set_xlabel(x_axis_label, fontweight='bold')
         ax.set_ylabel(y_axis_label, fontweight='bold')
         despine(ax)
         ax.figure.savefig(f'{graphfilename}.svg', format='svg')
-    print('<p>Just a test</p>')
     ds.html_footer()
     sys.stdout.close()
     sys.stdout = original_stdout
@@ -100,6 +103,7 @@ def parameters() -> (
     List[str],
     str,
     float,
+    str,
     str,
     str,
     str,
@@ -129,6 +133,7 @@ def parameters() -> (
                        if str(x) != 'nan']
     datetimeparser = [x for x in parameters['Date time parser']
                       if str(x) != 'nan']
+    parser = parameters['Other parameter values'][4]
     dateformatter = [None
                      if split.strip() == 'None' else
                      split.strip()
@@ -147,7 +152,7 @@ def parameters() -> (
         filenames, graphfilenames, abscissanames, ordinatenames,
         ordinatepredictednames, xaxislabel, yaxislabel, axistitle,
         figurewidthheight, columnnamessort, datetimeparser, dateformatter, c,
-        alphavalue, function, outputurl, headertitle, headerid
+        alphavalue, function, outputurl, headertitle, headerid, parser
     )
 
 
