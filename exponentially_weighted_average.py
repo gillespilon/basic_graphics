@@ -82,6 +82,7 @@ def main():
         ax.set_ylabel(y_axis_label, fontweight='bold')
         despine(ax)
         ax.figure.savefig(f'{graphfilename}.svg', format='svg')
+        print(f'<p><img src="{graphfilename}.svg"/></p>')
     ds.html_footer()
     sys.stdout.close()
     sys.stdout = original_stdout
