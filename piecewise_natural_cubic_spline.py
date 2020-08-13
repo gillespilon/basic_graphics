@@ -37,6 +37,7 @@ from shutil import rmtree
 from pathlib import Path
 import webbrowser
 import itertools
+import time
 import sys
 
 import matplotlib.pyplot as plt
@@ -48,6 +49,7 @@ import ezgmail
 
 
 def main():
+    start_time = time.time()
     global figure_width_height, c, axis_title, x_axis_label, y_axis_label,\
         graphics_directory
     file_names, targets, features, num_knots, graphics_directory, \
@@ -79,6 +81,16 @@ def main():
                 f'spline_{file.strip(".csv")}_'
                 f'{target}_{feature}_{knot}.svg"/></p>'
             )
+    page_break()
+    stop_time = time.time()
+    elapsed_time = stop_time - start_time
+    summary(
+        elapsedtime=elapsed_time,
+        filenames=file_names,
+        targets=targets,
+        features=features,
+        numknots=num_knots
+    )
     ds.html_footer()
     sys.stdout.close()
     sys.stdout = original_stdout
@@ -144,17 +156,21 @@ def page_break() -> None:
 
 def summary(
     elapsedtime: float,
-    readfilename: List[str],
-    savefilename: List[str]
+    filenames: List[str],
+    targets: List[str],
+    features: List[str],
+    numknots: List[int]
 ) -> None:
     '''
     Print report summary.
     '''
 
     print('<h1>Report summary</h1>')
-    print(f'Execution time: {elapsedtime:.3f} s')
-    print(f'Files read    : {readfilename}')
-    print(f'Files saved   : {savefilename}')
+    print(f'Execution time : {elapsedtime:.3f} s')
+    print(f'Files read     : {filenames}')
+    print(f'Targets        : {targets}')
+    print(f'Features       : {features}')
+    print(f'Number of knots: {numknots}')
 
 
 def set_up_graphics_directory(graphdir: str) -> None:
