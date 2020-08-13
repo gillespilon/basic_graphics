@@ -115,7 +115,7 @@ def parameters(
     filenames = [x for x in parameters['File names'] if str(x) != 'nan']
     targets = [x for x in parameters['Targets'] if str(x) != 'nan']
     features = [x for x in parameters['Features'] if str(x) != 'nan']
-    numknots = [x for x in parameters['Number of knots'] if str(x) != 'nan']
+    numknots = [int(x) for x in parameters['Number of knots'] if str(x) != 'nan']
     datetimeparser = parameters['Other parameter values'][0]
     graphicsdirectory = parameters['Other parameter values'][1]
     figurewidthheight = eval(parameters['Other parameter values'][2])
