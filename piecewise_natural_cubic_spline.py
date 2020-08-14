@@ -40,7 +40,6 @@ import itertools
 import time
 import sys
 
-import matplotlib.pyplot as plt
 import matplotlib.axes as axes
 import matplotlib.cm as cm
 import datasense as ds
@@ -57,7 +56,7 @@ def main():
         date_time_parser, output_url, header_title, header_id = parameters()
     set_up_graphics_directory(graphics_directory)
     original_stdout = sys.stdout
-    sys.stdout = open('view_spline_graphs.html', 'w')
+    sys.stdout = open(output_url, 'w')
     ds.html_header(header_title, header_id)
     for file, target, feature in itertools.product(
         file_names, targets, features
@@ -127,7 +126,8 @@ def parameters(
     filenames = [x for x in parameters['File names'] if str(x) != 'nan']
     targets = [x for x in parameters['Targets'] if str(x) != 'nan']
     features = [x for x in parameters['Features'] if str(x) != 'nan']
-    numknots = [int(x) for x in parameters['Number of knots'] if str(x) != 'nan']
+    numknots = [int(x) for x in parameters['Number of knots']
+                if str(x) != 'nan']
     datetimeparser = parameters['Other parameter values'][0]
     graphicsdirectory = parameters['Other parameter values'][1]
     figurewidthheight = eval(parameters['Other parameter values'][2])
