@@ -114,6 +114,8 @@ def parameters(
     str,
     Tuple[Tuple[float]],
     str,
+    str,
+    str,
     str
 ):
     '''
