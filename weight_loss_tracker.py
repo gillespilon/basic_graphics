@@ -13,10 +13,10 @@ time -f '%e' ./weight_loss_tracker.py
 
 from typing import Tuple
 
-import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import matplotlib.axes as axes
 import matplotlib.cm as cm
+import datasense as ds
 import pandas as pd
 
 
@@ -52,7 +52,11 @@ def despine(ax: axes.Axes) -> None:
 
 
 def read_data(filename: str) -> pd.DataFrame:
-    data = pd.read_excel(filename, engine='odf', parse_dates=['Date'])
+    data = pd.read_excel(
+        filename,
+        engine='odf',
+        parse_dates=['Date']
+    )
     return data
 
 
@@ -68,11 +72,7 @@ def plot_line(
     ylabel: str
 ) -> None:
     fig = plt.figure(figsize=figurewidthheight)
-    loc = mdates.AutoDateLocator()
-    fmt = mdates.AutoDateFormatter(loc)
     ax = fig.add_subplot(111)
-    ax.xaxis.set_major_locator(loc)
-    ax.xaxis.set_major_formatter(fmt)
     ax.plot(
         dataframe[columnx],
         dataframe[columntarget],
@@ -89,6 +89,7 @@ def plot_line(
     ax.set_title(fig_title, fontweight='bold')
     ax.set_xlabel(xlabel, fontweight='bold')
     ax.set_ylabel(ylabel, fontweight='bold')
+    ds.format_dates(fig, ax)
     despine(ax)
     fig.autofmt_xdate()
     ax.figure.savefig(filenamegraph, format='svg')
