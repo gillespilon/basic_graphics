@@ -30,17 +30,27 @@ x_axis_label, y_axis_label, axis_title = (
     'USD',
     'Savings Target vs Actual'
 )
+column_x, column_target, column_actual, column_predicted = (
+    'Date',
+    'TargetBalance',
+    'ActualBalance',
+    'Predicted'
+)
 
 
 def main():
     data = pd.read_excel(
         file_name_data,
         engine='odf',
-        parse_dates=['Date']
+        parse_dates=[column_x]
     )
     data = regression(data)
     fig, ax = plot_three_lines(
         data,
+        column_x,
+        column_target,
+        column_actual,
+        column_predicted,
         axis_title,
         x_axis_label,
         y_axis_label
@@ -63,9 +73,13 @@ def despine(ax: axes.Axes) -> Tuple[plt.figure, axes.Axes]:
 
 def plot_three_lines(
     data: pd.DataFrame,
-    axis_title: str,
-    x_axis_label: str,
-    y_axis_label: str
+    columnx: str,
+    columntarget: str,
+    columnactual: str,
+    columnpredicted: str,
+    axistitle: str,
+    xaxislabel: str,
+    yaxislabel: str
 ) -> (plt.figure, axes.Axes):
     '''
     Create three line plots:
@@ -75,9 +89,13 @@ def plot_three_lines(
 
     Parameters:
         data            : pd.DataFrame
-        axis_title      : str
-        x_axis_label    : str
-        y_axis_label    : str
+        columnx         : str
+        columntarget    : str
+        columnactual    : str
+        columnpredicted : str
+        axistitle       : str
+        xaxis_label     : str
+        yaxis_label     : str
 
     Returns:
         fig             : plt.figure
@@ -87,30 +105,30 @@ def plot_three_lines(
     fig = plt.figure(figsize=figure_width_height)
     ax = fig.add_subplot(111)
     ax.plot(
-        data['Date'],
-        data['TargetBalance'],
-        label='TargetBalance',
+        data[columnx],
+        data[columntarget],
+        label=columntarget,
         linestyle='-',
         color=c[0]
     )
     ax.plot(
-        data['Date'],
-        data['ActualBalance'],
-        label='ActualBalance',
+        data[columnx],
+        data[columnactual],
+        label=columnactual,
         linestyle='-',
         color=c[1],
         marker='.'
     )
     ax.plot(
-        data['Date'],
-        data['Predicted'],
-        label='Predicted',
+        data[columnx],
+        data[columnpredicted],
+        label=columnpredicted,
         linestyle='-',
         color=c[2]
     )
-    ax.set_title(axis_title, fontweight='bold')
-    ax.set_xlabel(x_axis_label, fontweight='bold')
-    ax.set_ylabel(y_axis_label, fontweight='bold')
+    ax.set_title(axistitle, fontweight='bold')
+    ax.set_xlabel(xaxislabel, fontweight='bold')
+    ax.set_ylabel(yaxislabel, fontweight='bold')
     ax.legend(frameon=False)
 #     for row, text in enumerate(data['Annotation']):
 #         print(type(data['Annotation']))
@@ -145,6 +163,13 @@ def regression(
     X is a datetime64ns
     Convert X to a float with first value set to 0 number of days between
     subsequent values
+
+    Parameters:
+        data    : pd.DataFrame
+        model   : str
+
+    Returns:
+        data    : pd.DataFrame
     '''
 
     data['DateDelta'] = (data['Date'] - data['Date']
