@@ -39,10 +39,9 @@ column_x, column_target, column_actual, column_predicted = (
 
 
 def main():
-    data = pd.read_excel(
-        file_name_data,
-        engine='odf',
-        parse_dates=[column_x]
+    data = ds.read_file(
+        filename=file_name_data,
+        abscissa=column_x
     )
     data = regression(data)
     fig, ax = ds.plot_line_line_line_x_y1_y2_y3(
