@@ -45,16 +45,20 @@ def main():
         parse_dates=[column_x]
     )
     data = regression(data)
-    fig, ax = plot_three_lines(
-        data,
-        column_x,
-        column_target,
-        column_actual,
-        column_predicted,
-        axis_title,
-        x_axis_label,
-        y_axis_label
+    fig, ax = ds.plot_line_line_line_x_y1_y2_y3(
+        X=data[column_x],
+        y1=data[column_target],
+        y2=data[column_actual],
+        y3=data[column_predicted],
+        figuresize=figure_width_height,
+        labellegendy1=column_target,
+        labellegendy2=column_actual,
+        labellegendy3=column_predicted
     )
+    ax.set_title(axis_title, fontweight='bold')
+    ax.set_xlabel(x_axis_label, fontweight='bold')
+    ax.set_ylabel(y_axis_label, fontweight='bold')
+    ax.legend(frameon=False)
     ds.format_dates(fig, ax)
     despine(ax)
     ax.figure.savefig('actual_vs_target.svg', format='svg')
@@ -69,87 +73,6 @@ def despine(ax: axes.Axes) -> Tuple[plt.figure, axes.Axes]:
 
     for spine in 'right', 'top':
         ax.spines[spine].set_visible(False)
-
-
-def plot_three_lines(
-    data: pd.DataFrame,
-    columnx: str,
-    columntarget: str,
-    columnactual: str,
-    columnpredicted: str,
-    axistitle: str,
-    xaxislabel: str,
-    yaxislabel: str
-) -> (plt.figure, axes.Axes):
-    '''
-    Create three line plots:
-    - Target vs date
-    - Actual vs date
-    - Predicted vs date
-
-    Parameters:
-        data            : pd.DataFrame
-        columnx         : str
-        columntarget    : str
-        columnactual    : str
-        columnpredicted : str
-        axistitle       : str
-        xaxis_label     : str
-        yaxis_label     : str
-
-    Returns:
-        fig             : plt.figure
-        ax              : axes.Axes
-    '''
-
-    fig = plt.figure(figsize=figure_width_height)
-    ax = fig.add_subplot(111)
-    ax.plot(
-        data[columnx],
-        data[columntarget],
-        label=columntarget,
-        linestyle='-',
-        color=c[0]
-    )
-    ax.plot(
-        data[columnx],
-        data[columnactual],
-        label=columnactual,
-        linestyle='-',
-        color=c[1],
-        marker='.'
-    )
-    ax.plot(
-        data[columnx],
-        data[columnpredicted],
-        label=columnpredicted,
-        linestyle='-',
-        color=c[2]
-    )
-    ax.set_title(axistitle, fontweight='bold')
-    ax.set_xlabel(xaxislabel, fontweight='bold')
-    ax.set_ylabel(yaxislabel, fontweight='bold')
-    ax.legend(frameon=False)
-#     for row, text in enumerate(data['Annotation']):
-#         print(type(data['Annotation']))
-#         ax.annotate(text, (data['Date'][row],
-#                            data['ActualBalance'][row]),
-#                     xytext=(20, 0),
-#                     textcoords='offset points',
-#                     arrowprops=dict(arrowstyle="->"))
-#     for item in data['Annotation']:
-#         if item != np.nan :
-#             print(item)
-#         else:
-#             pass
-#     ax.annotate(
-#         'USG bonus',
-#         xy=('2020-03-15', 23275.12),
-#         xytext=(20, 0),
-#         textcoords='offset points',
-#         arrowprops=dict(arrowstyle="->")
-#     )
-    return (fig, ax)
 
 
 def regression(
