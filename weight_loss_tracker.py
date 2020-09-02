@@ -14,7 +14,6 @@ time -f '%e' ./weight_loss_tracker.py
 import matplotlib.axes as axes
 import matplotlib.cm as cm
 import datasense as ds
-import pandas as pd
 
 
 c = cm.Paired.colors
@@ -36,7 +35,10 @@ x_axis_label, y_axis_label, axis_title = (
 
 
 def main():
-    data = read_data(file_name_data)
+    data = ds.read_file(
+        filename=file_name_data,
+        abscissa=column_x
+    )
     fig, ax = ds.plot_line_line_x_y1_y2(
               X=data[column_x],
               y1=data[column_target],
@@ -61,24 +63,6 @@ def despine(ax: axes.Axes) -> None:
     '''
     for spine in 'right', 'top':
         ax.spines[spine].set_visible(False)
-
-
-def read_data(filename: str) -> pd.DataFrame:
-    '''
-    Read the data into a dataframe.
-
-    Parameters:
-        filename    : str
-
-    Returns:
-        data        : pd.DataFrame
-    '''
-    data = pd.read_excel(
-        filename,
-        engine='odf',
-        parse_dates=['Date']
-    )
-    return data
 
 
 if __name__ == '__main__':
