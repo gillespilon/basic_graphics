@@ -24,17 +24,19 @@ import numpy as np
 
 c = cm.Paired.colors
 figure_width_height = (8, 6)
+file_name_data = 'actual_vs_target.ods'
+x_axis_label, y_axis_label, axis_title = (
+    'Date',
+    'USD',
+    'Savings Target vs Actual'
+)
 
 
 def main():
     data = pd.read_excel(
-        'actual_vs_target.ods',
+        file_name_data,
         engine='odf',
         parse_dates=['Date']
-    )
-    x_axis_label, y_axis_label, axis_title = (
-        'Date', 'USD',
-        'Savings Target vs Actual'
     )
     data = regression(data)
     fig, ax = plot_three_lines(
@@ -64,12 +66,22 @@ def plot_three_lines(
     axis_title: str,
     x_axis_label: str,
     y_axis_label: str
-) -> axes.Axes:
+) -> (plt.figure, axes.Axes):
     '''
     Create three line plots:
     - Target vs date
     - Actual vs date
     - Predicted vs date
+
+    Parameters:
+        data            : pd.DataFrame
+        axis_title      : str
+        x_axis_label    : str
+        y_axis_label    : str
+
+    Returns:
+        fig             : plt.figure
+        ax              : axes.Axes
     '''
 
     fig = plt.figure(figsize=figure_width_height)
