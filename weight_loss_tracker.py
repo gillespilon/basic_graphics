@@ -28,16 +28,25 @@ file_name_graph = 'weight.svg'
 column_x = 'Date'
 column_target = 'Target'
 column_actual = 'Actual'
-title = 'Plot of Weight Loss'
-xlabel = 'Date'
-ylabel = 'Weight (kg)'
+x_axis_label, y_axis_label, axis_title = (
+    'Date',
+    'Weight (kg)',
+    'Plot of Weight Loss'
+)
 
 
 def main():
     data = read_data(file_name_data)
     plot_line(
-        data, column_x, column_target, column_actual,
-        file_name_graph, figure_width_height, title, xlabel, ylabel
+        dataframe=data,
+        columnx=column_x,
+        columntarget=column_target,
+        columnactual=column_actual,
+        filenamegraph=file_name_graph,
+        figurewidthheight=figure_width_height,
+        title=axis_title,
+        xlabel=x_axis_label,
+        ylabel=y_axis_label
     )
 
 
