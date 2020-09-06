@@ -25,6 +25,7 @@ import numpy as np
 c = cm.Paired.colors
 figure_width_height = (8, 6)
 file_name_data = 'actual_vs_target.ods'
+file_name_graph = 'actual_vs_target.svg'
 x_axis_label, y_axis_label, axis_title = (
     'Date',
     'USD',
@@ -60,7 +61,7 @@ def main():
     ax.legend(frameon=False)
     ds.format_dates(fig, ax)
     despine(ax)
-    ax.figure.savefig('actual_vs_target.svg', format='svg')
+    ax.figure.savefig(file_name_graph, format='svg')
 
 
 def despine(ax: axes.Axes) -> Tuple[plt.figure, axes.Axes]:
