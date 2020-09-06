@@ -97,8 +97,11 @@ def regression(
     subsequent values
 
     Parameters:
-        data    : pd.DataFrame
-        model   : str
+        data            : pd.DataFrame
+        model           : str
+        columnx         : str
+        columnactual    : str
+        columnpredicted : str
 
     Returns:
         data    : pd.DataFrame
