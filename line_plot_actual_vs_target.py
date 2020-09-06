@@ -44,7 +44,13 @@ def main():
         filename=file_name_data,
         abscissa=column_x
     )
-    data = regression(data)
+    data = regression(
+        data=data,
+        model='linear',
+        columnx=column_x,
+        columnactual=column_actual,
+        columnpredicted=column_predicted
+    )
     fig, ax = ds.plot_line_line_line_x_y1_y2_y3(
         X=data[column_x],
         y1=data[column_target],
@@ -77,7 +83,10 @@ def despine(ax: axes.Axes) -> Tuple[plt.figure, axes.Axes]:
 
 def regression(
     data: pd.DataFrame,
-    model: str = 'linear'
+    model: str,
+    columnx: str,
+    columnactual: str,
+    columnpredicted: str
 ) -> pd.DataFrame:
     '''
     Estimate a regression line.
@@ -95,15 +104,15 @@ def regression(
         data    : pd.DataFrame
     '''
 
-    data['DateDelta'] = (data['Date'] - data['Date']
+    data['DateDelta'] = (data[columnx] - data[columnx]
                          .min())/np.timedelta64(1, 'D')
     if model == 'linear':
         model = sm.OLS(
-            data['ActualBalance'],
+            data[columnactual],
             sm.add_constant(data['DateDelta']),
             missing='drop'
         ).fit()
-        data['Predicted'] = model.fittedvalues
+        data[columnpredicted] = model.fittedvalues
     else:
         # TODO: quadratic, cubic, etc.
         print('Feature not implemented.')
