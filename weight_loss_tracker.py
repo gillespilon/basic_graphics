@@ -11,13 +11,16 @@ time -f '%e' ./weight_loss_tracker.py
 # - Confidence interval
 # - Prediction interval
 
+from pathlib import Path
+from os import chdir
+
 import matplotlib.axes as axes
 import matplotlib.cm as cm
 import datasense as ds
 
 
 c = cm.Paired.colors
-figure_width_height = (8, 6)
+figure_width_height = (15, 7)
 file_name_data, file_name_graph = (
     'weight.ods',
     'weight.svg'
@@ -34,6 +37,9 @@ x_axis_label, y_axis_label, axis_title = (
 )
 
 
+chdir(Path(__file__).parent.__str__())
+
+
 def main():
     data = ds.read_file(
         filename=file_name_data,
@@ -41,11 +47,13 @@ def main():
     )
     fig, ax = ds.plot_line_line_x_y1_y2(
               X=data[column_x],
-              y1=data[column_target],
-              y2=data[column_actual],
+              y1=data[column_actual],
+              y2=data[column_target],
               figuresize=figure_width_height,
-              labellegendy1=column_target,
-              labellegendy2=column_actual
+              labellegendy1=column_actual,
+              labellegendy2=column_target,
+              marker2=None,
+              linestyle1='None'
     )
     ax.set_title(label=axis_title, fontweight='bold')
     ax.set_xlabel(x_axis_label, fontweight='bold')
