@@ -53,7 +53,7 @@ def main():
               labellegendy1=column_actual,
               labellegendy2=column_target,
               marker2=None,
-              linestyle1='None'
+              linestyle1='None',
     )
     ax.set_title(label=axis_title, fontweight='bold')
     ax.set_xlabel(x_axis_label, fontweight='bold')
