@@ -11,7 +11,9 @@ time -f '%e' ./line_plot_actual_vs_target.py
 ./line_plot_actual_vs_target.py
 '''
 
+from pathlib import Path
 from typing import Tuple
+from os import chdir
 
 import matplotlib.pyplot as plt
 import matplotlib.axes as axes
@@ -37,6 +39,9 @@ column_x, column_target, column_actual, column_predicted = (
     'ActualBalance',
     'Predicted'
 )
+
+
+chdir(Path(__file__).parent.__str__())
 
 
 def main():
