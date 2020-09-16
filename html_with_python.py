@@ -2,7 +2,7 @@
 '''
 Code required to generate html with Python.
 
-Originally creted with built-in functions. Now uses datasense.
+Create two graphs per printer page, with page break.
 '''
 import datasense as ds
 
@@ -17,7 +17,6 @@ def main():
         headertitle=header_title,
         headerid=header_id
     )
-    # Say we want to print two graphs per printer page
     print(
         '<p>'
         '<figure>'
