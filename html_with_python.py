@@ -1,6 +1,8 @@
 #! /usr/bin/env python3
 '''
 Code required to generate html with Python.
+
+Originally creted with built-in functions. Now uses datasense.
 '''
 import datasense as ds
 
