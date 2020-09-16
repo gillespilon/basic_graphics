@@ -1,5 +1,4 @@
 #! /usr/bin/env python3
-
 """
 Line plots of actual and target data, and regression line of actual data.
 
@@ -18,13 +17,10 @@ from os import chdir
 import matplotlib.pyplot as plt
 import matplotlib.axes as axes
 import statsmodels.api as sm
-import matplotlib.cm as cm
 import datasense as ds
 import pandas as pd
 import numpy as np
 
-
-c = cm.Paired.colors
 figure_width_height = (8, 6)
 file_name_data = 'actual_vs_target.ods'
 file_name_graph = 'actual_vs_target.svg'
@@ -39,9 +35,7 @@ column_x, column_target, column_actual, column_predicted = (
     'ActualBalance',
     'Predicted'
 )
-
-
-chdir(Path(__file__).parent.__str__())
+chdir(Path(__file__).parent.__str__())  # required for cron
 
 
 def main():
@@ -79,7 +73,13 @@ def despine(ax: axes.Axes) -> Tuple[plt.figure, axes.Axes]:
     """
     Remove the top and right spines of a graph.
 
-    There is only one x axis, on the bottom, and one y axis, on the left.
+    Parameters
+    ----------
+    ax : axes.Axes
+
+    Example
+    -------
+    >>> despine(ax)
     """
 
     for spine in 'right', 'top':
@@ -96,28 +96,31 @@ def regression(
     """
     Estimate a regression line.
 
-    Y is a float
-    X is a datetime64ns
-    Convert X to a float with first value set to 0 number of days between
-    subsequent values
+    Parameters
+    ----------
+    data : pd.DataFrame
+    model : str
+    columnx : str
+    columnactual : str
+    columnpredicted : str
 
-    Parameters:
-        data            : pd.DataFrame
-        model           : str
-        columnx         : str
-        columnactual    : str
-        columnpredicted : str
+    Returns
+    data : pd.DataFrame
 
-    Returns:
-        data    : pd.DataFrame
+    Example
+    # TODO
+    create an example for regression
+    x generate 42 integers 1 to 42, increments of 1
+    y generate y = mx + b
+    where b = 69, m = 13
+    ysubi = b +/- loc 69 scale 7 + m +/- loc 13 scale 4 * x
     """
-
-    data['DateDelta'] = (data[columnx] - data[columnx]
-                         .min())/np.timedelta64(1, 'D')
+    data['DateDelta'] = (data[columnx] - data[columnx].min())\
+        / np.timedelta64(1, 'D')
     if model == 'linear':
         model = sm.OLS(
-            data[columnactual],
-            sm.add_constant(data['DateDelta']),
+            endog=data[columnactual],
+            exog=sm.add_constant(data['DateDelta']),
             missing='drop'
         ).fit()
         data[columnpredicted] = model.fittedvalues
