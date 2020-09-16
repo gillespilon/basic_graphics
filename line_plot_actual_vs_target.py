@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-'''
+"""
 Line plots of actual and target data, and regression line of actual data.
 
 - Line plot of target value (y) versus date (x)
@@ -9,7 +9,7 @@ Line plots of actual and target data, and regression line of actual data.
 
 time -f '%e' ./line_plot_actual_vs_target.py
 ./line_plot_actual_vs_target.py
-'''
+"""
 
 from pathlib import Path
 from typing import Tuple
@@ -76,11 +76,11 @@ def main():
 
 
 def despine(ax: axes.Axes) -> Tuple[plt.figure, axes.Axes]:
-    '''
+    """
     Remove the top and right spines of a graph.
 
     There is only one x axis, on the bottom, and one y axis, on the left.
-    '''
+    """
 
     for spine in 'right', 'top':
         ax.spines[spine].set_visible(False)
@@ -93,7 +93,7 @@ def regression(
     columnactual: str,
     columnpredicted: str
 ) -> pd.DataFrame:
-    '''
+    """
     Estimate a regression line.
 
     Y is a float
@@ -110,7 +110,7 @@ def regression(
 
     Returns:
         data    : pd.DataFrame
-    '''
+    """
 
     data['DateDelta'] = (data[columnx] - data[columnx]
                          .min())/np.timedelta64(1, 'D')
