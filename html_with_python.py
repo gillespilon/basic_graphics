@@ -1,8 +1,6 @@
 #! /usr/bin/env python3
 '''
 Code required to generate html with Python.
-
-Create two graphs per printer page, with page break.
 '''
 import datasense as ds
 
@@ -17,39 +15,21 @@ def main():
         headertitle=header_title,
         headerid=header_id
     )
-    print(
-        '<p>'
-        '<figure>'
-        '<img src="path_to_your_graph_1.png" alt="alternate text graph 1"/>'
-        '<figcaption>Caption for your graph 1</figcaption>'
-        '</figure>'
-        '</p>'
-    )
-    print(
-        '<p>'
-        '<figure>'
-        '<img src="path_to_your_graph_2.png" alt="alternate text graph 2"/>'
-        '<figcaption>Caption for your graph 2</figcaption>'
-        '</figure>'
-        '</p>'
-    )
-    ds.page_break()
-    print(
-        '<p>'
-        '<figure>'
-        '<img src="path_to_your_graph_3.png" alt="alternate text graph 3"/>'
-        '<figcaption>Caption for your graph 3</figcaption>'
-        '</figure>'
-        '</p>'
-    )
-    print(
-        '<p>'
-        '<figure>'
-        '<img src="path_to_your_graph_4.png" alt="alternate text graph 4"/>'
-        '<figcaption>Caption for your graph 4</figcaption>'
-        '</figure>'
-        '</p>'
-    )
+    listi = ['path1', 'path2', 'path3', 'path4']
+    listj = ['altext1', 'alttext2', 'alttext3', 'alttext4']
+    listk = ['caption1', 'caption2', 'caption3', 'caption4']
+    listl = [False, True, False, False]
+    for i, j, k, l in zip(listi, listj, listk, listl):
+        print(
+            '<p>'
+            '<figure>'
+            f'<img src="{i}.png" alt="{j}"/>'
+            f'<figcaption>{k}</figcaption>'
+            '</figure>'
+            '</p>'
+        )
+        if l:
+            ds.page_break()
     ds.html_end(
         originalstdout=original_stdout,
         outputurl=output_url
