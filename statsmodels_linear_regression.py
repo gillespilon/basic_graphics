@@ -3,6 +3,8 @@
 Demonstrate linear regression with statsmodels.
 """
 
+from typing import Tuple
+
 import matplotlib.pyplot as plt
 from scipy.stats import norm
 import statsmodels.api as sm
@@ -10,15 +12,7 @@ import pandas as pd
 
 
 def main():
-
-    series_y = pd.Series(norm.rvs(size=42))
-    series_x = pd.Series(norm.rvs(size=42))
-    df = pd.DataFrame(
-        {
-            'x': series_x,
-            'y': series_y
-        }
-    )
+    series_x, series_y, df = random_data_norm()
     x = sm.add_constant(df['x'])
     y = df['y']
     model = sm.OLS(
@@ -61,6 +55,18 @@ def main():
         fontweight='bold'
     )
     fig.savefig('y_vs_x.svg', format='svg')
+
+
+def random_data_norm() -> Tuple[pd.Series, pd.Series, pd.DataFrame]:
+    series_y = pd.Series(norm.rvs(size=42))
+    series_x = pd.Series(norm.rvs(size=42))
+    df = pd.DataFrame(
+        {
+            'x': series_x,
+            'y': series_y
+        }
+    )
+    return (series_x, series_y, df)
 
 
 if __name__ == '__main__':
