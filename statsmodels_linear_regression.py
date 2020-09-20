@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
 """
+Demonstrate linear regression with statsmodels.
 """
 
 import matplotlib.pyplot as plt
