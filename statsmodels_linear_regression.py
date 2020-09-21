@@ -58,6 +58,14 @@ def main():
 
 
 def random_data_norm() -> Tuple[pd.Series, pd.Series, pd.DataFrame]:
+    """
+    Generate random normal data for x, y.
+
+    Returns
+    -------
+    Tuple[pd.Series, pd.Series, pd.DataFrame]
+        A pandas Series, a pandas Series, a pandas DataFrame
+    """
     series_y = pd.Series(norm.rvs(size=42))
     series_x = pd.Series(norm.rvs(size=42))
     df = pd.DataFrame(
