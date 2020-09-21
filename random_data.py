@@ -29,6 +29,20 @@ def main():
         scale=11
     )
     print(series_x.describe())
+    distribution = 'uniform'
+    print('Test 5')
+    series_x = ds.random_data(
+        distribution=distribution
+    )
+    print(series_x.describe())
+    print('Test 6')
+    series_x = ds.random_data(
+        distribution=distribution,
+        size=117,
+        loc=13,
+        scale=56
+    )
+    print(series_x.describe())
 
 
 if __name__ == '__main__':
