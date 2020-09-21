@@ -3,16 +3,19 @@
 Demonstrate linear regression with statsmodels.
 """
 
-from typing import Tuple
-
 import matplotlib.pyplot as plt
-from scipy.stats import norm
 import statsmodels.api as sm
+import datasense as ds
 import pandas as pd
 
 
 def main():
-    series_x, series_y, df = random_data_norm()
+    df = pd.DataFrame(
+        {
+            'x': ds.random_data(),
+            'y': ds.random_data()
+        }
+    )
     x = sm.add_constant(df['x'])
     y = df['y']
     model = sm.OLS(
@@ -21,20 +24,20 @@ def main():
         missing='drop'
     )
     results = model.fit()
-    predicted = results.predict(x)
-    results.summary()
+    df['predicted'] = results.predict(x)
+    print(results.summary())
     fig = plt.figure(figsize=(8, 6))
     ax = fig.add_subplot(111)
     ax.plot(
-        series_x,
-        series_y,
+        df['x'],
+        df['y'],
         marker='.',
         linestyle='None',
         color='#0077bb'
     )
     ax.plot(
-        series_x,
-        predicted,
+        df['x'],
+        df['predicted'],
         marker='None',
         linestyle='-',
         color='#cc3311'
@@ -55,26 +58,6 @@ def main():
         fontweight='bold'
     )
     fig.savefig('y_vs_x.svg', format='svg')
-
-
-def random_data_norm() -> Tuple[pd.Series, pd.Series, pd.DataFrame]:
-    """
-    Generate random normal data for x, y.
-
-    Returns
-    -------
-    Tuple[pd.Series, pd.Series, pd.DataFrame]
-        A pandas Series, a pandas Series, a pandas DataFrame
-    """
-    series_y = pd.Series(norm.rvs(size=42))
-    series_x = pd.Series(norm.rvs(size=42))
-    df = pd.DataFrame(
-        {
-            'x': series_x,
-            'y': series_y
-        }
-    )
-    return (series_x, series_y, df)
 
 
 if __name__ == '__main__':
