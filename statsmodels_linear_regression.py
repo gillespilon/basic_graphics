@@ -9,7 +9,18 @@ import datasense as ds
 import pandas as pd
 
 
+output_url = 'statsmodels_linear_regression.html'
+header_title = 'Statsmodels linear regression'
+header_id = 'statsmodels-linear-regression'
+
+
 def main():
+    original_stdout = ds.html_begin(
+        outputurl=output_url,
+        headertitle=header_title,
+        headerid=header_id
+    )
+    print('<pre>')
     df = pd.DataFrame(
         {
             'x': ds.random_data(),
@@ -26,6 +37,7 @@ def main():
     results = model.fit()
     df['predicted'] = results.predict(x)
     print(results.summary())
+    print('</pre>')
     fig = plt.figure(figsize=(8, 6))
     ax = fig.add_subplot(111)
     ax.plot(
@@ -58,6 +70,11 @@ def main():
         fontweight='bold'
     )
     fig.savefig('y_vs_x.svg', format='svg')
+    print('<p><img src="y_vs_x.svg" alt="y_vs_x.svg"/></p>')
+    ds.html_end(
+        originalstdout=original_stdout,
+        outputurl=output_url
+    )
 
 
 if __name__ == '__main__':
