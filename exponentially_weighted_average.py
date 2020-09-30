@@ -23,10 +23,12 @@ import matplotlib.axes as axes
 import matplotlib.cm as cm
 import datasense as ds
 import webbrowser
+import time
 import sys
 
 
 def main():
+    start_time = time.time()
     global figure_width_height, c, date_time_parser
     file_names, graph_file_names, abscissa_names, ordinate_names,\
         ordinate_predicted_names, x_axis_label, y_axis_label, axis_title,\
@@ -76,13 +78,21 @@ def main():
             y2=data[ordinatepredictedname],
             figuresize=figure_width_height
         )
-        fig.autofmt_xdate()
         ax.set_title(axis_title, fontweight='bold')
         ax.set_xlabel(x_axis_label, fontweight='bold')
         ax.set_ylabel(y_axis_label, fontweight='bold')
         despine(ax)
         ax.figure.savefig(f'{graphfilename}.svg', format='svg')
         print(f'<p><img src="{graphfilename}.svg"/></p>')
+    page_break()
+    stop_time = time.time()
+    elapsed_time = stop_time - start_time
+    summary(
+        elapsedtime=elapsed_time,
+        filenames=file_names,
+        ordinatenames=ordinate_names,
+        abscissanames=abscissa_names
+    )
     ds.html_footer()
     sys.stdout.close()
     sys.stdout = original_stdout
@@ -158,13 +168,45 @@ def parameters() -> (
 
 
 def despine(ax: axes.Axes) -> None:
-    '''
+    """
     Remove the top and right spines of a graph.
 
-    There is only one x axis, on the bottom, and one y axis, on the left.
-    '''
+    Parameters
+    ----------
+    ax : axes.Axes
+
+    Example
+    -------
+    >>> despine(ax)
+    """
     for spine in 'right', 'top':
         ax.spines[spine].set_visible(False)
+
+
+def page_break() -> None:
+    '''
+    Creates a page break for html output.
+    '''
+
+    print('<p style="page-break-after: always">')
+    print('<p style="page-break-before: always">')
+
+
+def summary(
+    elapsedtime: float,
+    filenames: List[str],
+    ordinatenames: List[str],
+    abscissanames: List[str]
+) -> None:
+    '''
+    Print report summary.
+    '''
+
+    print('<h1>Report summary</h1>')
+    print(f'Execution time : {elapsedtime:.3f} s')
+    print(f'Files read     : {filenames}')
+    print(f'Orindates      : {ordinatenames}')
+    print(f'Abscissas      : {abscissanames}')
 
 
 if __name__ == '__main__':
