@@ -20,7 +20,7 @@ def main():
         headertitle=header_title,
         headerid=header_id
     )
-    print('<pre>')
+    print('<pre style="white-space: pre-wrap;">')
     df = pd.DataFrame(
         {
             'x': ds.random_data(),
