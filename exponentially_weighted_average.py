@@ -22,9 +22,7 @@ from typing import List, Tuple
 import matplotlib.axes as axes
 import matplotlib.cm as cm
 import datasense as ds
-import webbrowser
 import time
-import sys
 
 
 def main():
@@ -35,9 +33,11 @@ def main():
         figure_width_height, column_names_sort, date_time_parser,\
         date_formatter, c, alpha_value, function, output_url,\
         header_title, header_id, parser = parameters()
-    original_stdout = sys.stdout
-    sys.stdout = open(output_url, 'w')
-    ds.html_header(header_title, header_id)
+    original_stdout = ds.html_begin(
+        outputurl=output_url,
+        headertitle=header_title,
+        headerid=header_id
+    )
     for (
         filename,
         abscissaname,
@@ -93,10 +93,10 @@ def main():
         ordinatenames=ordinate_names,
         abscissanames=abscissa_names
     )
-    ds.html_footer()
-    sys.stdout.close()
-    sys.stdout = original_stdout
-    webbrowser.open_new_tab(output_url)
+    ds.html_end(
+        originalstdout=original_stdout,
+        outputurl=output_url
+    )
 
 
 def parameters() -> (
