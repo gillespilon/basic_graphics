@@ -69,7 +69,10 @@ def main():
         fontsize=12,
         fontweight='bold'
     )
-    fig.savefig('y_vs_x.svg', format='svg')
+    fig.savefig(
+        fname='y_vs_x.svg',
+        format='svg'
+    )
     print('<p><img src="y_vs_x.svg" alt="y_vs_x.svg"/></p>')
     ds.html_end(
         originalstdout=original_stdout,
