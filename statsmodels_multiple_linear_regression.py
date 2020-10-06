@@ -62,7 +62,10 @@ def main():
         fontsize=12,
         fontweight='bold'
     )
-    fig.savefig('y_vs_x1.svg', format='svg')
+    fig.savefig(
+        fname='y_vs_x1.svg',
+        format='svg'
+    )
     df = df.sort_values(by=['x2'])
     fig = plt.figure(figsize=(8, 6))
     ax = fig.add_subplot(111)
@@ -95,7 +98,10 @@ def main():
         fontsize=12,
         fontweight='bold'
     )
-    fig.savefig('y_vs_x2.svg', format='svg')
+    fig.savefig(
+        fname='y_vs_x2.svg',
+        format='svg'
+    )
 
 
 if __name__ == '__main__':
