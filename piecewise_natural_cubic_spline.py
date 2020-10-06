@@ -35,10 +35,8 @@ from multiprocessing import Pool
 from typing import List, Tuple
 from shutil import rmtree
 from pathlib import Path
-import webbrowser
 import itertools
 import time
-import sys
 
 import matplotlib.axes as axes
 import matplotlib.cm as cm
@@ -55,9 +53,11 @@ def main():
         figure_width_height, x_axis_label, y_axis_label, axis_title, c, \
         date_time_parser, output_url, header_title, header_id = parameters()
     set_up_graphics_directory(graphics_directory)
-    original_stdout = sys.stdout
-    sys.stdout = open(output_url, 'w')
-    ds.html_header(header_title, header_id)
+    original_stdout = ds.html_begin(
+        outputurl=output_url,
+        headertitle=header_title,
+        headerid=header_id
+    )
     for file, target, feature in itertools.product(
         file_names, targets, features
     ):
@@ -90,10 +90,10 @@ def main():
         features=features,
         numknots=num_knots
     )
-    ds.html_footer()
-    sys.stdout.close()
-    sys.stdout = original_stdout
-    webbrowser.open_new_tab(output_url)
+    ds.html_end(
+        originalstdout=original_stdout,
+        outputurl=output_url
+    )
     # ezgmail.send(
     #     'gillespilon13@gmail.com',
     #     'subject: Piecewise natural cubic spline',
