@@ -210,7 +210,10 @@ def plot_pretty(
     ax.set_title(axistitle, fontweight='bold')
     ax.set_xlabel(abscissalabel, fontweight='bold')
     ax.set_ylabel(ordinatelabel, fontweight='bold')
-    ax.figure.savefig(filenamegraph, format='svg')
+    fig.savefig(
+        fname=filenamegraph,
+        format='svg'
+    )
 
 
 def plot_line_two_subplots(
@@ -255,7 +258,10 @@ def plot_line_two_subplots(
     ax2.set_title(axistitle, fontweight='bold')
     ax2.set_xlabel(xlabel, fontweight='bold')
     ax2.set_ylabel(ylabel, fontweight='bold')
-    fig.savefig(filenamegraph, format='svg')
+    fig.savefig(
+        fname=filenamegraph,
+        format='svg'
+    )
 
 
 def despine(ax: axes.Axes) -> None:
