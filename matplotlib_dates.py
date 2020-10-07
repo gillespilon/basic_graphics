@@ -1,6 +1,5 @@
 #! /usr/bin/env python3
-
-'''
+"""
 Explore plotting with matplotlib dates
 
 time -f '%e' ./matplotlib_dates.py
@@ -9,14 +8,12 @@ time -f '%e' ./matplotlib_dates.py
 References
 https://docs.python.org/3/library/datetime.html#module-datetime
 https://matplotlib.org/api/dates_api.html#matplotlib-date-format
-'''
-
+"""
 
 # TODO:
 # fix two subplot function to accept four series instead of two dfs
 # fix one subplot function to accept two series insteead of one df
 # change call to graph functions so that they return ax and then add info
-
 
 from typing import List, Tuple
 
@@ -147,7 +144,7 @@ def main():
         data[column_ordinate_one],
         data[column_ordinate_two],
         smoothing='natural_cubic_spline',
-        numknots=5
+        number_knots=5
     )
     plot_pretty(
         fig,
@@ -164,7 +161,7 @@ def main():
         data[column_abscissa_datetime_one],
         data[column_ordinate_one],
         smoothing='natural_cubic_spline',
-        numknots=5
+        number_knots=5
     )
     plot_pretty(
         fig,
@@ -182,7 +179,7 @@ def main():
         data[column_ordinate_one],
         figure_width_height,
         smoothing='natural_cubic_spline',
-        numknots=5
+        number_knots=5
     )
     plot_pretty(
         fig,
