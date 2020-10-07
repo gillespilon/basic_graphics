@@ -21,13 +21,13 @@ import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import matplotlib.axes as axes
 from datetime import datetime
-import matplotlib.cm as cm
 import datasense as ds
 import pandas as pd
 
+colour1 = '#0077bb'
+
 
 def main():
-    c = cm.Paired.colors
     pd.set_option('display.max_columns', 600)
     pd.set_option('display.max_rows', 600)
     figure_width_height = (8, 6)
@@ -91,7 +91,7 @@ def main():
     # plot_line_two_subplots(
     #     data, column_abscissa, column_ordinate_one,
     #     file_name_graph, figure_width_height, figure_title, axis_title,
-    #     abscissa_label, ordinate_label, c
+    #     abscissa_label, ordinate_label
     # )
     # Test line plot x y, smoothing None
     fig, ax = ds.plot_line_x_y(
@@ -103,14 +103,13 @@ def main():
         ax,
         'matplotlib_dates_line_plot.svg',
         abscissa_label,
-        ordinate_label,
-        c
+        ordinate_label
     )
     # Test scatter plot x y, smoothing None
     fig, ax = ds.plot_scatter_x_y(
-        data[column_abscissa_datetime_one],
-        data[column_ordinate_one],
-        figure_width_height
+        X=data[column_abscissa_datetime_one],
+        y=data[column_ordinate_one],
+        figuresize=figure_width_height
     )
     plot_pretty(
         fig,
@@ -118,15 +117,14 @@ def main():
         'matplotlib_dates_scatter_plot.svg',
         abscissa_label,
         ordinate_label,
-        c,
         figure_title,
         axis_title,
     )
     # Test lineleft lineright plot x y1, y2, smoothing None
-    ax1, ax2 = ds.plot_lineleft_lineright_x_y1_y2(
-        data[column_abscissa_datetime_one],
-        data[column_ordinate_one],
-        data[column_ordinate_two],
+    fig, ax1, ax2 = ds.plot_lineleft_lineright_x_y1_y2(
+        X=data[column_abscissa_datetime_one],
+        y1=data[column_ordinate_one],
+        y2=data[column_ordinate_two],
     )
     plot_pretty(
         fig,
@@ -134,15 +132,14 @@ def main():
         'matplotlib_dates_lineleft_lineright_plot.svg',
         abscissa_label,
         ordinate_label,
-        c,
         figure_title,
         axis_title,
     )
     # Test lineleft lineright plot x y1, y2, smoothing Yes
-    ax1, ax2 = ds.plot_lineleft_lineright_x_y1_y2(
-        data[column_abscissa_datetime_one],
-        data[column_ordinate_one],
-        data[column_ordinate_two],
+    fig, ax1, ax2 = ds.plot_lineleft_lineright_x_y1_y2(
+        X=data[column_abscissa_datetime_one],
+        y1=data[column_ordinate_one],
+        y2=data[column_ordinate_two],
         smoothing='natural_cubic_spline',
         number_knots=5
     )
@@ -152,7 +149,6 @@ def main():
         'matplotlib_dates_lineleft_lineright_plot_smoothing.svg',
         abscissa_label,
         ordinate_label,
-        c,
         figure_title,
         axis_title,
     )
@@ -169,15 +165,14 @@ def main():
         'matplotlib_dates_line_plot_smoothing.svg',
         abscissa_label,
         ordinate_label,
-        c,
         axistitle=axis_title,
         figuretitle=None,
     )
     # Test scatter plot x y, smoothing = 'natural_cubic_spline'
     fig, ax = ds.plot_scatter_x_y(
-        data[column_abscissa_datetime_one],
-        data[column_ordinate_one],
-        figure_width_height,
+        X=data[column_abscissa_datetime_one],
+        y=data[column_ordinate_one],
+        figuresize=figure_width_height,
         smoothing='natural_cubic_spline',
         number_knots=5
     )
@@ -187,7 +182,6 @@ def main():
         'matplotlib_dates_scatter_plot_smoothing.svg',
         abscissa_label,
         ordinate_label,
-        c,
         figure_title,
     )
 
@@ -198,7 +192,6 @@ def plot_pretty(
     filenamegraph: str = None,
     abscissalabel: str = None,
     ordinatelabel: str = None,
-    c: Tuple[Tuple[float]] = None,
     figuretitle: str = None,
     axistitle: str = None
 ) -> None:
@@ -222,8 +215,7 @@ def plot_line_two_subplots(
     figuretitle: str,
     axistitle: str,
     xlabel: str,
-    ylabel: str,
-    c: Tuple[Tuple[float]]
+    ylabel: str
 ) -> None:
     fig = plt.figure(figsize=figurewidthheight)
     loc = mdates.AutoDateLocator()
@@ -235,7 +227,7 @@ def plot_line_two_subplots(
     ax1.plot(
         dataframe[columnx],
         dataframe[columny],
-        color=c[0]
+        color=colour1
     )
     despine(ax1)
     fig.suptitle(figuretitle, fontweight='bold', fontsize=16)
@@ -249,7 +241,7 @@ def plot_line_two_subplots(
     ax2.plot(
         dataframe[columnx],
         dataframe[columny],
-        color=c[0]
+        color=colour1
     )
     despine(ax2)
     ax2.set_title(axistitle, fontweight='bold')
