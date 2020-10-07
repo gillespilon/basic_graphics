@@ -1,7 +1,5 @@
 #! /usr/bin/env python3
-
-
-'''
+"""
 A piecewise natural cubic spline (cubic curves in the interior segments, linear
 in the exterior segments) is used to interpolate points to fit the data while
 smoothing out the noise. A large number of data are fitted with low-degree
@@ -28,8 +26,7 @@ time -f '%e' ./piecewise_natural_cubic_spline.py
 ./piecewise_natural_cubic_spline.py
 
 The graphs can be viewed with the view_spline_graphs.html file created.
-'''
-
+"""
 
 from multiprocessing import Pool
 from typing import List, Tuple
@@ -49,7 +46,7 @@ def main():
     start_time = time.time()
     global figure_width_height, c, axis_title, x_axis_label, y_axis_label,\
         graphics_directory
-    file_names, targets, features, num_knots, graphics_directory, \
+    file_names, targets, features, number_knots, graphics_directory, \
         figure_width_height, x_axis_label, y_axis_label, axis_title, c, \
         date_time_parser, output_url, header_title, header_id = parameters()
     set_up_graphics_directory(graphics_directory)
@@ -70,11 +67,11 @@ def main():
         X = pd.to_numeric(data[feature])
         y = data[target]
         t = ((X, y, file, target, feature, knot, dates)
-             for knot in num_knots)
+             for knot in number_knots)
         with Pool() as pool:
             for _ in pool.imap_unordered(plot_scatter_line, t):
                 pass
-        for knot in num_knots:
+        for knot in number_knots:
             print(
                 f'<p><img src="{graphics_directory}/'
                 f'spline_{file.strip(".csv")}_'
@@ -88,7 +85,7 @@ def main():
         filenames=file_names,
         targets=targets,
         features=features,
-        numknots=num_knots
+        number_knots=number_knots
     )
     ds.html_end(
         originalstdout=original_stdout,
@@ -128,7 +125,7 @@ def parameters(
     filenames = [x for x in parameters['File names'] if str(x) != 'nan']
     targets = [x for x in parameters['Targets'] if str(x) != 'nan']
     features = [x for x in parameters['Features'] if str(x) != 'nan']
-    numknots = [int(x) for x in parameters['Number of knots']
+    number_knots = [int(x) for x in parameters['Number of knots']
                 if str(x) != 'nan']
     datetimeparser = parameters['Other parameter values'][0]
     graphicsdirectory = parameters['Other parameter values'][1]
@@ -141,7 +138,7 @@ def parameters(
     headerid = parameters['Other parameter values'][8]
     c = cm.Paired.colors
     return (
-        filenames, targets, features, numknots, graphicsdirectory,
+        filenames, targets, features, number_knots, graphicsdirectory,
         figurewidthheight, xaxislabel, yaxislabel, axistitle, c,
         datetimeparser, outputurl, headertitle, headerid
     )
@@ -161,7 +158,7 @@ def summary(
     filenames: List[str],
     targets: List[str],
     features: List[str],
-    numknots: List[int]
+    number_knots: List[int]
 ) -> None:
     '''
     Print report summary.
@@ -172,7 +169,7 @@ def summary(
     print(f'Files read     : {filenames}')
     print(f'Targets        : {targets}')
     print(f'Features       : {features}')
-    print(f'Number of knots: {numknots}')
+    print(f'Number of knots: {number_knots}')
 
 
 def set_up_graphics_directory(graphdir: str) -> None:
@@ -189,11 +186,11 @@ def set_up_graphics_directory(graphdir: str) -> None:
 def plot_scatter_line(
         t: Tuple[pd.Series, pd.Series, int, int, str, str, str, int, bool]
 ) -> None:
-    X, y, file, target, feature, numknots, dates = t
+    X, y, file, target, feature, number_knots, dates = t
     model = ds.natural_cubic_spline(
         X=X,
         y=y,
-        numberknots=numknots
+        number_knots=number_knots
     )
     if dates:
         XX = X.astype('datetime64[ns]')
@@ -204,7 +201,7 @@ def plot_scatter_line(
         y1=y,
         y2=model.predict(X),
         figuresize=figure_width_height,
-        labellegendy2=f'number knots = {numknots}'
+        labellegendy2=f'number knots = {number_knots}'
     )
     ax.legend(frameon=False, loc='best')
     ax.set_title(
@@ -220,7 +217,7 @@ def plot_scatter_line(
         f'/spline_'
         f'{file.strip(".csv")}_'
         f'{target}_{feature}_'
-        f'{numknots}.svg',
+        f'{number_knots}.svg',
         format='svg'
     )
 
