@@ -9,7 +9,6 @@ time -f '%e' ./cubic_spline.py
 from scipy.interpolate import CubicSpline as cs
 import matplotlib.pyplot as plt
 import matplotlib.axes as axes
-import matplotlib.cm as cm
 import numpy as np
 
 colour1 = '#0077bb'
