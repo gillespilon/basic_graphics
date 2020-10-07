@@ -36,7 +36,6 @@ import itertools
 import time
 
 import matplotlib.axes as axes
-import matplotlib.cm as cm
 import datasense as ds
 import pandas as pd
 import ezgmail
@@ -44,10 +43,10 @@ import ezgmail
 
 def main():
     start_time = time.time()
-    global figure_width_height, c, axis_title, x_axis_label, y_axis_label,\
+    global figure_width_height, axis_title, x_axis_label, y_axis_label,\
         graphics_directory
     file_names, targets, features, number_knots, graphics_directory, \
-        figure_width_height, x_axis_label, y_axis_label, axis_title, c, \
+        figure_width_height, x_axis_label, y_axis_label, axis_title, \
         date_time_parser, output_url, header_title, header_id = parameters()
     set_up_graphics_directory(graphics_directory)
     original_stdout = ds.html_begin(
@@ -109,7 +108,6 @@ def parameters(
     str,
     str,
     str,
-    Tuple[Tuple[float]],
     str,
     str,
     str,
@@ -136,10 +134,9 @@ def parameters(
     outputurl = parameters['Other parameter values'][6]
     headertitle = parameters['Other parameter values'][7]
     headerid = parameters['Other parameter values'][8]
-    c = cm.Paired.colors
     return (
         filenames, targets, features, number_knots, graphicsdirectory,
-        figurewidthheight, xaxislabel, yaxislabel, axistitle, c,
+        figurewidthheight, xaxislabel, yaxislabel, axistitle,
         datetimeparser, outputurl, headertitle, headerid
     )
 
