@@ -1,21 +1,19 @@
 #! /usr/bin/env python3
-
-'''
+"""
 Cubic spline plot
 
 time -f '%e' ./cubic_spline.py
 ./cubic_spline.py
-'''
+"""
 
-
-import numpy as np
+from scipy.interpolate import CubicSpline as cs
+import matplotlib.pyplot as plt
 import matplotlib.axes as axes
 import matplotlib.cm as cm
-import matplotlib.pyplot as plt
-from scipy.interpolate import CubicSpline as cs
+import numpy as np
 
-
-c = cm.Paired.colors
+colour1 = '#0077bb'
+colour2 = '#33bbee'
 
 
 def main():
@@ -56,9 +54,9 @@ def cubic_spline(x1, y1, x2, y2, x_axis_label, y_axis_label, axis_title):
     fig = plt.figure(figsize=figure_width_height)
     ax = fig.add_subplot(111)
     ax.plot(x1, y1, marker='o', linestyle='None',
-            color=c[1], label='data')
+            color=colour1, label='data')
     ax.plot(x2, y2(x2), marker='None', linestyle='-',
-            color=c[5], label='cubic spline')
+            color=colour2, label='cubic spline')
     ax.set_title(axis_title, fontweight='bold')
     ax.set_xlabel(x_axis_label, fontweight='bold')
     ax.set_ylabel(y_axis_label, fontweight='bold')
