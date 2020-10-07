@@ -1,11 +1,10 @@
 #! /usr/bin/env python3
-
-'''
+"""
 Create line plots of actual and target for tracking weight loss.
 
 time -f '%e' ./weight_loss_tracker.py
 ./weight_loss_tracker.py
-'''
+"""
 
 # TODO:
 # - Confidence interval
@@ -15,11 +14,8 @@ from pathlib import Path
 from os import chdir
 
 import matplotlib.axes as axes
-import matplotlib.cm as cm
 import datasense as ds
 
-
-c = cm.Paired.colors
 figure_width_height = (15, 7)
 file_name_data, file_name_graph = (
     'weight.ods',
