@@ -1,6 +1,5 @@
 #! /usr/bin/env python3
-
-'''
+"""
 Cubic spline plot
 
 This script has several functions:
@@ -12,20 +11,20 @@ This script has several functions:
 
 time -f '%e' ./cubic_spline.py
 ./cubic_spline.py
-'''
-
+"""
 
 from typing import Tuple
-import matplotlib.axes as axes
-import matplotlib.cm as cm
-from matplotlib.dates import DateFormatter, DayLocator
+
 from matplotlib.ticker import NullFormatter, NullLocator
+from matplotlib.dates import DateFormatter, DayLocator
 import matplotlib.pyplot as plt
-import pandas as pd
+import matplotlib.axes as axes
 import datasense as ds
+import pandas as pd
 
 
-c = cm.Paired.colors
+colour1 = '#0077bb'
+colour2 = '#33bbee'
 parser = '%Y-%m-%d %H:%M:%S'
 file_name = [
     'raw_data_integer_float.csv',
@@ -33,8 +32,18 @@ file_name = [
     'dataframe_small_datetime_integer.csv',
     'dataframe_small_integer_integer.csv'
 ]
-abscissa_name = ['abscissa', 'datetime', 'datetime', 'abscissa']
-ordinate_name = ['ordinate', 'observed', 'observed', 'ordinate']
+abscissa_name = [
+    'abscissa',
+    'datetime',
+    'datetime',
+    'abscissa'
+]
+ordinate_name = [
+    'ordinate',
+    'observed',
+    'observed',
+    'ordinate'
+]
 ordinate_predicted_name = [
     'ordinate_predicted',
     'ordinate_predicted',
@@ -77,18 +86,33 @@ def main():
         graph_file_name
     ):
         data = ds.read_file(
-            filename,
-            abscissaname,
-            datetimeparser,
-            columnnamessort
+            filename=filename,
+            abscissa=abscissaname,
+            datetimeparser=datetimeparser,
+            columnnamessort=columnnamessort
+        )
+        data = ds.dataframe_info(
+            df=data,
+            filein=filename
         )
         if datetimeparser is True:
             data[abscissaname] = pd.to_numeric(data[abscissaname])
-            spline = ds.cubic_spline(data, abscissaname, ordinatename)
+            print('filename: ', filename)
+            spline = ds.cubic_spline(
+                df=data,
+                abscissa=abscissaname,
+                ordinate=ordinatename
+            )
             data[ordinatepredictedname] = spline(data[abscissaname])
             data[abscissaname] = data[abscissaname].astype('datetime64[ns]')
         else:
-            spline = ds.cubic_spline(data, abscissaname, ordinatename)
+            # data = data.sort_values(by=[abscissaname])
+            print('filename: ', filename)
+            spline = ds.cubic_spline(
+                df=data,
+                abscissa=abscissaname,
+                ordinate=ordinatename
+            )
             data[ordinatepredictedname] = spline(data[abscissaname])
         plot_graph(
             data,
@@ -139,14 +163,14 @@ def plot_graph(
         df[columny],
         marker='.',
         linestyle='',
-        color=c[1]
+        color=colour1
     )
     ax.plot(
         df[columnx],
         df[columnz],
         marker=None,
         linestyle='-',
-        color=c[5]
+        color=colour2
     )
     if dateformat:
         ax.xaxis.set_major_locator(DayLocator())
