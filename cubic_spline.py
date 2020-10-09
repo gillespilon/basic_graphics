@@ -86,10 +86,11 @@ def main():
         graph_file_name
     ):
         data = ds.read_file(
-            filename=filename,
-            abscissa=abscissaname,
-            datetimeparser=datetimeparser,
-            columnnamessort=columnnamessort
+            file_name=filename,
+            parse_dates=[abscissaname],
+            date_parser=datetimeparser,
+            sort_columns=[abscissaname],
+            sort_columns_bool=[columnnamessort]
         )
         data = ds.dataframe_info(
             df=data,
