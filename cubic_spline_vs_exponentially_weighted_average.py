@@ -1,24 +1,21 @@
 #! /usr/bin/env python3
-
-
-'''
+"""
 Plots to compare cubic spline vs exponentially weighted moving average fits
-'''
-
+"""
 
 from datetime import datetime
-import matplotlib.axes as axes
-import matplotlib.cm as cm
-import matplotlib.pyplot as plt
-import pandas as pd
+
 from scipy.interpolate import CubicSpline
+import matplotlib.pyplot as plt
+import matplotlib.axes as axes
+import pandas as pd
 
-
-c = cm.Paired.colors
 date_time_parser = '%Y-%m-%d %H:%M:%S'
 date_time_column = 'datetime'
 observed_column = 'observed'
 predicted_column = 'predicted'
+colour1 = '#0077bb'
+colour2 = '#cc3311'
 
 
 def main():
@@ -143,14 +140,14 @@ def plot_graph(
         df[columny],
         marker='.',
         linestyle='',
-        color=c[1]
+        color=colour1
     )
     ax.plot(
         df[columnx],
         df[columnz],
         marker=None,
         linestyle='-',
-        color=c[5]
+        color=colour2
     )
     ax.set_title(graphtitle + '\n' + graphsubtitle, fontweight='bold')
     ax.set_xlabel(xaxislabel, fontweight='bold')
