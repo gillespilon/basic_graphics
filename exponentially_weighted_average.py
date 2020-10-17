@@ -79,7 +79,7 @@ def main():
         ax.set_xlabel(x_axis_label, fontweight='bold')
         ax.set_ylabel(y_axis_label, fontweight='bold')
         despine(ax)
-        ax.figure.savefig(f'{graphfilename}.svg', format='svg')
+        fig.savefig(f'{graphfilename}.svg', format='svg')
         print(f'<p><img src="{graphfilename}.svg"/></p>')
     page_break()
     stop_time = time.time()
