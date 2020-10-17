@@ -66,7 +66,7 @@ def main():
     ax.legend(frameon=False)
     ds.format_dates(fig, ax)
     despine(ax)
-    ax.figure.savefig(file_name_graph, format='svg')
+    fig.savefig(file_name_graph, format='svg')
 
 
 def despine(ax: axes.Axes) -> Tuple[plt.figure, axes.Axes]:
