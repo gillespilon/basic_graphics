@@ -154,7 +154,7 @@ def plot_graph(
     ax.set_ylabel(yaxislabel, fontweight='bold')
     despine(ax)
     file = filename.strip('.csv')
-    ax.figure.savefig(f'{graphname}_{file}.png', format='png')
+    fig.savefig(f'{graphname}_{file}.png', format='png')
 
 
 def cs(
