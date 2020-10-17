@@ -56,7 +56,7 @@ def main():
     ax.set_ylabel(y_axis_label, fontweight='bold')
     ax.legend(frameon=False)
     despine(ax)
-    ax.figure.savefig(file_name_graph, format='svg')
+    fig.savefig(file_name_graph, format='svg')
 
 
 def despine(ax: axes.Axes) -> None:
