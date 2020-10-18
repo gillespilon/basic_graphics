@@ -40,7 +40,7 @@ chdir(Path(__file__).parent.__str__())  # required for cron
 
 def main():
     data = ds.read_file(
-        filename=file_name_data,
+        file_name=file_name_data,
         abscissa=column_x
     )
     data = regression(
