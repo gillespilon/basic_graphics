@@ -4,15 +4,15 @@ Demonstrate multiple linear regression with statsmodels.
 """
 
 import matplotlib.pyplot as plt
-from scipy.stats import norm
 import statsmodels.api as sm
+import datasense as ds
 import pandas as pd
 
 
 def main():
-    series_y = pd.Series(norm.rvs(size=42))
-    series_x1 = pd.Series(norm.rvs(size=42))
-    series_x2 = pd.Series(norm.rvs(size=42))
+    series_y = ds.random_data()
+    series_x1 = ds.random_data()
+    series_x2 = ds.random_data()
     df = pd.DataFrame(
         {
             'x1': series_x1,
