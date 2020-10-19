@@ -11,9 +11,9 @@ header_id = 'example'
 
 def main():
     original_stdout = ds.html_begin(
-        outputurl=output_url,
-        headertitle=header_title,
-        headerid=header_id
+        output_url=output_url,
+        header_title=header_title,
+        header_id=header_id
     )
     listi = ['path1', 'path2', 'path3', 'path4']
     listj = ['altext1', 'alttext2', 'alttext3', 'alttext4']
@@ -31,8 +31,8 @@ def main():
         if l:
             ds.page_break()
     ds.html_end(
-        originalstdout=original_stdout,
-        outputurl=output_url
+        original_stdout=original_stdout,
+        output_url=output_url
     )
 
 
