@@ -31,9 +31,9 @@ def main():
         date_formatter, alpha_value, function, output_url,\
         header_title, header_id, parser = parameters()
     original_stdout = ds.html_begin(
-        outputurl=output_url,
-        headertitle=header_title,
-        headerid=header_id
+        output_url=output_url,
+        header_title=header_title,
+        header_id=header_id
     )
     for (
         filename,
@@ -91,8 +91,8 @@ def main():
         abscissanames=abscissa_names
     )
     ds.html_end(
-        originalstdout=original_stdout,
-        outputurl=output_url
+        original_stdout=original_stdout,
+        output_url=output_url
     )
 
 
@@ -151,14 +151,14 @@ def parameters() -> (
                      in unsplit.split(',')]
     alphavalue = parameters['Other parameter values'][6]
     function = parameters['Other parameter values'][7]
-    outputurl = parameters['Other parameter values'][8]
-    headertitle = parameters['Other parameter values'][9]
-    headerid = parameters['Other parameter values'][10]
+    output_url = parameters['Other parameter values'][8]
+    header_title = parameters['Other parameter values'][9]
+    header_id = parameters['Other parameter values'][10]
     return (
         filenames, graphfilenames, abscissanames, ordinatenames,
         ordinatepredictednames, xaxislabel, yaxislabel, axistitle,
         figurewidthheight, columnnamessort, datetimeparser, dateformatter,
-        alphavalue, function, outputurl, headertitle, headerid, parser
+        alphavalue, function, output_url, header_title, header_id, parser
     )
 
 
