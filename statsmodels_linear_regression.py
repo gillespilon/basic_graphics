@@ -16,9 +16,9 @@ header_id = 'statsmodels-linear-regression'
 
 def main():
     original_stdout = ds.html_begin(
-        outputurl=output_url,
-        headertitle=header_title,
-        headerid=header_id
+        output_url=output_url,
+        header_title=header_title,
+        header_id=header_id
     )
     print('<pre style="white-space: pre-wrap;">')
     df = pd.DataFrame(
@@ -75,8 +75,8 @@ def main():
     )
     print('<p><img src="y_vs_x.svg" alt="y_vs_x.svg"/></p>')
     ds.html_end(
-        originalstdout=original_stdout,
-        outputurl=output_url
+        original_stdout=original_stdout,
+        output_url=output_url
     )
 
 
