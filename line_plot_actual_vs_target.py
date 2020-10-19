@@ -1,4 +1,5 @@
 #! /usr/bin/env python3
+
 """
 Line plots of actual and target data, and regression line of actual data.
 
@@ -14,6 +15,8 @@ from pathlib import Path
 from typing import Tuple
 from os import chdir
 
+from matplotlib.ticker import NullFormatter, NullLocator
+from matplotlib.dates import DateFormatter, MonthLocator
 import matplotlib.pyplot as plt
 import matplotlib.axes as axes
 import statsmodels.api as sm
@@ -21,112 +24,122 @@ import datasense as ds
 import pandas as pd
 import numpy as np
 
+
 figure_width_height = (8, 6)
-file_name_data = 'actual_vs_target.ods'
-file_name_graph = 'actual_vs_target.svg'
-x_axis_label, y_axis_label, axis_title = (
-    'Date',
-    'USD',
-    'Savings Target vs Actual'
-)
-column_x, column_target, column_actual, column_predicted = (
-    'Date',
-    'TargetBalance',
-    'ActualBalance',
-    'Predicted'
-)
-chdir(Path(__file__).parent.__str__())  # required for cron
+colour1 = '#0077bb'
+colour2 = '#33bbee'
+colour3  = '#009988'
+
+
+chdir(Path(__file__).parent.__str__())
 
 
 def main():
-    data = ds.read_file(
-        file_name=file_name_data,
-        abscissa=column_x
+    data = pd.read_excel(
+        'actual_vs_target.ods',
+        engine='odf',
+        parse_dates=['Date']
     )
-    data = regression(
-        data=data,
-        model='linear',
-        columnx=column_x,
-        columnactual=column_actual,
-        columnpredicted=column_predicted
+    x_axis_label, y_axis_label, axis_title = (
+        'Date', 'USD',
+        'Savings Target vs Actual'
     )
-    fig, ax = ds.plot_line_line_line_x_y1_y2_y3(
-        X=data[column_x],
-        y1=data[column_target],
-        y2=data[column_actual],
-        y3=data[column_predicted],
-        figuresize=figure_width_height,
-        labellegendy1=column_target,
-        labellegendy2=column_actual,
-        labellegendy3=column_predicted
+    data = regression(data)
+    ax = plot_three_lines(
+        data,
+        axis_title,
+        x_axis_label,
+        y_axis_label,
+        figure_width_height
+    )
+    ds.despine(ax)
+    ax.figure.savefig('actual_vs_target.svg', format='svg')
+    ax.figure.savefig('actual_vs_target.png', format='png')
+
+
+def plot_three_lines(
+    data: pd.DataFrame,
+    axis_title: str,
+    x_axis_label: str,
+    y_axis_label: str,
+    figure_width_height: Tuple[int, int]
+) -> axes.Axes:
+    '''
+    Create three line plots:
+    - Target vs date
+    - Actual vs date
+    - Predicted vs date
+    '''
+    fig = plt.figure(figsize=figure_width_height)
+    ax = fig.add_subplot(111)
+    ax.plot(
+        data['Date'],
+        data['TargetBalance'],
+        label='TargetBalance',
+        linestyle='-',
+        color=colour1
+    )
+    ax.plot(
+        data['Date'],
+        data['ActualBalance'],
+        label='ActualBalance',
+        linestyle='-',
+        color=colour2,
+        marker='.'
+    )
+    ax.plot(
+        data['Date'],
+        data['Predicted'],
+        label='Predicted',
+        linestyle='-',
+        color=colour3
     )
     ax.set_title(axis_title, fontweight='bold')
     ax.set_xlabel(x_axis_label, fontweight='bold')
     ax.set_ylabel(y_axis_label, fontweight='bold')
+#     for row, text in enumerate(data['Annotation']):
+#         print(type(data['Annotation']))
+#         ax.annotate(text, (data['Date'][row],
+#                            data['ActualBalance'][row]),
+#                     xytext=(20, 0),
+#                     textcoords='offset points',
+#                     arrowprops=dict(arrowstyle="->"))
+#     for item in data['Annotation']:
+#         if item != np.nan :
+#             print(item)
+#         else:
+#             pass
+#     ax.annotate(
+#         'USG bonus',
+#         xy=('2020-03-15', 23275.12),
+#         xytext=(20, 0),
+#         textcoords='offset points',
+#         arrowprops=dict(arrowstyle="->")
+#     )
+    ax.xaxis.set_major_locator(MonthLocator())
+    ax.xaxis.set_minor_locator(NullLocator())
+    ax.xaxis.set_major_formatter(DateFormatter('%m'))
+    ax.xaxis.set_minor_formatter(NullFormatter())
     ax.legend(frameon=False)
-    ds.format_dates(fig, ax)
-    despine(ax)
-    fig.savefig(file_name_graph, format='svg')
+    return ax
 
 
-def despine(ax: axes.Axes) -> Tuple[plt.figure, axes.Axes]:
-    """
-    Remove the top and right spines of a graph.
-
-    Parameters
-    ----------
-    ax : axes.Axes
-
-    Example
-    -------
-    >>> despine(ax)
-    """
-
-    for spine in 'right', 'top':
-        ax.spines[spine].set_visible(False)
-
-
-def regression(
-    data: pd.DataFrame,
-    model: str,
-    columnx: str,
-    columnactual: str,
-    columnpredicted: str
-) -> pd.DataFrame:
-    """
-    Estimate a regression line.
-
-    Parameters
-    ----------
-    data : pd.DataFrame
-    model : str
-    columnx : str
-    columnactual : str
-    columnpredicted : str
-
-    Returns
-    data : pd.DataFrame
-
-    Example
-    # TODO
-    create an example for regression
-    x generate 42 integers 1 to 42, increments of 1
-    y generate y = mx + b
-    where b = 69, m = 13
-    ysubi = b +/- loc 69 scale 7 + m +/- loc 13 scale 4 * x
-    """
-    data['DateDelta'] = (data[columnx] - data[columnx].min())\
-        / np.timedelta64(1, 'D')
-    if model == 'linear':
-        model = sm.OLS(
-            endog=data[columnactual],
-            exog=sm.add_constant(data['DateDelta']),
-            missing='drop'
-        ).fit()
-        data[columnpredicted] = model.fittedvalues
-    else:
-        # TODO: quadratic, cubic, etc.
-        print('Feature not implemented.')
+def regression(data: pd.DataFrame) -> pd.DataFrame:
+    '''
+    Estimate a linear regression line
+    Y is a float
+    X is a datetime64ns
+    Convert X to a float with first value set to 0 number of days between
+    subsequent values
+    '''
+    data['DateDelta'] = (data['Date'] - data['Date']
+                         .min())/np.timedelta64(1, 'D')
+    model = sm.OLS(
+        data['ActualBalance'],
+        sm.add_constant(data['DateDelta']),
+        missing='drop'
+    ).fit()
+    data['Predicted'] = model.fittedvalues
     return data
 
 
