@@ -32,15 +32,17 @@ column_x, column_target, column_actual, column_predicted = (
     'ActualBalance',
     'Predicted'
 )
-file_name_graph = 'actual_vs_target.svg'
+file_name_data, file_name_graph = (
+    'actual_vs_target.ods',
+    'actual_vs_target.svg'
+)
 chdir(Path(__file__).parent.__str__())
 
 
 def main():
-    data = pd.read_excel(
-        'actual_vs_target.ods',
-        engine='odf',
-        parse_dates=['Date']
+    data = ds.read_file(
+        file_name=file_name_data,
+        date_time_columns=[column_x]
     )
     data = regression(
         data=data,
