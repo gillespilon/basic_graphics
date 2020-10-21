@@ -12,31 +12,27 @@ time -f '%e' ./line_plot_actual_vs_target.py
 """
 
 from pathlib import Path
-from typing import Tuple
 from os import chdir
 
-from matplotlib.ticker import NullFormatter, NullLocator
-from matplotlib.dates import DateFormatter, MonthLocator
-import matplotlib.pyplot as plt
-import matplotlib.axes as axes
 import statsmodels.api as sm
 import datasense as ds
 import pandas as pd
 import numpy as np
 
 
-figure_width_height = (8, 6)
-colour1 = '#0077bb'
-colour2 = '#33bbee'
-colour3 = '#009988'
+x_axis_label, y_axis_label, axis_title, figsize = (
+    'Date',
+    'USD',
+    'Savings Target vs Actual',
+    (8, 6)
+)
 column_x, column_target, column_actual, column_predicted = (
     'Date',
     'TargetBalance',
     'ActualBalance',
     'Predicted'
 )
-
-
+file_name_graph = 'actual_vs_target.svg'
 chdir(Path(__file__).parent.__str__())
 
 
@@ -46,10 +42,6 @@ def main():
         engine='odf',
         parse_dates=['Date']
     )
-    x_axis_label, y_axis_label, axis_title = (
-        'Date', 'USD',
-        'Savings Target vs Actual'
-    )
     data = regression(
         data=data,
         model='linear',
@@ -57,64 +49,39 @@ def main():
         column_actual=column_actual,
         column_predicted=column_predicted
     )
-    ax = plot_three_lines(
-        data,
-        axis_title,
-        x_axis_label,
-        y_axis_label,
-        figure_width_height
+    fig, ax = ds.plot_line_line_line_x_y1_y2_y3(
+        X=data[column_x],
+        y1=data[column_target],
+        y2=data[column_actual],
+        y3=data[column_predicted],
+        figsize=figsize,
+        labellegendy1=column_target,
+        labellegendy2=column_actual,
+        labellegendy3=column_predicted
     )
-    ds.despine(ax)
-    ax.figure.savefig('actual_vs_target.svg', format='svg')
-    ax.figure.savefig('actual_vs_target.png', format='png')
-
-
-def plot_three_lines(
-    data: pd.DataFrame,
-    axis_title: str,
-    x_axis_label: str,
-    y_axis_label: str,
-    figure_width_height: Tuple[int, int]
-) -> axes.Axes:
-    '''
-    Create three line plots:
-    - Target vs date
-    - Actual vs date
-    - Predicted vs date
-    '''
-    fig = plt.figure(figsize=figure_width_height)
-    ax = fig.add_subplot(111)
-    ax.plot(
-        data['Date'],
-        data['TargetBalance'],
-        label='TargetBalance',
-        linestyle='-',
-        color=colour1
+    ax.set_title(
+        label=axis_title,
+        fontweight='bold'
     )
-    ax.plot(
-        data['Date'],
-        data['ActualBalance'],
-        label='ActualBalance',
-        linestyle='-',
-        color=colour2,
-        marker='.'
+    ax.set_xlabel(
+        xlabel=x_axis_label,
+        fontweight='bold'
     )
-    ax.plot(
-        data['Date'],
-        data['Predicted'],
-        label='Predicted',
-        linestyle='-',
-        color=colour3
+    ax.set_ylabel(
+        ylabel=y_axis_label,
+        fontweight='bold'
     )
-    ax.set_title(axis_title, fontweight='bold')
-    ax.set_xlabel(x_axis_label, fontweight='bold')
-    ax.set_ylabel(y_axis_label, fontweight='bold')
-    ax.xaxis.set_major_locator(MonthLocator())
-    ax.xaxis.set_minor_locator(NullLocator())
-    ax.xaxis.set_major_formatter(DateFormatter('%m'))
-    ax.xaxis.set_minor_formatter(NullFormatter())
     ax.legend(frameon=False)
-    return ax
+    ds.format_dates(fig, ax)
+#     ax = plot_three_lines(
+#         data,
+#         axis_title,
+#         x_axis_label,
+#         y_axis_label,
+#         figure_width_height
+#     )
+    ds.despine(ax)
+    fig.savefig(file_name_graph, format='svg')
 
 
 def regression(
