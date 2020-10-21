@@ -75,13 +75,6 @@ def main():
     )
     ax.legend(frameon=False)
     ds.format_dates(fig, ax)
-#     ax = plot_three_lines(
-#         data,
-#         axis_title,
-#         x_axis_label,
-#         y_axis_label,
-#         figure_width_height
-#     )
     ds.despine(ax)
     fig.savefig(file_name_graph, format='svg')
 
