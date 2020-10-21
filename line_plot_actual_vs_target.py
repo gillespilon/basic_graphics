@@ -28,7 +28,13 @@ import numpy as np
 figure_width_height = (8, 6)
 colour1 = '#0077bb'
 colour2 = '#33bbee'
-colour3  = '#009988'
+colour3 = '#009988'
+column_x, column_target, column_actual, column_predicted = (
+    'Date',
+    'TargetBalance',
+    'ActualBalance',
+    'Predicted'
+)
 
 
 chdir(Path(__file__).parent.__str__())
@@ -44,7 +50,13 @@ def main():
         'Date', 'USD',
         'Savings Target vs Actual'
     )
-    data = regression(data)
+    data = regression(
+        data=data,
+        model='linear',
+        column_x=column_x,
+        column_actual=column_actual,
+        column_predicted=column_predicted
+    )
     ax = plot_three_lines(
         data,
         axis_title,
@@ -97,25 +109,6 @@ def plot_three_lines(
     ax.set_title(axis_title, fontweight='bold')
     ax.set_xlabel(x_axis_label, fontweight='bold')
     ax.set_ylabel(y_axis_label, fontweight='bold')
-#     for row, text in enumerate(data['Annotation']):
-#         print(type(data['Annotation']))
-#         ax.annotate(text, (data['Date'][row],
-#                            data['ActualBalance'][row]),
-#                     xytext=(20, 0),
-#                     textcoords='offset points',
-#                     arrowprops=dict(arrowstyle="->"))
-#     for item in data['Annotation']:
-#         if item != np.nan :
-#             print(item)
-#         else:
-#             pass
-#     ax.annotate(
-#         'USG bonus',
-#         xy=('2020-03-15', 23275.12),
-#         xytext=(20, 0),
-#         textcoords='offset points',
-#         arrowprops=dict(arrowstyle="->")
-#     )
     ax.xaxis.set_major_locator(MonthLocator())
     ax.xaxis.set_minor_locator(NullLocator())
     ax.xaxis.set_major_formatter(DateFormatter('%m'))
@@ -124,13 +117,33 @@ def plot_three_lines(
     return ax
 
 
-def regression(data: pd.DataFrame) -> pd.DataFrame:
+def regression(
+    data: pd.DataFrame,
+    model: str,
+    column_x: str,
+    column_actual: str,
+    column_predicted: str
+) -> pd.DataFrame:
     '''
-    Estimate a linear regression line
-    Y is a float
-    X is a datetime64ns
-    Convert X to a float with first value set to 0 number of days between
-    subsequent values
+    Estimate a linear regression line.
+
+    Parameters
+    ----------
+    data : pd.DataFrame
+        The dataframe.
+    model : str
+        The type of regression.
+    column_x : str
+        The absicssa of the model.
+    column_actual : str
+        The ordinate of the model.
+    column_predicted : str
+        The predicted ordinate of the model.
+
+    Returns
+    -------
+    df : pd.DataFrame
+        The dataframe with predicted results.
     '''
     data['DateDelta'] = (data['Date'] - data['Date']
                          .min())/np.timedelta64(1, 'D')
