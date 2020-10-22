@@ -6,6 +6,7 @@ Errorbar survery analysis
 """
 
 import time
+import math
 
 import matplotlib.pyplot as plt
 import datasense as ds
@@ -75,34 +76,44 @@ def main():
         ax.errorbar(
             ['1', '2'],
             [no, yes],
-            yerr=0.1,
+            yerr=[
+                1.96 * math.sqrt(no * (1 - no) /
+                                 (y.value_counts()[1] + y.value_counts()[2])),
+                1.96 * math.sqrt(yes * (1 - yes) /
+                                 (y.value_counts()[1] + y.value_counts()[2]))
+            ],
             ls='None',
             marker='o',
             color='b',
             ecolor='r',
-            markersize=8
+            markersize=4
         )
         ax.set_xlim(-1, 2)
-        ax.set_ylim(0, 1)
+        # ax.set_ylim(0, 1)
         ax.set_xlabel(xlabel='Answer', fontweight='bold', fontsize=12)
         ax.set_ylabel(ylabel='Proportion', fontweight='bold', fontsize=12)
         ax.set_xticks(['1', '2'])
         ax.set_xticklabels(['no', 'yes'])
         fig.suptitle(
             t=f'Question {question_number}\n{question}',
-            fontweight='bold',
-            fontsize=15
+            fontweight='bold', fontsize=15
         )
-        for item, x, y in zip(
-            [y.value_counts()[1],
-             y.value_counts()[2]],
+        for proportion, count, x, y in zip(
+            [y.value_counts('1')[1], y.value_counts('2')[2]],
+            [y.value_counts()[1], y.value_counts()[2]],
             ['1', '2'],
             [no, yes]
         ):
             ax.annotate(
-                text=item,
+                text=f'p = {proportion}',
                 xy=(x, y),
-                xytext=(10, 0),
+                xytext=(10, 5),
+                textcoords="offset points"
+            )
+            ax.annotate(
+                text=f'n = {count}',
+                xy=(x, y),
+                xytext=(10, -5),
                 textcoords="offset points"
             )
         ds.despine(ax)
