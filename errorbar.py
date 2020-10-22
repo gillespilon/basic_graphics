@@ -74,15 +74,15 @@ def main():
         fig = plt.figure(figsize=figsize)
         ax = fig.add_subplot(111)
         ax.errorbar(
-            ['1', '2'],
-            [no, yes],
+            x=['1', '2'],
+            y=[no, yes],
             yerr=[
                 1.96 * math.sqrt(no * (1 - no) /
                                  (y.value_counts()[1] + y.value_counts()[2])),
                 1.96 * math.sqrt(yes * (1 - yes) /
                                  (y.value_counts()[1] + y.value_counts()[2]))
             ],
-            ls='None',
+            linestyle='None',
             marker='o',
             color='b',
             ecolor='r',
