@@ -76,7 +76,10 @@ def main():
     ax.legend(frameon=False)
     ds.format_dates(fig, ax)
     ds.despine(ax)
-    fig.savefig(file_name_graph, format='svg')
+    fig.savefig(
+        fname=file_name_graph,
+        format='svg'
+    )
 
 
 def regression(
