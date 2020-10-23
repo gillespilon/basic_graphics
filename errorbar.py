@@ -9,11 +9,14 @@ import time
 import math
 
 import matplotlib.pyplot as plt
+from scipy import stats
 import datasense as ds
+import pandas as pd
 
 
 def main():
     start_time = time.time()
+    size = 2000
     figsize = (8, 4.5)
     output_url = 'risk_survey.html'
     header_title = 'risk_survey'
@@ -43,7 +46,13 @@ def main():
         'Open capacity',
         'Cross-trained',
         'Disaster recovery define process',
-        'Additional capacity'
+        'Additional capacity',
+        'q25',
+        'q26',
+        'q27',
+        'q28',
+        'q29',
+        'q30'
     ]
     question_numbers = [
         1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,
@@ -51,7 +60,18 @@ def main():
         3.0, 3.11, 3.12, 3.2, 3.3, 3.4,
         4.0, 4.1, 4.2,
         5.0, 5.1,
-        6.0, 6.1, 6.2, 6.3
+        6.0, 6.1, 6.2, 6.3,
+        25, 26, 27, 28, 29, 30
+    ]
+    question_colum = [
+        'Q01', 'Q02', 'Q03', 'Q04', 'Q05', 'Q06', 'Q07', 'Q08', 'Q09', 'Q10',
+        'Q11', 'Q12', 'Q13', 'Q14', 'Q15', 'Q16', 'Q17', 'Q18', 'Q19', 'Q20',
+        'Q21', 'Q22', 'Q23', 'Q24', 'Q25', 'Q26', 'Q27', 'Q28', 'Q29', 'Q30',
+    ]
+    question_columns = [
+        'Q01', 'Q02', 'Q03', 'Q04', 'Q05', 'Q06', 'Q07', 'Q08', 'Q09', 'Q10',
+        'Q11', 'Q12', 'Q13', 'Q14', 'Q15', 'Q16', 'Q17', 'Q18', 'Q19', 'Q20',
+        'Q21', 'Q22', 'Q23', 'Q24', 'Q25', 'Q26', 'Q27', 'Q28', 'Q29', 'Q30',
     ]
     original_stdout = ds.html_begin(
         output_url=output_url,
@@ -60,27 +80,35 @@ def main():
     )
     print('<pre style="white-space: pre-wrap;">')
     print('This report is a mock-up.')
+    number_questions = len(question_numbers)
+    print('Number of questions: ', number_questions)
+    supplier = pd.Series(
+        data=list(range(1, size + 1, 1)),
+        name='Supplier'
+    )
+    data = create_dataframe(size=size)
+    data = pd.concat([data, supplier], axis=1)
     ds.page_break()
-    for question, question_number in zip(questions, question_numbers):
-        y = ds.random_data(
-            distribution='randint',
-            size=2000,
-            low=1,
-            high=3,
-            scale=1
-        )
-        no = y.value_counts('1')[1]
-        yes = y.value_counts(['2'])[2]
+    for question, question_number, question_column in\
+            zip(questions, question_numbers, question_columns):
+        no = data[question_column].value_counts('1')[1]
+        yes = data[question_column].value_counts(['2'])[2]
         fig = plt.figure(figsize=figsize)
         ax = fig.add_subplot(111)
         ax.errorbar(
             x=['1', '2'],
             y=[no, yes],
             yerr=[
-                1.96 * math.sqrt(no * (1 - no) /
-                                 (y.value_counts()[1] + y.value_counts()[2])),
-                1.96 * math.sqrt(yes * (1 - yes) /
-                                 (y.value_counts()[1] + y.value_counts()[2]))
+                stats.t.isf(q=.025, df=size-2) *
+                math.sqrt(no * (1 - no) / (
+                    data[question_column].value_counts()[1] +
+                    data[question_column].value_counts()[2]
+                )),
+                stats.t.isf(q=.025, df=size-2) *
+                math.sqrt(yes * (1 - yes) / (
+                    data[question_column].value_counts()[1] +
+                    data[question_column].value_counts()[2]
+                ))
             ],
             linestyle='None',
             marker='o',
@@ -99,8 +127,14 @@ def main():
             fontweight='bold', fontsize=15
         )
         for proportion, count, x, y in zip(
-            [y.value_counts('1')[1], y.value_counts('2')[2]],
-            [y.value_counts()[1], y.value_counts()[2]],
+            [
+                data[question_column].value_counts('1')[1],
+                data[question_column].value_counts('2')[2]
+            ],
+            [
+                data[question_column].value_counts()[1],
+                data[question_column].value_counts()[2]
+            ],
             ['1', '2'],
             [no, yes]
         ):
@@ -134,6 +168,224 @@ def main():
         original_stdout=original_stdout,
         output_url=output_url
     )
+
+
+def create_dataframe(size: int) -> pd.DataFrame:
+    df = pd.DataFrame(
+        {
+            'Q01': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q02': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q03': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q04': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q05': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q06': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q07': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q08': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q09': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q10': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q11': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q12': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q13': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q14': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q15': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q16': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q17': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q18': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q19': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q20': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q21': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q22': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q23': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q24': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q25': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q26': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q27': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q28': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q29': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+            'Q30': ds.random_data(
+                distribution='randint',
+                size=size,
+                low=1,
+                high=3,
+                scale=1
+            ),
+        }
+    )
+    return df
 
 
 if __name__ == '__main__':
