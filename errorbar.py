@@ -151,7 +151,10 @@ def main():
                 textcoords="offset points"
             )
         ds.despine(ax)
-        fig.savefig(f'{graph_file_name}_{question_number}.svg', format='svg')
+        fig.savefig(
+            fname=f'{graph_file_name}_{question_number}.svg',
+            format='svg'
+        )
         print(
             f'<p><img src="{graph_file_name}_'
             f'{question_number}.svg"/></p>'
