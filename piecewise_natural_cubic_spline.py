@@ -30,8 +30,6 @@ The graphs can be viewed with the view_spline_graphs.html file created.
 
 from multiprocessing import Pool
 from typing import List, Tuple
-from shutil import rmtree
-from pathlib import Path
 import time
 
 import datasense as ds
@@ -46,7 +44,7 @@ def main():
     file_names, targets, features, number_knots, graphics_directory, \
         figsize, x_axis_label, y_axis_label, axis_title, \
         date_time_parser, output_url, header_title, header_id = parameters()
-    set_up_graphics_directory(graphics_directory)
+    ds.set_up_graphics_directory(graphics_directory)
     original_stdout = ds.html_begin(
         output_url=output_url,
         header_title=header_title,
@@ -112,9 +110,9 @@ def parameters(
     str,
     str
 ):
-    '''
+    """
     Set parameters.
-    '''
+    """
 
     parameters = ds.read_file(
         file_name='piecewise_natural_cubic_spline_parameters.ods'
@@ -138,36 +136,6 @@ def parameters(
         figsize, xaxislabel, yaxislabel, axistitle,
         datetimeparser, output_url, header_title, header_id
     )
-
-
-def summary(
-    elapsedtime: float,
-    file_names: List[str],
-    targets: List[str],
-    features: List[str],
-    number_knots: List[int]
-) -> None:
-    '''
-    Print report summary.
-    '''
-
-    print('<h1>Report summary</h1>')
-    print(f'Execution time : {elapsedtime:.3f} s')
-    print(f'Files read     : {file_names}')
-    print(f'Targets        : {targets}')
-    print(f'Features       : {features}')
-    print(f'Number of knots: {number_knots}')
-
-
-def set_up_graphics_directory(graphdir: str) -> None:
-    '''
-    Create an empty directory
-    '''
-    try:
-        rmtree(graphdir)
-    except Exception:
-        pass
-    Path(graphdir).mkdir(parents=True, exist_ok=True)
 
 
 def plot_scatter_line(
