@@ -182,7 +182,10 @@ def plot_graph(
     ax.set_xlabel(xaxislabel, fontweight='bold')
     ax.set_ylabel(yaxislabel, fontweight='bold')
     despine(ax)
-    fig.savefig(f'{graphname}.svg', format='svg')
+    fig.savefig(
+        fname=f'{graphname}.svg',
+        format='svg'
+    )
 
 
 if __name__ == '__main__':
