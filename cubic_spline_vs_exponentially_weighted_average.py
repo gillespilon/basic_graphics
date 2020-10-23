@@ -132,8 +132,8 @@ def plot_graph(
     yaxislabel: str,
     xaxislabel: str
 ) -> None:
-    figure_width_height = (8, 6)
-    fig = plt.figure(figsize=figure_width_height)
+    figszie = (8, 6)
+    fig = plt.figure(figsize=figsize)
     ax = fig.add_subplot(111)
     ax.plot(
         df[columnx],
@@ -154,7 +154,10 @@ def plot_graph(
     ax.set_ylabel(yaxislabel, fontweight='bold')
     despine(ax)
     file = filename.strip('.csv')
-    fig.savefig(f'{graphname}_{file}.png', format='png')
+    fig.savefig(
+        fname=f'{graphname}_{file}.png',
+        format='png'
+    )
 
 
 def cs(
