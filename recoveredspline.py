@@ -29,7 +29,10 @@ def main():
     print(type(y2))
     ax = cubic_spline(x1, y1, x2, y2, x_axis_label, y_axis_label, axis_title)
     despine(ax)
-    ax.figure.savefig('cubic_spline.svg', format='svg')
+    ax.figure.savefig(
+        fname='cubic_spline.svg',
+        format='svg'
+    )
 
 
 def despine(ax: axes.Axes) -> None:
