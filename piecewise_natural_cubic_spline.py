@@ -32,10 +32,8 @@ from multiprocessing import Pool
 from typing import List, Tuple
 from shutil import rmtree
 from pathlib import Path
-import itertools
 import time
 
-import matplotlib.axes as axes
 import datasense as ds
 import pandas as pd
 # import ezgmail
@@ -77,10 +75,11 @@ def main():
                 f'{target}_{feature}_{knot}.svg"/></p>'
             )
     stop_time = time.time()
-    elapsed_time = stop_time - start_time
-    summary(
-        elapsedtime=elapsed_time,
-        file_names=file_names,
+    ds.page_break()
+    ds.report_summary(
+        start_time=start_time,
+        stop_time=stop_time,
+        read_file_names=file_names,
         targets=targets,
         features=features,
         number_knots=number_knots
