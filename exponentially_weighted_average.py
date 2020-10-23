@@ -24,10 +24,10 @@ import time
 
 def main():
     start_time = time.time()
-    global figure_width_height, date_time_parser
+    global figsize, date_time_parser
     file_names, graph_file_names, abscissa_names, ordinate_names,\
         ordinate_predicted_names, x_axis_label, y_axis_label, axis_title,\
-        figure_width_height, column_names_sort, date_time_parser,\
+        figsize, column_names_sort, date_time_parser,\
         date_formatter, alpha_value, function, output_url,\
         header_title, header_id, parser = parameters()
     original_stdout = ds.html_begin(
@@ -56,16 +56,18 @@ def main():
     ):
         if datetimeparser == 'None':
             data = ds.read_file(
-                filename=filename,
-                abscissa=abscissaname,
-                columnnamessort=columnnamessort
+                file_name=filename,
+                # parse_dates=abscissaname,
+                sort_columns=columnnamessort,
+                sort_columns_bool=True
             )
         else:
             data = ds.read_file(
-                filename=filename,
-                abscissa=abscissaname,
-                datetimeparser=parser,
-                columnnamessort=columnnamessort
+                file_name=filename,
+                # parse_dates=[abscissaname],
+                # date_parser=parser,
+                sort_columns=columnnamessort,
+                sort_columns_bool=True
             )
         data[ordinatepredictedname] = data[ordinatename]\
             .ewm(alpha=alpha_value).mean()
@@ -73,13 +75,16 @@ def main():
             X=data[abscissaname],
             y1=data[ordinatename],
             y2=data[ordinatepredictedname],
-            figuresize=figure_width_height
+            figsize=figsize
         )
         ax.set_title(axis_title, fontweight='bold')
         ax.set_xlabel(x_axis_label, fontweight='bold')
         ax.set_ylabel(y_axis_label, fontweight='bold')
         despine(ax)
-        fig.savefig(f'{graphfilename}.svg', format='svg')
+        fig.savefig(
+            fname=f'{graphfilename}.svg',
+            format='svg'
+        )
         print(f'<p><img src="{graphfilename}.svg"/></p>')
     page_break()
     stop_time = time.time()
@@ -121,7 +126,7 @@ def parameters() -> (
     '''
 
     parameters = ds.read_file(
-        filename='exponentially_weighted_average_parameters.ods'
+        file_name='exponentially_weighted_average_parameters.ods'
     )
     filenames = [x for x in parameters['File names'] if str(x) != 'nan']
     graphfilenames = [x for x in parameters['Graph file names']
