@@ -211,7 +211,7 @@ def plot_scatter_line(
     ax.set_ylabel(y_axis_label)
     ds.despine(ax)
     fig.savefig(
-        f'{graphics_directory}'
+        fname=f'{graphics_directory}'
         f'/spline_'
         f'{file.strip(".csv")}_'
         f'{target}_{feature}_'
