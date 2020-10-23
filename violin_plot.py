@@ -29,7 +29,9 @@ ax.violinplot(
         data,
         showmedians=True
         )
-fig.savefig('violinplot_from_ndarrays.svg')
+fig.savefig(
+    fname='violinplot_from_ndarrays.svg'
+)
 # use pd.DataFrame
 data2 = pd.DataFrame(data=[nparray1, nparray2, nparray3, nparray4]).T
 data2.columns = ['a', 'b', 'c', 'd']
@@ -39,4 +41,6 @@ ax.violinplot(
         [data2['a'], data2['b'], data2['c'], data2['d']],
         showmedians=True
         )
-fig.savefig('violinplot_from_dataframe.svg')
+fig.savefig(
+    fname='violinplot_from_dataframe.svg'
+)
