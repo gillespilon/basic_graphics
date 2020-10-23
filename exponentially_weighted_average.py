@@ -35,8 +35,9 @@ def main():
         header_title=header_title,
         header_id=header_id
     )
+    print('<pre style="white-space: pre-wrap;">')
     for (
-        filename,
+        file_name,
         abscissaname,
         ordinatename,
         ordinatepredictedname,
@@ -56,14 +57,14 @@ def main():
     ):
         if datetimeparser == 'None':
             data = ds.read_file(
-                file_name=filename,
+                file_name=file_name,
                 # parse_dates=abscissaname,
                 sort_columns=columnnamessort,
                 sort_columns_bool=True
             )
         else:
             data = ds.read_file(
-                file_name=filename,
+                file_name=file_name,
                 # parse_dates=[abscissaname],
                 # date_parser=parser,
                 sort_columns=columnnamessort,
@@ -88,13 +89,14 @@ def main():
         print(f'<p><img src="{graphfilename}.svg"/></p>')
     page_break()
     stop_time = time.time()
-    elapsed_time = stop_time - start_time
-    summary(
-        elapsedtime=elapsed_time,
-        filenames=file_names,
-        ordinatenames=ordinate_names,
-        abscissanames=abscissa_names
+    ds.report_summary(
+        start_time=start_time,
+        stop_time=stop_time,
+        read_file_names=file_names,
+        targets=ordinate_names,
+        features=abscissa_names
     )
+    print('</pre>')
     ds.html_end(
         original_stdout=original_stdout,
         output_url=output_url
