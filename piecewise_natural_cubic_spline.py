@@ -38,7 +38,7 @@ import time
 import matplotlib.axes as axes
 import datasense as ds
 import pandas as pd
-import ezgmail
+# import ezgmail
 
 
 def main():
@@ -76,7 +76,6 @@ def main():
                 f'spline_{file_name.strip(".csv")}_'
                 f'{target}_{feature}_{knot}.svg"/></p>'
             )
-    page_break()
     stop_time = time.time()
     elapsed_time = stop_time - start_time
     summary(
@@ -140,15 +139,6 @@ def parameters(
         figsize, xaxislabel, yaxislabel, axistitle,
         datetimeparser, output_url, header_title, header_id
     )
-
-
-def page_break() -> None:
-    '''
-    Creates a page break for html output.
-    '''
-
-    print('<p style="page-break-after: always">')
-    print('<p style="page-break-before: always">')
 
 
 def summary(
