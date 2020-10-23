@@ -38,14 +38,14 @@ chdir(Path(__file__).parent.__str__())
 
 def main():
     data = ds.read_file(
-        filename=file_name_data,
-        abscissa=column_x
+        file_name=file_name_data,
+        parse_dates=column_x
     )
     fig, ax = ds.plot_line_line_x_y1_y2(
               X=data[column_x],
               y1=data[column_actual],
               y2=data[column_target],
-              figuresize=figure_width_height,
+              figsize=figure_width_height,
               labellegendy1=column_actual,
               labellegendy2=column_target,
               marker2=None,
@@ -56,7 +56,10 @@ def main():
     ax.set_ylabel(y_axis_label, fontweight='bold')
     ax.legend(frameon=False)
     despine(ax)
-    fig.savefig(file_name_graph, format='svg')
+    fig.savefig(
+        fname=file_name_graph,
+        format='svg'
+    )
 
 
 def despine(ax: axes.Axes) -> None:
