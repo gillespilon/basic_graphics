@@ -16,10 +16,10 @@ time -f '%e' ./exponentially_weighted_average.py
 """
 
 from typing import List, Tuple
+import time
 
 import matplotlib.axes as axes
 import datasense as ds
-import time
 
 
 def main():
@@ -87,7 +87,7 @@ def main():
             format='svg'
         )
         print(f'<p><img src="{graphfilename}.svg"/></p>')
-    page_break()
+    ds.page_break()
     stop_time = time.time()
     ds.report_summary(
         start_time=start_time,
@@ -183,15 +183,6 @@ def despine(ax: axes.Axes) -> None:
     """
     for spine in 'right', 'top':
         ax.spines[spine].set_visible(False)
-
-
-def page_break() -> None:
-    '''
-    Creates a page break for html output.
-    '''
-
-    print('<p style="page-break-after: always">')
-    print('<p style="page-break-before: always">')
 
 
 def summary(
