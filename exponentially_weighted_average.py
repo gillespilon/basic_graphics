@@ -40,7 +40,7 @@ def main():
         file_name,
         abscissa_name,
         ordinate_name,
-        ordinatepredictedname,
+        ordinate_predicted_name,
         datetimeparser,
         columnnamessort,
         dateformatter,
@@ -70,12 +70,12 @@ def main():
                 sort_columns=columnnamessort,
                 sort_columns_bool=True
             )
-        data[ordinatepredictedname] = data[ordinate_name]\
+        data[ordinate_predicted_name] = data[ordinate_name]\
             .ewm(alpha=alpha_value).mean()
         fig, ax = ds.plot_scatter_line_x_y1_y2(
             X=data[abscissa_name],
             y1=data[ordinate_name],
-            y2=data[ordinatepredictedname],
+            y2=data[ordinate_predicted_name],
             figsize=figsize
         )
         ax.set_title(axis_title, fontweight='bold')
@@ -137,7 +137,7 @@ def parameters() -> (
                      if str(x) != 'nan']
     ordinate_names = [x for x in parameters['Ordinate names']
                      if str(x) != 'nan']
-    ordinatepredictednames = [x for x in parameters['Ordinate predicted names']
+    ordinate_predicted_names = [x for x in parameters['Ordinate predicted names']
                               if str(x) != 'nan']
     xaxislabel = parameters['Other parameter values'][0]
     yaxislabel = parameters['Other parameter values'][1]
@@ -163,7 +163,7 @@ def parameters() -> (
     header_id = parameters['Other parameter values'][10]
     return (
         filenames, graphfilenames, abscissa_names, ordinate_names,
-        ordinatepredictednames, xaxislabel, yaxislabel, axistitle,
+        ordinate_predicted_names, xaxislabel, yaxislabel, axistitle,
         figurewidthheight, columnnamessort, datetimeparser, dateformatter,
         alphavalue, function, output_url, header_title, header_id, parser
     )
