@@ -38,7 +38,7 @@ def main():
     print('<pre style="white-space: pre-wrap;">')
     for (
         file_name,
-        abscissaname,
+        abscissa_name,
         ordinatename,
         ordinatepredictedname,
         datetimeparser,
@@ -58,14 +58,14 @@ def main():
         if datetimeparser == 'None':
             data = ds.read_file(
                 file_name=file_name,
-                # parse_dates=abscissaname,
+                # parse_dates=abscissa_name,
                 sort_columns=columnnamessort,
                 sort_columns_bool=True
             )
         else:
             data = ds.read_file(
                 file_name=file_name,
-                # parse_dates=[abscissaname],
+                # parse_dates=[abscissa_name],
                 # date_parser=parser,
                 sort_columns=columnnamessort,
                 sort_columns_bool=True
@@ -73,7 +73,7 @@ def main():
         data[ordinatepredictedname] = data[ordinatename]\
             .ewm(alpha=alpha_value).mean()
         fig, ax = ds.plot_scatter_line_x_y1_y2(
-            X=data[abscissaname],
+            X=data[abscissa_name],
             y1=data[ordinatename],
             y2=data[ordinatepredictedname],
             figsize=figsize
@@ -133,7 +133,7 @@ def parameters() -> (
     filenames = [x for x in parameters['File names'] if str(x) != 'nan']
     graphfilenames = [x for x in parameters['Graph file names']
                       if str(x) != 'nan']
-    abscissanames = [x for x in parameters['Abscissa names']
+    abscissa_names = [x for x in parameters['Abscissa names']
                      if str(x) != 'nan']
     ordinatenames = [x for x in parameters['Ordinate names']
                      if str(x) != 'nan']
@@ -162,7 +162,7 @@ def parameters() -> (
     header_title = parameters['Other parameter values'][9]
     header_id = parameters['Other parameter values'][10]
     return (
-        filenames, graphfilenames, abscissanames, ordinatenames,
+        filenames, graphfilenames, abscissa_names, ordinatenames,
         ordinatepredictednames, xaxislabel, yaxislabel, axistitle,
         figurewidthheight, columnnamessort, datetimeparser, dateformatter,
         alphavalue, function, output_url, header_title, header_id, parser
@@ -173,7 +173,7 @@ def summary(
     elapsedtime: float,
     filenames: List[str],
     ordinatenames: List[str],
-    abscissanames: List[str]
+    abscissa_names: List[str]
 ) -> None:
     '''
     Print report summary.
@@ -183,7 +183,7 @@ def summary(
     print(f'Execution time : {elapsedtime:.3f} s')
     print(f'Files read     : {filenames}')
     print(f'Orindates      : {ordinatenames}')
-    print(f'Abscissas      : {abscissanames}')
+    print(f'Abscissas      : {abscissa_names}')
 
 
 if __name__ == '__main__':
