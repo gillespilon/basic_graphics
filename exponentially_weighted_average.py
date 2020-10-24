@@ -15,10 +15,10 @@ time -f '%e' ./exponentially_weighted_average.py
 ./exponentially_weighted_average.py
 """
 
-from typing import List, Tuple
+from typing import Callable, List, Tuple
+import datetime
 import time
 
-import matplotlib.axes as axes
 import datasense as ds
 
 
@@ -58,15 +58,13 @@ def main():
         if date_time_parser == 'None':
             data = ds.read_file(
                 file_name=file_name,
-                # parse_dates=abscissa_name,
                 sort_columns=column_names_sort,
                 sort_columns_bool=True
             )
         else:
             data = ds.read_file(
                 file_name=file_name,
-                # parse_dates=[abscissa_name],
-                # date_parser=parser,
+                date_time_columns=[abscissa_name],
                 sort_columns=column_names_sort,
                 sort_columns_bool=True
             )
@@ -132,30 +130,32 @@ def parameters() -> (
     )
     filenames = [x for x in parameters['File names'] if str(x) != 'nan']
     graph_file_names = [x for x in parameters['Graph file names']
-                      if str(x) != 'nan']
+                        if str(x) != 'nan']
     abscissa_names = [x for x in parameters['Abscissa names']
-                     if str(x) != 'nan']
+                      if str(x) != 'nan']
     ordinate_names = [x for x in parameters['Ordinate names']
-                     if str(x) != 'nan']
-    ordinate_predicted_names = [x for x in parameters['Ordinate predicted names']
-                              if str(x) != 'nan']
+                      if str(x) != 'nan']
+    ordinate_predicted_names = [
+        x for x in parameters['Ordinate predicted names']
+        if str(x) != 'nan'
+    ]
     xaxislabel = parameters['Other parameter values'][0]
     yaxislabel = parameters['Other parameter values'][1]
     axistitle = parameters['Other parameter values'][2]
     figurewidthheight = eval(parameters['Other parameter values'][3])
     column_names_sort = [x for x in parameters['Column names sort']
-                       if str(x) != 'nan']
+                         if str(x) != 'nan']
     date_time_parser = [x for x in parameters['Date time parser']
-                      if str(x) != 'nan']
+                        if str(x) != 'nan']
     parser = parameters['Other parameter values'][4]
     date_formatter = [None
-                     if split.strip() == 'None' else
-                     split.strip()
-                     for unsplit
-                     in parameters['Date formatter']
-                     if str(unsplit) != 'nan'
-                     for split
-                     in unsplit.split(',')]
+                      if split.strip() == 'None' else
+                      split.strip()
+                      for unsplit
+                      in parameters['Date formatter']
+                      if str(unsplit) != 'nan'
+                      for split
+                      in unsplit.split(',')]
     alphavalue = parameters['Other parameter values'][6]
     function = parameters['Other parameter values'][7]
     output_url = parameters['Other parameter values'][8]
@@ -184,6 +184,10 @@ def summary(
     print(f'Files read     : {filenames}')
     print(f'Orindates      : {ordinate_names}')
     print(f'Abscissas      : {abscissa_names}')
+
+
+def date_parser() -> Callable:
+    return lambda s: datetime.strptime(s, '%Y-%m-%d %H:%M:%S')
 
 
 if __name__ == '__main__':
