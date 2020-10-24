@@ -44,7 +44,7 @@ def main():
         date_time_parser,
         column_names_sort,
         date_formatter,
-        graphfilename
+        graph_file_name
     ) in zip(
         file_names,
         abscissa_names,
@@ -83,10 +83,10 @@ def main():
         ax.set_ylabel(y_axis_label, fontweight='bold')
         ds.despine(ax)
         fig.savefig(
-            fname=f'{graphfilename}.svg',
+            fname=f'{graph_file_name}.svg',
             format='svg'
         )
-        print(f'<p><img src="{graphfilename}.svg"/></p>')
+        print(f'<p><img src="{graph_file_name}.svg"/></p>')
     ds.page_break()
     stop_time = time.time()
     ds.report_summary(
@@ -131,7 +131,7 @@ def parameters() -> (
         file_name='exponentially_weighted_average_parameters.ods'
     )
     filenames = [x for x in parameters['File names'] if str(x) != 'nan']
-    graphfilenames = [x for x in parameters['Graph file names']
+    graph_file_names = [x for x in parameters['Graph file names']
                       if str(x) != 'nan']
     abscissa_names = [x for x in parameters['Abscissa names']
                      if str(x) != 'nan']
@@ -162,7 +162,7 @@ def parameters() -> (
     header_title = parameters['Other parameter values'][9]
     header_id = parameters['Other parameter values'][10]
     return (
-        filenames, graphfilenames, abscissa_names, ordinate_names,
+        filenames, graph_file_names, abscissa_names, ordinate_names,
         ordinate_predicted_names, xaxislabel, yaxislabel, axistitle,
         figurewidthheight, column_names_sort, date_time_parser, date_formatter,
         alphavalue, function, output_url, header_title, header_id, parser
