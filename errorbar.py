@@ -155,10 +155,7 @@ def main():
             fname=f'{graph_file_name}_{question_number}.svg',
             format='svg'
         )
-        print(
-            f'<p><img src="{graph_file_name}_'
-            f'{question_number}.svg"/></p>'
-        )
+        ds.html_figure(file_name=f'{graph_file_name}_{question_number}.svg')
         plt.close()
     stop_time = time.time()
     ds.page_break()
