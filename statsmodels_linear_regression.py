@@ -73,7 +73,7 @@ def main():
         fname='y_vs_x.svg',
         format='svg'
     )
-    print('<p><img src="y_vs_x.svg" alt="y_vs_x.svg"/></p>')
+    ds.html_figure(file_name='y_vs_x.svg')
     ds.html_end(
         original_stdout=original_stdout,
         output_url=output_url
