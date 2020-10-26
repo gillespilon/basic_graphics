@@ -72,11 +72,6 @@ def main():
                           f'spline_{file_name.strip(".csv")}_'
                           f'{target}_{feature}_{knot}.svg'
             )
-            # print(
-            #     f'<p><img src="{graphics_directory}/'
-            #     f'spline_{file_name.strip(".csv")}_'
-            #     f'{target}_{feature}_{knot}.svg"/></p>'
-            # )
     stop_time = time.time()
     ds.page_break()
     ds.report_summary(
