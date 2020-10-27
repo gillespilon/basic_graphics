@@ -42,7 +42,7 @@ chdir(Path(__file__).parent.__str__())
 def main():
     data = ds.read_file(
         file_name=file_name_data,
-        date_time_columns=[column_x]
+        parse_dates=[column_x]
     )
     data = regression(
         data=data,
