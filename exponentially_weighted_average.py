@@ -169,23 +169,6 @@ def parameters() -> (
     )
 
 
-def summary(
-    elapsedtime: float,
-    filenames: List[str],
-    ordinate_names: List[str],
-    abscissa_names: List[str]
-) -> None:
-    '''
-    Print report summary.
-    '''
-
-    print('<h1>Report summary</h1>')
-    print(f'Execution time : {elapsedtime:.3f} s')
-    print(f'Files read     : {filenames}')
-    print(f'Orindates      : {ordinate_names}')
-    print(f'Abscissas      : {abscissa_names}')
-
-
 def date_parser() -> Callable:
     return lambda s: datetime.strptime(s, '%Y-%m-%d %H:%M:%S')
 
