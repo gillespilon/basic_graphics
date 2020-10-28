@@ -94,7 +94,7 @@ def main():
         )
         data = ds.dataframe_info(
             df=data,
-            filein=filename
+            file_in=filename
         )
         if datetimeparser is True:
             data[abscissaname] = pd.to_numeric(data[abscissaname])
