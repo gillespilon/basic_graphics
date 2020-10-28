@@ -55,27 +55,11 @@ def main():
     ax.set_xlabel(x_axis_label, fontweight='bold')
     ax.set_ylabel(y_axis_label, fontweight='bold')
     ax.legend(frameon=False)
-    despine(ax)
+    ds.despine(ax)
     fig.savefig(
         fname=file_name_graph,
         format='svg'
     )
-
-
-def despine(ax: axes.Axes) -> None:
-    """
-    Remove the top and right spines of a graph.
-
-    Parameters
-    ----------
-    ax : axes.Axes
-
-    Example
-    -------
-    >>> despine(ax)
-    """
-    for spine in 'right', 'top':
-        ax.spines[spine].set_visible(False)
 
 
 if __name__ == '__main__':
