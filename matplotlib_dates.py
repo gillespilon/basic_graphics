@@ -195,7 +195,7 @@ def plot_pretty(
     figuretitle: str = None,
     axistitle: str = None
 ) -> None:
-    despine(ax)
+    ds.despine(ax)
     fig.suptitle(figuretitle, fontweight='bold', fontsize=16)
     ax.set_title(axistitle, fontweight='bold')
     ax.set_xlabel(abscissalabel, fontweight='bold')
@@ -229,7 +229,7 @@ def plot_line_two_subplots(
         dataframe[columny],
         color=colour1
     )
-    despine(ax1)
+    ds.despine(ax1)
     fig.suptitle(figuretitle, fontweight='bold', fontsize=16)
     ax1.set_title(axistitle, fontweight='bold')
     ax1.set_xlabel(xlabel, fontweight='bold')
@@ -243,7 +243,7 @@ def plot_line_two_subplots(
         dataframe[columny],
         color=colour1
     )
-    despine(ax2)
+    ds.despine(ax2)
     ax2.set_title(axistitle, fontweight='bold')
     ax2.set_xlabel(xlabel, fontweight='bold')
     ax2.set_ylabel(ylabel, fontweight='bold')
@@ -251,22 +251,6 @@ def plot_line_two_subplots(
         fname=filenamegraph,
         format='svg'
     )
-
-
-def despine(ax: axes.Axes) -> None:
-    """
-    Remove the top and right spines of a graph.
-
-    Parameters
-    ----------
-    ax : axes.Axes
-
-    Example
-    -------
-    >>> despine(ax)
-    """
-    for spine in 'right', 'top':
-        ax.spines[spine].set_visible(False)
 
 
 def str_to_datetime(strings: List[str]) -> List[datetime]:
