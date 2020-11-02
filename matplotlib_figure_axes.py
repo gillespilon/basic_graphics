@@ -62,22 +62,19 @@ def main():
         horizontalalignment='center',
         verticalalignment='top',
         fontsize=15,
-        fontweight='bold',
-        color='#000000'
+        fontweight='bold'
     )
     ax.set_ylabel(
         ylabel=y_axis_label,
         loc='center',
         fontsize=12,
-        fontweight='semibold',
-        color='#000000'
+        fontweight='semibold'
     )
     ax.set_xlabel(
         xlabel=x_axis_label,
         loc='center',
         fontsize=12,
-        fontweight='semibold',
-        color='#000000'
+        fontweight='semibold'
     )
     ax.set_title(
         label=axes_title,
@@ -85,8 +82,7 @@ def main():
         horizontalalignment='center',
         verticalalignment='top',
         fontsize=12,
-        fontweight='semibold',
-        color='#000000'
+        fontweight='semibold'
     )
     ds.format_dates(
         fig=fig,
