@@ -30,7 +30,7 @@ colour1 = '#0077bb'
 def main():
     pd.set_option('display.max_columns', 600)
     pd.set_option('display.max_rows', 600)
-    figure_width_height = (8, 6)
+    figsize = (8, 6)
     figure_title = 'Figure title'
     axis_title = 'Axis title'
     abscissa_label = 'abscissa'
@@ -90,7 +90,7 @@ def main():
     )
     # plot_line_two_subplots(
     #     data, column_abscissa, column_ordinate_one,
-    #     file_name_graph, figure_width_height, figure_title, axis_title,
+    #     file_name_graph, figsize, figure_title, axis_title,
     #     abscissa_label, ordinate_label
     # )
     # Test line plot x y, smoothing None
@@ -109,7 +109,7 @@ def main():
     fig, ax = ds.plot_scatter_x_y(
         X=data[column_abscissa_datetime_one],
         y=data[column_ordinate_one],
-        figuresize=figure_width_height
+        figsize=figsize
     )
     plot_pretty(
         fig,
@@ -172,7 +172,7 @@ def main():
     fig, ax = ds.plot_scatter_x_y(
         X=data[column_abscissa_datetime_one],
         y=data[column_ordinate_one],
-        figuresize=figure_width_height,
+        figsize=figsize,
         smoothing='natural_cubic_spline',
         number_knots=5
     )
@@ -196,7 +196,11 @@ def plot_pretty(
     axistitle: str = None
 ) -> None:
     ds.despine(ax)
-    fig.suptitle(figuretitle, fontweight='bold', fontsize=16)
+    fig.suptitle(
+        t=figuretitle,
+        fontweight='bold',
+        fontsize=16
+    )
     ax.set_title(axistitle, fontweight='bold')
     ax.set_xlabel(abscissalabel, fontweight='bold')
     ax.set_ylabel(ordinatelabel, fontweight='bold')
@@ -230,7 +234,11 @@ def plot_line_two_subplots(
         color=colour1
     )
     ds.despine(ax1)
-    fig.suptitle(figuretitle, fontweight='bold', fontsize=16)
+    fig.suptitle(
+        t=figuretitle,
+        fontweight='bold',
+        fontsize=16
+    )
     ax1.set_title(axistitle, fontweight='bold')
     ax1.set_xlabel(xlabel, fontweight='bold')
     ax1.set_ylabel(ylabel, fontweight='bold')
