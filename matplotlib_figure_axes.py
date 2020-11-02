@@ -150,8 +150,8 @@ def main():
     axes_title = ['Axes Title I', 'Axes Title II']
     fig = plt.figure(figsize=figsize)
     fig.suptitle(fig_title, fontweight='bold')
-    for i in range(1, 3):
-        ax = fig.add_subplot(1, 2, i)
+    for item in range(1, 3):
+        ax = fig.add_subplot(1, 2, item)
         ax.plot(
             df['Date'],
             df['Steps'],
@@ -159,7 +159,7 @@ def main():
             linestyle='-',
             color=colour4
         )
-        ax.set_title(axes_title[i-1])
+        ax.set_title(axes_title[item-1])
         ax.set_ylabel(y_axis_label)
         ax.set_xlabel(x_axis_label)
         ds.format_dates(
@@ -181,9 +181,9 @@ def main():
     fig.suptitle(fig_title, fontweight='bold')
     xlim = [2, 20]
     ylim = [2, 14]
-    for i in range(1, 5):
-        df = pd.read_csv(f'aq{i}.csv')
-        ax = fig.add_subplot(2, 2, i)
+    for item in range(1, 5):
+        df = ds.read_file(file_name=f'aq{item}.csv')
+        ax = fig.add_subplot(2, 2, item)
         ax.plot(
             df['x'],
             df['y'],
@@ -195,7 +195,7 @@ def main():
         ax.plot(df['x'], m*df['x'] + b, '-', color=colour2)
         ax.set_ylim(ylim)
         ax.set_xlim(xlim)
-        ax.set_title(axes_title[i-1])
+        ax.set_title(axes_title[item-1])
         ax.set_ylabel(y_axis_label)
         ax.set_xlabel(x_axis_label)
         ds.despine(ax)
