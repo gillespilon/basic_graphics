@@ -12,7 +12,6 @@ https://matplotlib.org/api/dates_api.html#matplotlib-date-format
 
 from numpy.polynomial import polynomial as nppoly
 import matplotlib.pyplot as plt
-import matplotlib.axes as axes
 import datasense as ds
 import pandas as pd
 
@@ -47,8 +46,17 @@ def main():
     axes_title = 'Axes title'
     x_axis_label = 'X axis label (units)'
     y_axis_label = 'Y axis label (units)'
-    fig = plt.figure(figsize=figsize)
-    ax = fig.add_subplot(111)
+    fig, ax = ds.plot_line_x_y(
+        X=df['Date'],
+        y=df['Steps'],
+        figsize=figsize
+    )
+    ax.axhline(
+        y=df['Steps'].median(),
+        xmin=0.05,
+        xmax=0.95,
+        color=colour2
+    )
     fig.suptitle(
         t=fig_title,
         horizontalalignment='center',
@@ -56,19 +64,6 @@ def main():
         fontsize=15,
         fontweight='bold',
         color='#000000'
-    )
-    ax.plot(
-        df['Date'],
-        df['Steps'],
-        marker='.',
-        markersize=8,
-        linestyle='-',
-        color=colour1)
-    ax.axhline(
-        y=df['Steps'].median(),
-        xmin=0.05,
-        xmax=0.95,
-        color=colour2
     )
     ax.set_ylabel(
         ylabel=y_axis_label,
