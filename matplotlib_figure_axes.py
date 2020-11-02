@@ -107,6 +107,7 @@ def main():
         X=df['Date'],
         y1=df['Actual'],
         y2=df['Steps'],
+        figsize=figsize,
         linestyle2='-'
     )
     middle_titles = (fig.subplotpars.left + fig.subplotpars.right) / 2
