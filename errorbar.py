@@ -124,7 +124,8 @@ def main():
         ax.set_xticklabels(['no', 'yes'])
         fig.suptitle(
             t=f'Question {question_number}\n{question}',
-            fontweight='bold', fontsize=15
+            fontweight='bold',
+            fontsize=15
         )
         for proportion, count, x, y in zip(
             [
