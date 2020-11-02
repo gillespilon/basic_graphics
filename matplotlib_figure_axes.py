@@ -57,8 +57,10 @@ def main():
         xmax=0.95,
         color=colour2
     )
+    middle_titles = (fig.subplotpars.left + fig.subplotpars.right) / 2
     fig.suptitle(
         t=fig_title,
+        x=middle_titles,
         horizontalalignment='center',
         verticalalignment='top',
         fontsize=15,
@@ -101,23 +103,44 @@ def main():
     x_axis_label = 'X axis label (units)'
     left_y_axis_label = 'Left vertical axis (units)'
     right_y_axis_label = 'Right vertical axis (units)'
-    fig, ax1 = plt.subplots(figsize=figsize)
-    fig.suptitle(fig_title, fontweight='bold')
-    ax1.set_title(axes_title, fontweight='bold')
-    ax1.plot(df['Date'], df['Actual'],
-             marker='o', linestyle='None', color=colour3)
-    ax1.set_ylabel(left_y_axis_label, fontweight='bold')
-    ax1.set_xlabel(x_axis_label, fontweight='bold')
-    ax2 = ax1.twinx()
-    ax2.plot(df['Date'], df['Steps'],
-             marker='*', linestyle='-', color=colour1)
-    ax2.set_ylabel(right_y_axis_label, fontweight='bold')
+    fig, ax1, ax2 = ds.plot_scatterleft_scatterright_x_y1_y2(
+        X=df['Date'],
+        y1=df['Actual'],
+        y2=df['Steps'],
+        linestyle2='-'
+    )
+    middle_titles = (fig.subplotpars.left + fig.subplotpars.right) / 2
+    fig.suptitle(
+        t=fig_title,
+        x=middle_titles,
+        horizontalalignment='center',
+        verticalalignment='top',
+        fontsize=15,
+        fontweight='bold'
+    )
+    ax1.set_title(
+        label=axes_title,
+        fontweight='bold'
+    )
+    ax1.set_ylabel(
+        ylabel=left_y_axis_label,
+        fontweight='bold'
+    )
+    ax1.set_xlabel(
+        x_axis_label,
+        fontweight='bold'
+    )
+    ax2.set_ylabel(
+        ylabel=right_y_axis_label,
+        fontweight='bold'
+    )
     ds.format_dates(
         fig=fig,
-        ax=ax
+        ax=ax1
     )
     fig.savefig(
         fname='single_figure_single_axes_left_y_right_y.svg',
+        bbox_inches='tight',
         format='svg',
         metadata=metadata_dict
     )
