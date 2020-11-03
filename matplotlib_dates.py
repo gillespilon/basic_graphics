@@ -15,7 +15,7 @@ https://matplotlib.org/api/dates_api.html#matplotlib-date-format
 # fix one subplot function to accept two series insteead of one df
 # change call to graph functions so that they return ax and then add info
 
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
@@ -24,13 +24,20 @@ from datetime import datetime
 import datasense as ds
 import pandas as pd
 
-colour1 = '#0077bb'
-
 
 def main():
+    output_url = 'matplotlib_dates.html'
+    header_title = 'matplotlib_dates'
+    header_id = 'matplotlib-dates'
+    original_stdout = ds.html_begin(
+        output_url=output_url,
+        header_title=header_title,
+        header_id=header_id
+    )
+    figsize = (8, 6)
+    colour1 = '#0077bb'
     pd.set_option('display.max_columns', 600)
     pd.set_option('display.max_rows', 600)
-    figsize = (8, 6)
     figure_title = 'Figure title'
     axis_title = 'Axis title'
     abscissa_label = 'abscissa'
@@ -96,14 +103,15 @@ def main():
     # Test line plot x y, smoothing None
     fig, ax = ds.plot_line_x_y(
         data[column_abscissa_datetime_one],
-        data[column_ordinate_one]
+        data[column_ordinate_one],
+        figsize=figsize
     )
     plot_pretty(
-        fig,
-        ax,
-        'matplotlib_dates_line_plot.svg',
-        abscissa_label,
-        ordinate_label
+        fig=fig,
+        ax=ax,
+        file_name_graph='matplotlib_dates_line_plot.svg',
+        abscissa_label=abscissa_label,
+        ordinate_label=ordinate_label
     )
     # Test scatter plot x y, smoothing None
     fig, ax = ds.plot_scatter_x_y(
@@ -115,25 +123,26 @@ def main():
         fig,
         ax,
         'matplotlib_dates_scatter_plot.svg',
-        abscissa_label,
-        ordinate_label,
-        figure_title,
-        axis_title,
+        abscissa_label=abscissa_label,
+        ordinate_label=ordinate_label,
+        figure_title=figure_title,
+        axis_title=axis_title
     )
     # Test lineleft lineright plot x y1, y2, smoothing None
     fig, ax1, ax2 = ds.plot_lineleft_lineright_x_y1_y2(
         X=data[column_abscissa_datetime_one],
         y1=data[column_ordinate_one],
         y2=data[column_ordinate_two],
+        figsize=figsize
     )
     plot_pretty(
         fig,
         ax1,
-        'matplotlib_dates_lineleft_lineright_plot.svg',
-        abscissa_label,
-        ordinate_label,
-        figure_title,
-        axis_title,
+        file_name_graph='matplotlib_dates_lineleft_lineright_plot.svg',
+        abscissa_label=abscissa_label,
+        ordinate_label=ordinate_label,
+        figure_title=figure_title,
+        axis_title=axis_title
     )
     # Test lineleft lineright plot x y1, y2, smoothing Yes
     fig, ax1, ax2 = ds.plot_lineleft_lineright_x_y1_y2(
@@ -141,7 +150,8 @@ def main():
         y1=data[column_ordinate_one],
         y2=data[column_ordinate_two],
         smoothing='natural_cubic_spline',
-        number_knots=5
+        number_knots=5,
+        figsize=figsize
     )
     plot_pretty(
         fig,
@@ -149,15 +159,16 @@ def main():
         'matplotlib_dates_lineleft_lineright_plot_smoothing.svg',
         abscissa_label,
         ordinate_label,
-        figure_title,
-        axis_title,
+        figure_title=figure_title,
+        axis_title=axis_title,
     )
     # Test line plot x y, smoothing = 'natural_cubic_spline'
     fig, ax = ds.plot_line_x_y(
         data[column_abscissa_datetime_one],
         data[column_ordinate_one],
         smoothing='natural_cubic_spline',
-        number_knots=5
+        number_knots=5,
+        figsize=figsize
     )
     plot_pretty(
         fig,
@@ -165,8 +176,8 @@ def main():
         'matplotlib_dates_line_plot_smoothing.svg',
         abscissa_label,
         ordinate_label,
-        axistitle=axis_title,
-        figuretitle=None,
+        axis_title=axis_title,
+        figure_title=None,
     )
     # Test scatter plot x y, smoothing = 'natural_cubic_spline'
     fig, ax = ds.plot_scatter_x_y(
@@ -182,32 +193,47 @@ def main():
         'matplotlib_dates_scatter_plot_smoothing.svg',
         abscissa_label,
         ordinate_label,
-        figure_title,
+        figure_title=figure_title,
+    )
+    ds.html_end(
+        original_stdout=original_stdout,
+        output_url=output_url
     )
 
 
 def plot_pretty(
     fig: plt.figure,
     ax: axes.Axes,
-    filenamegraph: str = None,
-    abscissalabel: str = None,
-    ordinatelabel: str = None,
-    figuretitle: str = None,
-    axistitle: str = None
+    file_name_graph: str = None,
+    abscissa_label: str = None,
+    ordinate_label: str = None,
+    *,
+    figure_title: Optional[str] = None,
+    axis_title: str = None
 ) -> None:
     ds.despine(ax)
     fig.suptitle(
-        t=figuretitle,
+        t=figure_title,
         fontweight='bold',
         fontsize=16
     )
-    ax.set_title(axistitle, fontweight='bold')
-    ax.set_xlabel(abscissalabel, fontweight='bold')
-    ax.set_ylabel(ordinatelabel, fontweight='bold')
+    ax.set_title(
+        label=axis_title,
+        fontweight='bold'
+    )
+    ax.set_xlabel(
+        xlabel=abscissa_label,
+        fontweight='bold'
+    )
+    ax.set_ylabel(
+        ylabel=ordinate_label,
+        fontweight='bold'
+    )
     fig.savefig(
-        fname=filenamegraph,
+        fname=file_name_graph,
         format='svg'
     )
+    ds.html_figure(file_name=file_name_graph)
 
 
 def plot_line_two_subplots(
