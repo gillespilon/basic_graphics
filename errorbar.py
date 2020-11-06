@@ -118,7 +118,10 @@ def main():
         )
         ax.set_xlim(-1, 2)
         # ax.set_ylim(0, 1)
-        ax.set_xlabel(xlabel='Answer', fontweight='bold', fontsize=12)
+        ax.set_xlabel(xlabel='Answer',
+            fontweight='bold',
+            fontsize=12
+        )
         ax.set_ylabel(ylabel='Proportion', fontweight='bold', fontsize=12)
         ax.set_xticks(['1', '2'])
         ax.set_xticklabels(['no', 'yes'])
