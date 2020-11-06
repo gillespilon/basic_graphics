@@ -128,7 +128,7 @@ def main():
         fontweight='bold'
     )
     ax1.set_xlabel(
-        x_axis_label,
+        xlabel=x_axis_label,
         fontweight='bold'
     )
     ax2.set_ylabel(
@@ -161,7 +161,7 @@ def main():
         )
         ax.set_title(axes_title[item-1])
         ax.set_ylabel(y_axis_label)
-        ax.set_xlabel(x_axis_label)
+        ax.set_xlabel(xlabel=x_axis_label)
         ds.format_dates(
             fig=fig,
             ax=ax
@@ -197,7 +197,7 @@ def main():
         ax.set_xlim(xlim)
         ax.set_title(axes_title[item-1])
         ax.set_ylabel(y_axis_label)
-        ax.set_xlabel(x_axis_label)
+        ax.set_xlabel(xlabel=x_axis_label)
         ds.despine(ax)
     plt.tight_layout(pad=3)
     fig.savefig(
