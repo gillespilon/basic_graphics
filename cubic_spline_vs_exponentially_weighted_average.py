@@ -133,7 +133,10 @@ def plot_graph(
         linestyle='-',
         color=colour2
     )
-    ax.set_title(graphtitle + '\n' + graphsubtitle, fontweight='bold')
+    ax.set_title(
+        label=graphtitle + '\n' + graphsubtitle,
+        fontweight='bold'
+    )
     ax.set_xlabel(
         xlabel=xaxislabel,
         fontweight='bold'
