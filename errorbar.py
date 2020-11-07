@@ -122,7 +122,11 @@ def main():
             fontweight='bold',
             fontsize=12
         )
-        ax.set_ylabel(ylabel='Proportion', fontweight='bold', fontsize=12)
+        ax.set_ylabel(
+            ylabel='Proportion',
+            fontweight='bold',
+            fontsize=12
+        )
         ax.set_xticks(['1', '2'])
         ax.set_xticklabels(['no', 'yes'])
         fig.suptitle(
