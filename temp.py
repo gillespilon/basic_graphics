@@ -201,7 +201,10 @@ def plot_pretty(
         fontweight='bold',
         fontsize=16
     )
-    ax.set_title(axistitle, fontweight='bold')
+    ax.set_title(
+        label=axistitle,
+        fontweight='bold'
+    )
     ax.set_xlabel(
         xlabel=abscissalabel,
         fontweight='bold'
@@ -245,7 +248,10 @@ def plot_line_two_subplots(
         fontweight='bold',
         fontsize=16
     )
-    ax1.set_title(axistitle, fontweight='bold')
+    ax1.set_title(
+        label=axistitle,
+        fontweight='bold'
+    )
     ax1.set_xlabel(
         xlabel=xlabel,
         fontweight='bold'
@@ -264,7 +270,10 @@ def plot_line_two_subplots(
         color=colour1
     )
     ds.despine(ax2)
-    ax2.set_title(axistitle, fontweight='bold')
+    ax2.set_title(
+        label=axistitle,
+        fontweight='bold'
+    )
     ax2.set_xlabel(
         xlabel=xlabel,
         fontweight='bold'

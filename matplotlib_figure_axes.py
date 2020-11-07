@@ -159,7 +159,7 @@ def main():
             linestyle='-',
             color=colour4
         )
-        ax.set_title(axes_title[item-1])
+        ax.set_title(label=axes_title[item-1])
         ax.set_ylabel(ylabel=y_axis_label)
         ax.set_xlabel(xlabel=x_axis_label)
         ds.format_dates(
@@ -195,7 +195,7 @@ def main():
         ax.plot(df['x'], m*df['x'] + b, '-', color=colour2)
         ax.set_ylim(ylim)
         ax.set_xlim(xlim)
-        ax.set_title(axes_title[item-1])
+        ax.set_title(label=axes_title[item-1])
         ax.set_ylabel(ylabel=y_axis_label)
         ax.set_xlabel(xlabel=x_axis_label)
         ds.despine(ax)
