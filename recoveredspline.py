@@ -43,7 +43,10 @@ def cubic_spline(x1, y1, x2, y2, x_axis_label, y_axis_label, axis_title):
             color=colour1, label='data')
     ax.plot(x2, y2(x2), marker='None', linestyle='-',
             color=colour2, label='cubic spline')
-    ax.set_title(axis_title, fontweight='bold')
+    ax.set_title(
+        label=axis_title,
+        fontweight='bold'
+    )
     ax.set_xlabel(
         xlabel=x_axis_label,
         fontweight='bold'
