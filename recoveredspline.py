@@ -48,7 +48,10 @@ def cubic_spline(x1, y1, x2, y2, x_axis_label, y_axis_label, axis_title):
         xlabel=x_axis_label,
         fontweight='bold'
     )
-    ax.set_ylabel(y_axis_label, fontweight='bold')
+    ax.set_ylabel(
+        ylabel=y_axis_label,
+        fontweight='bold'
+    )
     ax.legend(frameon=False)
     return ax
 
