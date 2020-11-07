@@ -206,7 +206,10 @@ def plot_pretty(
         xlabel=abscissalabel,
         fontweight='bold'
     )
-    ax.set_ylabel(ordinatelabel, fontweight='bold')
+    ax.set_ylabel(
+        ylabel=ordinatelabel,
+        fontweight='bold'
+    )
     fig.savefig(
         fname=filenamegraph,
         format='svg'
@@ -247,7 +250,10 @@ def plot_line_two_subplots(
         xlabel=xlabel,
         fontweight='bold'
     )
-    ax1.set_ylabel(ylabel, fontweight='bold')
+    ax1.set_ylabel(
+        ylabel=ylabel,
+        fontweight='bold'
+    )
     ax2 = fig.add_subplot(122)
     ax2.xaxis.set_major_locator(loc)
     ax2.xaxis.set_major_formatter(fmt)
@@ -263,7 +269,10 @@ def plot_line_two_subplots(
         xlabel=xlabel,
         fontweight='bold'
     )
-    ax2.set_ylabel(ylabel, fontweight='bold')
+    ax2.set_ylabel(
+        ylabel=ylabel,
+        fontweight='bold'
+    )
     fig.savefig(
         fname=filenamegraph,
         format='svg'
