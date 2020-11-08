@@ -149,7 +149,10 @@ def main():
     # Single figure, two axes
     axes_title = ['Axes Title I', 'Axes Title II']
     fig = plt.figure(figsize=figsize)
-    fig.suptitle(fig_title, fontweight='bold')
+    fig.suptitle(
+        t=fig_title,
+        fontweight='bold'
+    )
     for item in range(1, 3):
         ax = fig.add_subplot(1, 2, item)
         ax.plot(
@@ -178,7 +181,10 @@ def main():
     axes_title = ['AQ1', 'AQ2', 'AQ3', 'AQ4']
     fig = plt.figure(figsize=figsize)
     fig_title = "Anscombe's Quartet"
-    fig.suptitle(fig_title, fontweight='bold')
+    fig.suptitle(
+        t=fig_title,
+        fontweight='bold'
+    )
     xlim = [2, 20]
     ylim = [2, 14]
     for item in range(1, 5):
