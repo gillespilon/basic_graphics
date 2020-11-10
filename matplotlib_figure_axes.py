@@ -185,7 +185,6 @@ def main():
         t=fig_title,
         fontweight='bold'
     )
-    xlim = [2, 20]
     ylim = [2, 14]
     for item in range(1, 5):
         df = ds.read_file(file_name=f'aq{item}.csv')
@@ -200,7 +199,10 @@ def main():
         b, m = nppoly.polyfit(df['x'], df['y'], 1)
         ax.plot(df['x'], m*df['x'] + b, '-', color=colour2)
         ax.set_ylim(ylim)
-        ax.set_xlim(xlim)
+        ax.set_xlim(
+            left=2,
+            right=20
+        )
         ax.set_title(label=axes_title[item-1])
         ax.set_ylabel(ylabel=y_axis_label)
         ax.set_xlabel(xlabel=x_axis_label)
