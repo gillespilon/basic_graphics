@@ -116,7 +116,10 @@ def main():
             ecolor='r',
             markersize=4
         )
-        ax.set_xlim(-1, 2)
+        ax.set_xlim(
+            left=-1,
+            right=2
+        )
         # ax.set_ylim(0, 1)
         ax.set_xlabel(xlabel='Answer',
             fontweight='bold',
