@@ -120,7 +120,10 @@ def main():
             left=-1,
             right=2
         )
-        # ax.set_ylim(0, 1)
+        # ax.set_ylim(
+        #     left=0,
+        #     right=1
+        # )
         ax.set_xlabel(xlabel='Answer',
             fontweight='bold',
             fontsize=12
