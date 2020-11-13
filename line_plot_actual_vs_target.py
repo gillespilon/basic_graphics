@@ -20,26 +20,24 @@ import pandas as pd
 import numpy as np
 
 
-x_axis_label, y_axis_label, axis_title, figsize = (
-    'Date',
-    'USD',
-    'Savings Target vs Actual',
-    (8, 6)
-)
-column_x, column_target, column_actual, column_predicted = (
-    'Date',
-    'TargetBalance',
-    'ActualBalance',
-    'Predicted'
-)
-file_name_data, file_name_graph = (
-    'actual_vs_target.ods',
-    'actual_vs_target.svg'
-)
-chdir(Path(__file__).parent.__str__())
-
-
 def main():
+    x_axis_label, y_axis_label, axis_title, figsize = (
+        'Date',
+        'USD',
+        'Savings Target vs Actual',
+        (8, 6)
+    )
+    column_x, column_target, column_actual, column_predicted = (
+        'Date',
+        'TargetBalance',
+        'ActualBalance',
+        'Predicted'
+    )
+    file_name_data, file_name_graph = (
+        'actual_vs_target.ods',
+        'actual_vs_target.svg'
+    )
+    chdir(Path(__file__).parent.__str__())
     data = ds.read_file(
         file_name=file_name_data,
         parse_dates=[column_x]
