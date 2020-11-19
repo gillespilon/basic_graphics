@@ -33,8 +33,12 @@ fig.savefig(
     fname='violinplot_from_ndarrays.svg'
 )
 # use pd.DataFrame
-data2 = pd.DataFrame(data=[nparray1, nparray2, nparray3, nparray4]).T
-data2.columns = ['a', 'b', 'c', 'd']
+data2 = pd.DataFrame(data=[nparray1, nparray2, nparray3, nparray4])\
+    .T\
+    .set_axis(
+        labels=['a', 'b', 'c', 'd'],
+        axis='columns'
+    )
 fig = plt.figure(figsize=figure_size)
 ax = fig.add_subplot(111)
 ax.violinplot(
