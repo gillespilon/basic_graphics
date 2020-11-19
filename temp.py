@@ -28,8 +28,8 @@ colour1 = '#0077bb'
 
 
 def main():
-    pd.set_option('display.max_columns', 600)
-    pd.set_option('display.max_rows', 600)
+    pd.options.display.max_columns = 600
+    pd.options.display.max_rows = 600
     figsize = (8, 6)
     figure_title = 'Figure title'
     axis_title = 'Axis title'
