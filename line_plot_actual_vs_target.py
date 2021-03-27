@@ -37,7 +37,7 @@ def main():
         'actual_vs_target.ods',
         'actual_vs_target.svg'
     )
-    chdir(Path(__file__).parent.__str__())
+    chdir(Path(__file__).parent.resolve())  # required for cron
     data = ds.read_file(
         file_name=file_name_data,
         parse_dates=[column_x]
