@@ -17,7 +17,7 @@ import datasense as ds
 
 
 def main():
-    chdir(Path(__file__).parent.__str__())
+    chdir(Path(__file__).parent.resolve())  # required for cron
     figure_width_height = (15, 7)
     file_name_data, file_name_graph = (
         'weight.ods',
