@@ -139,7 +139,7 @@ def parameters(
 
 
 def plot_scatter_line(
-        t: Tuple[pd.Series, pd.Series, int, int, str, str, str, int, bool]
+        t: Tuple[pd.Series, pd.Series, int, int, str, str, str]
 ) -> None:
     X, y, file, target, feature, number_knots, dates = t
     model = ds.natural_cubic_spline(
