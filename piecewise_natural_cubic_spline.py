@@ -34,7 +34,6 @@ import time
 
 import datasense as ds
 import pandas as pd
-# import ezgmail
 
 
 def main():
@@ -87,11 +86,6 @@ def main():
         original_stdout=original_stdout,
         output_url=output_url
     )
-    # ezgmail.send(
-    #     'gillespilon13@gmail.com',
-    #     'subject: Piecewise natural cubic spline',
-    #     'Piecewise natural cubic spline run complete.'
-    # )
 
 
 def parameters(
