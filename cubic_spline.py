@@ -18,7 +18,6 @@ from typing import Tuple
 from matplotlib.ticker import NullFormatter, NullLocator
 from matplotlib.dates import DateFormatter, DayLocator
 import matplotlib.pyplot as plt
-import matplotlib.axes as axes
 import datasense as ds
 import pandas as pd
 
@@ -105,7 +104,8 @@ def main():
                 ordinate=ordinatename
             )
             data[ordinatepredictedname] = spline(data[abscissaname])
-            data[abscissaname] = data[abscissaname].astype('datetime64[ns]')
+            data[abscissaname] = data[abscissaname]\
+                .astype(dtype='datetime64[ns]')
         else:
             # data = data.sort_values(by=[abscissaname])
             print('filename: ', filename)
