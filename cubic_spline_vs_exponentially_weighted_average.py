@@ -168,7 +168,7 @@ def cs(
     df[datecolumn] = pd.to_numeric(df[datecolumn])
     spline = estimate_spline(df, datecolumn, observedcolumn)
     df[predictedcolumn] = spline(df[datecolumn])
-    df[datecolumn] = df[datecolumn].astype('datetime64[ns]')
+    df[datecolumn] = df[datecolumn].astype(dtype='datetime64[ns]')
     plot_graph(
         df,
         datecolumn,
