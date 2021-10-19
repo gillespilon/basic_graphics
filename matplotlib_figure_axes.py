@@ -198,8 +198,8 @@ def main():
         b, m = nppoly.polyfit(df['x'], df['y'], 1)
         ax.plot(df['x'], m*df['x'] + b, '-', color=colour2)
         ax.set_ylim(
-            left=2,
-            right=14
+            bottom=2,
+            top=14
         )
         ax.set_xlim(
             left=2,
