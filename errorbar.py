@@ -125,19 +125,19 @@ def main():
         #     right=1
         # )
         ax.set_xlabel(xlabel='Answer',
-            fontweight='bold',
+            ,
             fontsize=12
         )
         ax.set_ylabel(
             ylabel='Proportion',
-            fontweight='bold',
+            ,
             fontsize=12
         )
         ax.set_xticks(['1', '2'])
         ax.set_xticklabels(['no', 'yes'])
         fig.suptitle(
             t=f'Question {question_number}\n{question}',
-            fontweight='bold',
+            ,
             fontsize=15
         )
         for proportion, count, x, y in zip(
@@ -164,7 +164,7 @@ def main():
                 xytext=(10, -5),
                 textcoords="offset points"
             )
-        ds.despine(ax)
+        ds.despine(ax=ax)
         fig.savefig(
             fname=f'{graph_file_name}_{question_number}.svg',
             format='svg'
