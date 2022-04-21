@@ -61,19 +61,19 @@ def main():
     )
     ax.set_title(
         label=axis_title,
-        fontweight='bold'
+        
     )
     ax.set_xlabel(
         xlabel=x_axis_label,
-        fontweight='bold'
+        
     )
     ax.set_ylabel(
         ylabel=y_axis_label,
-        fontweight='bold'
+        
     )
     ax.legend(frameon=False)
     ds.format_dates(fig, ax)
-    ds.despine(ax)
+    ds.despine(ax=ax)
     fig.savefig(
         fname=file_name_graph,
         format='svg'
