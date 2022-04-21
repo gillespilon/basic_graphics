@@ -28,7 +28,7 @@ def main():
     print(type(x2))
     print(type(y2))
     ax = cubic_spline(x1, y1, x2, y2, x_axis_label, y_axis_label, axis_title)
-    ds.despine(ax)
+    ds.despine(ax=ax)
     ax.figure.savefig(
         fname='cubic_spline.svg',
         format='svg'
@@ -45,15 +45,15 @@ def cubic_spline(x1, y1, x2, y2, x_axis_label, y_axis_label, axis_title):
             color=colour2, label='cubic spline')
     ax.set_title(
         label=axis_title,
-        fontweight='bold'
+        
     )
     ax.set_xlabel(
         xlabel=x_axis_label,
-        fontweight='bold'
+        
     )
     ax.set_ylabel(
         ylabel=y_axis_label,
-        fontweight='bold'
+        
     )
     ax.legend(frameon=False)
     return ax
