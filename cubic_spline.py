@@ -164,15 +164,15 @@ def plot_graph(
         ax.xaxis.set_minor_formatter(NullFormatter())
     ax.set_title(
         label=graphtitle,
-        fontweight='bold'
+        
     )
     ax.set_xlabel(
         xlabel=xaxislabel,
-        fontweight='bold'
+        
     )
     ax.set_ylabel(
         ylabel=yaxislabel,
-        fontweight='bold'
+        
     )
     ds.despine(ax=ax)
     fig.savefig(
