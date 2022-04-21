@@ -135,17 +135,17 @@ def plot_graph(
     )
     ax.set_title(
         label=graphtitle + '\n' + graphsubtitle,
-        fontweight='bold'
+        
     )
     ax.set_xlabel(
         xlabel=xaxislabel,
-        fontweight='bold'
+        
     )
     ax.set_ylabel(
         ylabel=yaxislabel,
-        fontweight='bold'
+        
     )
-    ds.despine(ax)
+    ds.despine(ax=ax)
     file = filename.strip('.csv')
     fig.savefig(
         fname=f'{graphname}_{file}.png',
