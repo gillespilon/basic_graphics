@@ -195,23 +195,23 @@ def plot_pretty(
     figuretitle: str = None,
     axistitle: str = None
 ) -> None:
-    ds.despine(ax)
+    ds.despine(ax=ax)
     fig.suptitle(
         t=figuretitle,
-        fontweight='bold',
+        ,
         fontsize=16
     )
     ax.set_title(
         label=axistitle,
-        fontweight='bold'
+        
     )
     ax.set_xlabel(
         xlabel=abscissalabel,
-        fontweight='bold'
+        
     )
     ax.set_ylabel(
         ylabel=ordinatelabel,
-        fontweight='bold'
+        
     )
     fig.savefig(
         fname=filenamegraph,
@@ -245,20 +245,20 @@ def plot_line_two_subplots(
     ds.despine(ax1)
     fig.suptitle(
         t=figuretitle,
-        fontweight='bold',
+        ,
         fontsize=16
     )
     ax1.set_title(
         label=axistitle,
-        fontweight='bold'
+        
     )
     ax1.set_xlabel(
         xlabel=xlabel,
-        fontweight='bold'
+        
     )
     ax1.set_ylabel(
         ylabel=ylabel,
-        fontweight='bold'
+        
     )
     ax2 = fig.add_subplot(122)
     ax2.xaxis.set_major_locator(loc)
@@ -272,15 +272,15 @@ def plot_line_two_subplots(
     ds.despine(ax2)
     ax2.set_title(
         label=axistitle,
-        fontweight='bold'
+        
     )
     ax2.set_xlabel(
         xlabel=xlabel,
-        fontweight='bold'
+        
     )
     ax2.set_ylabel(
         ylabel=ylabel,
-        fontweight='bold'
+        
     )
     fig.savefig(
         fname=filenamegraph,
