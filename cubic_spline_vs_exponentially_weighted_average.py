@@ -4,6 +4,7 @@ Plots to compare cubic spline vs exponentially weighted moving average fits
 """
 
 from datetime import datetime
+from typing import NoReturn
 
 from scipy.interpolate import CubicSpline
 import matplotlib.pyplot as plt
@@ -115,7 +116,7 @@ def plot_graph(
     graphsubtitle: str,
     yaxislabel: str,
     xaxislabel: str
-) -> None:
+) -> NoReturn:
     figszie = (8, 6)
     fig = plt.figure(figsize=figsize)
     ax = fig.add_subplot(111)
@@ -160,7 +161,7 @@ def cs(
     observedcolumn: str,
     predictedcolumn: str,
     graphname: str
-) -> None:
+) -> NoReturn:
     df = read_csv_file(filename, datecolumn, datetimeparser)
     print('initial dataframe', df.shape,
           'min', df[observedcolumn].min(),
@@ -190,7 +191,7 @@ def ewma(
     observedcolumn: str,
     predictedcolumn: str,
     graphname: str
-) -> None:
+) -> NoReturn:
     df = read_csv_file(filename, datecolumn, datetimeparser)
     print('initial & final', df.shape,
           'min', df[observedcolumn].min(),
