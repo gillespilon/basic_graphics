@@ -28,8 +28,8 @@ time -f '%e' ./piecewise_natural_cubic_spline.py
 The graphs can be viewed with the view_spline_graphs.html file created.
 """
 
+from typing import List, NoReturn, Tuple
 from multiprocessing import Pool
-from typing import List, Tuple
 import time
 
 import datasense as ds
@@ -134,7 +134,7 @@ def parameters(
 
 def plot_scatter_line(
         t: Tuple[pd.Series, pd.Series, int, int, str, str, str]
-) -> None:
+) -> NoReturn:
     X, y, file, target, feature, number_knots, dates = t
     model = ds.natural_cubic_spline(
         X=X,
