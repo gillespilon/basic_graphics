@@ -15,7 +15,7 @@ https://matplotlib.org/api/dates_api.html#matplotlib-date-format
 # fix one subplot function to accept two series insteead of one df
 # change call to graph functions so that they return ax and then add info
 
-from typing import List, Tuple
+from typing import List, NoReturn, Tuple
 
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
@@ -194,7 +194,7 @@ def plot_pretty(
     ordinatelabel: str = None,
     figuretitle: str = None,
     axistitle: str = None
-) -> None:
+) -> NoReturn:
     ds.despine(ax=ax)
     fig.suptitle(
         t=figuretitle,
@@ -203,15 +203,12 @@ def plot_pretty(
     )
     ax.set_title(
         label=axistitle,
-        
     )
     ax.set_xlabel(
         xlabel=abscissalabel,
-        
     )
     ax.set_ylabel(
         ylabel=ordinatelabel,
-        
     )
     fig.savefig(
         fname=filenamegraph,
@@ -229,7 +226,7 @@ def plot_line_two_subplots(
     axistitle: str,
     xlabel: str,
     ylabel: str
-) -> None:
+) -> NoReturn:
     fig = plt.figure(figsize=figurewidthheight)
     loc = mdates.AutoDateLocator()
     fmt = mdates.AutoDateFormatter(loc)
@@ -250,15 +247,12 @@ def plot_line_two_subplots(
     )
     ax1.set_title(
         label=axistitle,
-        
     )
     ax1.set_xlabel(
         xlabel=xlabel,
-        
     )
     ax1.set_ylabel(
         ylabel=ylabel,
-        
     )
     ax2 = fig.add_subplot(122)
     ax2.xaxis.set_major_locator(loc)
@@ -272,15 +266,12 @@ def plot_line_two_subplots(
     ds.despine(ax2)
     ax2.set_title(
         label=axistitle,
-        
     )
     ax2.set_xlabel(
         xlabel=xlabel,
-        
     )
     ax2.set_ylabel(
         ylabel=ylabel,
-        
     )
     fig.savefig(
         fname=filenamegraph,
