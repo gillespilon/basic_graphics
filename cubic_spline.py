@@ -13,7 +13,7 @@ time -f '%e' ./cubic_spline.py
 ./cubic_spline.py
 """
 
-from typing import Tuple
+from typing import NoReturn, Tuple
 
 from matplotlib.ticker import NullFormatter, NullLocator
 from matplotlib.dates import DateFormatter, DayLocator
@@ -140,7 +140,7 @@ def plot_graph(
     graphtitle: str,
     xaxislabel: str,
     yaxislabel: str
-) -> None:
+) -> NoReturn:
     fig = plt.figure(figsize=figurewidthheight)
     ax = fig.add_subplot(111)
     ax.plot(
