@@ -7,7 +7,7 @@ Line plots of actual and target data, and regression line of actual data.
 - Line plot of actual value (y) versus date (x)
 - Line plot of predicted value (y) versus date (x) using linear regression
 
-time -f '%e' ./line_plot_actual_vs_target.py
+time -f "%e" ./line_plot_actual_vs_target.py
 ./line_plot_actual_vs_target.py
 """
 
@@ -22,20 +22,20 @@ import numpy as np
 
 def main():
     x_axis_label, y_axis_label, axis_title, figsize = (
-        'Date',
-        'USD',
-        'Savings Target vs Actual',
+        "Date",
+        "USD",
+        "Savings Target vs Actual",
         (8, 6)
     )
     column_x, column_target, column_actual, column_predicted = (
-        'Date',
-        'TargetBalance',
-        'ActualBalance',
-        'Predicted'
+        "Date",
+        "TargetBalance",
+        "ActualBalance",
+        "Predicted"
     )
     file_name_data, file_name_graph = (
-        'actual_vs_target.ods',
-        'actual_vs_target.svg'
+        "actual_vs_target.ods",
+        "actual_vs_target.svg"
     )
     chdir(Path(__file__).parent.resolve())  # required for cron
     data = ds.read_file(
@@ -44,7 +44,7 @@ def main():
     )
     data = regression(
         data=data,
-        model='linear',
+        model="linear",
         column_x=column_x,
         column_actual=column_actual,
         column_predicted=column_predicted
@@ -76,7 +76,7 @@ def main():
     ds.despine(ax=ax)
     fig.savefig(
         fname=file_name_graph,
-        format='svg'
+        format="svg"
     )
 
 
@@ -87,7 +87,7 @@ def regression(
     column_actual: str,
     column_predicted: str
 ) -> pd.DataFrame:
-    '''
+    """
     Estimate a linear regression line.
 
     Parameters
@@ -107,17 +107,17 @@ def regression(
     -------
     df : pd.DataFrame
         The dataframe with predicted results.
-    '''
-    data['DateDelta'] = (data['Date'] - data['Date']
-                         .min())/np.timedelta64(1, 'D')
+    """
+    data["DateDelta"] = (data["Date"] - data["Date"]
+                         .min())/np.timedelta64(1, "D")
     model = sm.OLS(
-        data['ActualBalance'],
-        sm.add_constant(data['DateDelta']),
-        missing='drop'
+        data["ActualBalance"],
+        sm.add_constant(data["DateDelta"]),
+        missing="drop"
     ).fit()
-    data['Predicted'] = model.fittedvalues
+    data["Predicted"] = model.fittedvalues
     return data
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
