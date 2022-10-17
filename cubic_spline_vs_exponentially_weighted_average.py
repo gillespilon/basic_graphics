@@ -14,38 +14,38 @@ import pandas as pd
 
 def main():
     date_time_parser = "%Y-%m-%d %H:%M:%S"
+    predicted_column = "predicted"
     date_time_column = "datetime"
     observed_column = "observed"
-    predicted_column = "predicted"
     colour1 = "#0077bb"
     colour2 = "#cc3311"
     cs(
-        "dataframe_small_datetime_integer.csv",
-        date_time_column,
-        date_time_parser,
-        observed_column,
-        predicted_column,
-        "cubic_spline",
+        filename="dataframe_small_datetime_integer.csv",
+        datecolumn=date_time_column,
+        datetimeparser=date_time_parser,
+        observedcolumn=observed_column,
+        predictedcolumn=predicted_column,
+        graphname="cubic_spline",
         colour_marker=colour1,
         colour_line=colour2
     )
     cs(
-        "dataframe_large.csv",
-        date_time_column,
-        date_time_parser,
-        observed_column,
-        predicted_column,
-        "cubic_spline",
+        filename="dataframe_large.csv",
+        datecolumn=date_time_column,
+        datetimeparser=date_time_parser,
+        observedcolumn=observed_column,
+        predictedcolumn=predicted_column,
+        graphname="cubic_spline",
         colour_marker=colour1,
         colour_line=colour2
     )
     cs(
-        "dataframe_large_clean.csv",
-        date_time_column,
-        date_time_parser,
-        observed_column,
-        predicted_column,
-        "cubic_spline",
+        filename="dataframe_large_clean.csv",
+        datecolumn=date_time_column,
+        datetimeparser=date_time_parser,
+        observedcolumn=observed_column,
+        predictedcolumn=predicted_column,
+        graphname="cubic_spline",
         colour_marker=colour1,
         colour_line=colour2
     )
@@ -82,6 +82,7 @@ def main():
 
 
 def read_csv_file(
+    *,
     filename: str,
     datecolumn: str,
     datetimeparser: str,
@@ -95,6 +96,7 @@ def read_csv_file(
 
 
 def estimate_spline(
+    *,
     df: pd.DataFrame,
     columnx: str,
     columny: str
@@ -169,6 +171,7 @@ def plot_graph(
 
 
 def cs(
+    *,
     filename: str,
     datecolumn: str,
     datetimeparser: str,
@@ -203,6 +206,7 @@ def cs(
 
 
 def ewma(
+    *,
     filename: str,
     datecolumn: str,
     datetimeparser: str,
