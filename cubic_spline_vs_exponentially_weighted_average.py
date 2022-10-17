@@ -50,32 +50,32 @@ def main():
         colour_line=colour2
     )
     ewma(
-        "dataframe_small_datetime_integer.csv",
-        date_time_column,
-        date_time_parser,
-        observed_column,
-        predicted_column,
-        "ewma",
+        filename="dataframe_small_datetime_integer.csv",
+        datecolumn=date_time_column,
+        datetimeparser=date_time_parser,
+        observedcolumn=observed_column,
+        predictedcolumn=predicted_column,
+        graphname="ewma",
         colour_marker=colour1,
         colour_line=colour2
     )
     ewma(
-        "dataframe_large.csv",
-        date_time_column,
-        date_time_parser,
-        observed_column,
-        predicted_column,
-        "ewma",
+        filename="dataframe_large.csv",
+        datecolumn=date_time_column,
+        datetimeparser=date_time_parser,
+        observedcolumn=observed_column,
+        predictedcolumn=predicted_column,
+        graphname="ewma",
         colour_marker=colour1,
         colour_line=colour2
     )
     ewma(
-        "dataframe_large_clean.csv",
-        date_time_column,
-        date_time_parser,
-        observed_column,
-        predicted_column,
-        "ewma",
+        filename="dataframe_large_clean.csv",
+        datecolumn=date_time_column,
+        datetimeparser=date_time_parser,
+        observedcolumn=observed_column,
+        predictedcolumn=predicted_column,
+        graphname="ewma",
         colour_marker=colour1,
         colour_line=colour2
     )
