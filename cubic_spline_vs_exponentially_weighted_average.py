@@ -8,26 +8,26 @@ from typing import NoReturn
 
 from scipy.interpolate import CubicSpline
 import matplotlib.pyplot as plt
-import matplotlib.axes as axes
 import datasense as ds
 import pandas as pd
 
-date_time_parser = "%Y-%m-%d %H:%M:%S"
-date_time_column = "datetime"
-observed_column = "observed"
-predicted_column = "predicted"
-colour1 = "#0077bb"
-colour2 = "#cc3311"
-
 
 def main():
+    date_time_parser = "%Y-%m-%d %H:%M:%S"
+    date_time_column = "datetime"
+    observed_column = "observed"
+    predicted_column = "predicted"
+    colour1 = "#0077bb"
+    colour2 = "#cc3311"
     cs(
         "dataframe_small_datetime_integer.csv",
         date_time_column,
         date_time_parser,
         observed_column,
         predicted_column,
-        "cubic_spline"
+        "cubic_spline",
+        colour_marker=colour1,
+        colour_line=colour2
     )
     cs(
         "dataframe_large.csv",
@@ -35,7 +35,9 @@ def main():
         date_time_parser,
         observed_column,
         predicted_column,
-        "cubic_spline"
+        "cubic_spline",
+        colour_marker=colour1,
+        colour_line=colour2
     )
     cs(
         "dataframe_large_clean.csv",
@@ -43,7 +45,9 @@ def main():
         date_time_parser,
         observed_column,
         predicted_column,
-        "cubic_spline"
+        "cubic_spline",
+        colour_marker=colour1,
+        colour_line=colour2
     )
     ewma(
         "dataframe_small_datetime_integer.csv",
@@ -51,7 +55,9 @@ def main():
         date_time_parser,
         observed_column,
         predicted_column,
-        "ewma"
+        "ewma",
+        colour_marker=colour1,
+        colour_line=colour2
     )
     ewma(
         "dataframe_large.csv",
@@ -59,7 +65,9 @@ def main():
         date_time_parser,
         observed_column,
         predicted_column,
-        "ewma"
+        "ewma",
+        colour_marker=colour1,
+        colour_line=colour2
     )
     ewma(
         "dataframe_large_clean.csv",
@@ -67,7 +75,9 @@ def main():
         date_time_parser,
         observed_column,
         predicted_column,
-        "ewma"
+        "ewma",
+        colour_marker=colour1,
+        colour_line=colour2
     )
 
 
@@ -117,7 +127,9 @@ def plot_graph(
     graphtitle: str,
     graphsubtitle: str,
     yaxislabel: str,
-    xaxislabel: str
+    xaxislabel: str,
+    colour_marker: str,
+    colour_line: str
 ) -> NoReturn:
     figsize = (8, 6)
     fig = plt.figure(figsize=figsize)
@@ -127,14 +139,14 @@ def plot_graph(
         df[columny],
         marker=".",
         linestyle="",
-        color=colour1
+        color=colour_marker
     )
     ax.plot(
         df[columnx],
         df[columnz],
         marker=None,
         linestyle="-",
-        color=colour2
+        color=colour_line
     )
     ax.set_title(
         label=graphtitle + "\n" + graphsubtitle,
@@ -162,7 +174,9 @@ def cs(
     datetimeparser: str,
     observedcolumn: str,
     predictedcolumn: str,
-    graphname: str
+    graphname: str,
+    colour_marker: str,
+    colour_line: str
 ) -> NoReturn:
     df = read_csv_file(filename, datecolumn, datetimeparser)
     print("initial dataframe", df.shape,
@@ -182,7 +196,9 @@ def cs(
         graphtitle="Cubic Spline Fit",
         graphsubtitle=filename,
         yaxislabel=observedcolumn,
-        xaxislabel=datecolumn
+        xaxislabel=datecolumn,
+        colour_marker=colour_marker,
+        colour_line=colour_line
     )
 
 
@@ -192,7 +208,9 @@ def ewma(
     datetimeparser: str,
     observedcolumn: str,
     predictedcolumn: str,
-    graphname: str
+    graphname: str,
+    colour_marker: str,
+    colour_line: str
 ) -> NoReturn:
     df = read_csv_file(filename, datecolumn, datetimeparser)
     print("initial & final", df.shape,
@@ -209,7 +227,9 @@ def ewma(
         graphtitle="Exponentially Weighted Moving Average Fit",
         graphsubtitle=filename,
         yaxislabel=observedcolumn,
-        xaxislabel=datecolumn
+        xaxislabel=datecolumn,
+        colour_marker=colour_marker,
+        colour_line=colour_line
     )
 
 
