@@ -171,7 +171,7 @@ def cs(
     colour_marker: str,
     colour_line: str
 ) -> NoReturn:
-    df=ds.read_file(
+    df = ds.read_file(
         file_name=filename,
         parse_dates=[datecolumn],
         date_parser=date_parser()
@@ -214,7 +214,7 @@ def ewma(
     colour_marker: str,
     colour_line: str
 ) -> NoReturn:
-    df=ds.read_file(
+    df = ds.read_file(
         file_name=filename,
         parse_dates=[datecolumn],
         date_parser=date_parser()
