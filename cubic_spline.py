@@ -13,13 +13,18 @@ time -f '%e' ./cubic_spline.py
 ./cubic_spline.py
 """
 
-from typing import NoReturn, Tuple
+from typing import Callable, NoReturn, Tuple
+from datetime import datetime
 
 from matplotlib.ticker import NullFormatter, NullLocator
 from matplotlib.dates import DateFormatter, DayLocator
 import matplotlib.pyplot as plt
 import datasense as ds
 import pandas as pd
+
+
+def date_parser() -> Callable:
+    return lambda s: datetime.strptime(s, '%Y-%m-%d %H:%M:%S')
 
 
 colour1 = '#0077bb'
@@ -55,7 +60,7 @@ graph_file_name = [
     'cubic_spline_dataframe_small_datetime_integer',
     'cubic_spline_dataframe_small_integer_integer'
 ]
-date_time_parser = [None, parser, parser, None]
+date_time_parser = [None, date_parser(), date_parser(), None]
 date_formatter = [None, '%m-%d', '%m-%d', None]
 column_names_sort = [False, False, False, False]
 figure_width_height = (8, 6)
@@ -95,7 +100,7 @@ def main():
             df=data,
             file_in=filename
         )
-        if datetimeparser is True:
+        if datetimeparser is not None:
             data[abscissaname] = pd.to_numeric(data[abscissaname])
             print('filename: ', filename)
             spline = ds.cubic_spline(
@@ -107,7 +112,7 @@ def main():
             data[abscissaname] = data[abscissaname]\
                 .astype(dtype='datetime64[ns]')
         else:
-            # data = data.sort_values(by=[abscissaname])
+            data[abscissaname] = data[abscissaname].astype(dtype='int')
             print('filename: ', filename)
             spline = ds.cubic_spline(
                 df=data,
