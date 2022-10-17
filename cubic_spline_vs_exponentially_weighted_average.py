@@ -224,7 +224,11 @@ def ewma(
     colour_marker: str,
     colour_line: str
 ) -> NoReturn:
-    df = read_csv_file(filename, datecolumn, datetimeparser)
+    df = read_csv_file(
+        filename=filename,
+        datecolumn=datecolumn,
+        datetimeparser=datetimeparser
+    )
     print("initial & final", df.shape,
           "min", df[observedcolumn].min(),
           "max", df[observedcolumn].max())
