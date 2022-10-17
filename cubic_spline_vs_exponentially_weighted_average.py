@@ -9,6 +9,7 @@ from typing import NoReturn
 from scipy.interpolate import CubicSpline
 import matplotlib.pyplot as plt
 import matplotlib.axes as axes
+import datasense as ds
 import pandas as pd
 
 date_time_parser = '%Y-%m-%d %H:%M:%S'
@@ -21,7 +22,7 @@ colour2 = '#cc3311'
 
 def main():
     cs(
-        'dataframe_small.csv',
+        'dataframe_small_datetime_integer.csv',
         date_time_column,
         date_time_parser,
         observed_column,
@@ -45,7 +46,7 @@ def main():
         'cubic_spline'
     )
     ewma(
-        'dataframe_small.csv',
+        'dataframe_small_datetime_integer.csv',
         date_time_column,
         date_time_parser,
         observed_column,
@@ -117,7 +118,7 @@ def plot_graph(
     yaxislabel: str,
     xaxislabel: str
 ) -> NoReturn:
-    figszie = (8, 6)
+    figsize = (8, 6)
     fig = plt.figure(figsize=figsize)
     ax = fig.add_subplot(111)
     ax.plot(
