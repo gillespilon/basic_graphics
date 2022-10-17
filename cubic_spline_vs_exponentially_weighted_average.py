@@ -12,62 +12,62 @@ import matplotlib.axes as axes
 import datasense as ds
 import pandas as pd
 
-date_time_parser = '%Y-%m-%d %H:%M:%S'
-date_time_column = 'datetime'
-observed_column = 'observed'
-predicted_column = 'predicted'
-colour1 = '#0077bb'
-colour2 = '#cc3311'
+date_time_parser = "%Y-%m-%d %H:%M:%S"
+date_time_column = "datetime"
+observed_column = "observed"
+predicted_column = "predicted"
+colour1 = "#0077bb"
+colour2 = "#cc3311"
 
 
 def main():
     cs(
-        'dataframe_small_datetime_integer.csv',
+        "dataframe_small_datetime_integer.csv",
         date_time_column,
         date_time_parser,
         observed_column,
         predicted_column,
-        'cubic_spline'
+        "cubic_spline"
     )
     cs(
-        'dataframe_large.csv',
+        "dataframe_large.csv",
         date_time_column,
         date_time_parser,
         observed_column,
         predicted_column,
-        'cubic_spline'
+        "cubic_spline"
     )
     cs(
-        'dataframe_large_clean.csv',
+        "dataframe_large_clean.csv",
         date_time_column,
         date_time_parser,
         observed_column,
         predicted_column,
-        'cubic_spline'
+        "cubic_spline"
     )
     ewma(
-        'dataframe_small_datetime_integer.csv',
+        "dataframe_small_datetime_integer.csv",
         date_time_column,
         date_time_parser,
         observed_column,
         predicted_column,
-        'ewma'
+        "ewma"
     )
     ewma(
-        'dataframe_large.csv',
+        "dataframe_large.csv",
         date_time_column,
         date_time_parser,
         observed_column,
         predicted_column,
-        'ewma'
+        "ewma"
     )
     ewma(
-        'dataframe_large_clean.csv',
+        "dataframe_large_clean.csv",
         date_time_column,
         date_time_parser,
         observed_column,
         predicted_column,
-        'ewma'
+        "ewma"
     )
 
 
@@ -89,19 +89,19 @@ def estimate_spline(
     columnx: str,
     columny: str
 ) -> CubicSpline:
-    '''
+    """
     Estimates the spline object for columnx, columny of a dataframe
     Requires that columnx, columny be integer or float
     Removes rows where there are missing values in columnx and columny
     Removes duplicate rows
     Sorts the dataframe by columnx in increasing order
-    '''
+    """
     df = df.dropna(subset=[columnx, columny])
-    df = df.sort_values(by=columnx, axis='rows', ascending=True)
-    df = df.drop_duplicates(subset=columnx, keep='first')
-    print('final dataframe', df.shape,
-          'min', df[columny].min(),
-          'max', df[columny].max())
+    df = df.sort_values(by=columnx, axis="rows", ascending=True)
+    df = df.drop_duplicates(subset=columnx, keep="first")
+    print("final dataframe", df.shape,
+          "min", df[columny].min(),
+          "max", df[columny].max())
     spline = CubicSpline(df[columnx], df[columny])
     return spline
 
@@ -124,34 +124,34 @@ def plot_graph(
     ax.plot(
         df[columnx],
         df[columny],
-        marker='.',
-        linestyle='',
+        marker=".",
+        linestyle="",
         color=colour1
     )
     ax.plot(
         df[columnx],
         df[columnz],
         marker=None,
-        linestyle='-',
+        linestyle="-",
         color=colour2
     )
     ax.set_title(
-        label=graphtitle + '\n' + graphsubtitle,
-        
+        label=graphtitle + "\n" + graphsubtitle,
+
     )
     ax.set_xlabel(
         xlabel=xaxislabel,
-        
+
     )
     ax.set_ylabel(
         ylabel=yaxislabel,
-        
+
     )
     ds.despine(ax=ax)
-    file = filename.strip('.csv')
+    file = filename.strip(".csv")
     fig.savefig(
-        fname=f'{graphname}_{file}.png',
-        format='png'
+        fname=f"{graphname}_{file}.png",
+        format="png"
     )
 
 
@@ -164,13 +164,13 @@ def cs(
     graphname: str
 ) -> NoReturn:
     df = read_csv_file(filename, datecolumn, datetimeparser)
-    print('initial dataframe', df.shape,
-          'min', df[observedcolumn].min(),
-          'max', df[observedcolumn].max())
+    print("initial dataframe", df.shape,
+          "min", df[observedcolumn].min(),
+          "max", df[observedcolumn].max())
     df[datecolumn] = pd.to_numeric(df[datecolumn])
     spline = estimate_spline(df, datecolumn, observedcolumn)
     df[predictedcolumn] = spline(df[datecolumn])
-    df[datecolumn] = df[datecolumn].astype(dtype='datetime64[ns]')
+    df[datecolumn] = df[datecolumn].astype(dtype="datetime64[ns]")
     plot_graph(
         df,
         datecolumn,
@@ -178,7 +178,7 @@ def cs(
         predictedcolumn,
         filename,
         graphname,
-        'Cubic Spline Fit',
+        "Cubic Spline Fit",
         filename,
         observedcolumn,
         datecolumn
@@ -194,9 +194,9 @@ def ewma(
     graphname: str
 ) -> NoReturn:
     df = read_csv_file(filename, datecolumn, datetimeparser)
-    print('initial & final', df.shape,
-          'min', df[observedcolumn].min(),
-          'max', df[observedcolumn].max())
+    print("initial & final", df.shape,
+          "min", df[observedcolumn].min(),
+          "max", df[observedcolumn].max())
     df[predictedcolumn] = df[observedcolumn].ewm(alpha=1).mean()
     plot_graph(
         df,
@@ -205,12 +205,12 @@ def ewma(
         predictedcolumn,
         filename,
         graphname,
-        'Exponentially Weighted Moving Average Fit',
+        "Exponentially Weighted Moving Average Fit",
         filename,
         observedcolumn,
         datecolumn
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
