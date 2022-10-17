@@ -61,15 +61,15 @@ def main():
     )
     ax.set_title(
         label=axis_title,
-        
+
     )
     ax.set_xlabel(
         xlabel=x_axis_label,
-        
+
     )
     ax.set_ylabel(
         ylabel=y_axis_label,
-        
+
     )
     ax.legend(frameon=False)
     ds.format_dates(fig, ax)
