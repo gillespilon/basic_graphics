@@ -190,7 +190,11 @@ def cs(
           "min", df[observedcolumn].min(),
           "max", df[observedcolumn].max())
     df[datecolumn] = pd.to_numeric(df[datecolumn])
-    spline = estimate_spline(df, datecolumn, observedcolumn)
+    spline = estimate_spline(
+        df=df,
+        columnx=datecolumn,
+        columny=observedcolumn
+    )
     df[predictedcolumn] = spline(df[datecolumn])
     df[datecolumn] = df[datecolumn].astype(dtype="datetime64[ns]")
     plot_graph(
