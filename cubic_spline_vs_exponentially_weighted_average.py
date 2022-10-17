@@ -107,6 +107,7 @@ def estimate_spline(
 
 
 def plot_graph(
+    *,
     df: pd.DataFrame,
     columnx: str,
     columny: str,
@@ -172,16 +173,16 @@ def cs(
     df[predictedcolumn] = spline(df[datecolumn])
     df[datecolumn] = df[datecolumn].astype(dtype="datetime64[ns]")
     plot_graph(
-        df,
-        datecolumn,
-        observedcolumn,
-        predictedcolumn,
-        filename,
-        graphname,
-        "Cubic Spline Fit",
-        filename,
-        observedcolumn,
-        datecolumn
+        df=df,
+        columnx=datecolumn,
+        columny=observedcolumn,
+        columnz=predictedcolumn,
+        filename=filename,
+        graphname=graphname,
+        graphtitle="Cubic Spline Fit",
+        graphsubtitle=filename,
+        yaxislabel=observedcolumn,
+        xaxislabel=datecolumn
     )
 
 
@@ -199,16 +200,16 @@ def ewma(
           "max", df[observedcolumn].max())
     df[predictedcolumn] = df[observedcolumn].ewm(alpha=1).mean()
     plot_graph(
-        df,
-        datecolumn,
-        observedcolumn,
-        predictedcolumn,
-        filename,
-        graphname,
-        "Exponentially Weighted Moving Average Fit",
-        filename,
-        observedcolumn,
-        datecolumn
+        df=df,
+        columnx=datecolumn,
+        columny=observedcolumn,
+        columnz=predictedcolumn,
+        filename=filename,
+        graphname=graphname,
+        graphtitle="Exponentially Weighted Moving Average Fit",
+        graphsubtitle=filename,
+        yaxislabel=observedcolumn,
+        xaxislabel=datecolumn
     )
 
 
