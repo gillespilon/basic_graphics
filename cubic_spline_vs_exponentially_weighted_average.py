@@ -4,7 +4,7 @@ Plots to compare cubic spline vs exponentially weighted moving average fits
 """
 
 from datetime import datetime
-from typing import NoReturn
+from typing import Callable, NoReturn
 
 from scipy.interpolate import CubicSpline
 import matplotlib.pyplot as plt
@@ -81,18 +81,8 @@ def main():
     )
 
 
-def read_csv_file(
-    *,
-    filename: str,
-    datecolumn: str,
-    datetimeparser: str,
-) -> pd.DataFrame:
-    df = pd.read_csv(
-         filename,
-         parse_dates=[datecolumn],
-         date_parser=lambda s: datetime.strptime(s, datetimeparser)
-    )
-    return df
+def date_parser() -> Callable:
+    return lambda s: datetime.strptime(s, "%Y-%m-%d %H:%M:%S")
 
 
 def estimate_spline(
@@ -181,10 +171,10 @@ def cs(
     colour_marker: str,
     colour_line: str
 ) -> NoReturn:
-    df = read_csv_file(
-        filename=filename,
-        datecolumn=datecolumn,
-        datetimeparser=datetimeparser
+    df=ds.read_file(
+        file_name=filename,
+        parse_dates=[datecolumn],
+        date_parser=date_parser()
     )
     print("initial dataframe", df.shape,
           "min", df[observedcolumn].min(),
@@ -224,10 +214,10 @@ def ewma(
     colour_marker: str,
     colour_line: str
 ) -> NoReturn:
-    df = read_csv_file(
-        filename=filename,
-        datecolumn=datecolumn,
-        datetimeparser=datetimeparser
+    df=ds.read_file(
+        file_name=filename,
+        parse_dates=[datecolumn],
+        date_parser=date_parser()
     )
     print("initial & final", df.shape,
           "min", df[observedcolumn].min(),
