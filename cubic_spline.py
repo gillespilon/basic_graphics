@@ -9,7 +9,7 @@ This script has several functions:
 - Plot the raw data as a scatter plot
 - Plot the cubic spline as a line plot
 
-time -f '%e' ./cubic_spline.py
+time -f "%e" ./cubic_spline.py
 ./cubic_spline.py
 """
 
@@ -24,49 +24,49 @@ import pandas as pd
 
 
 def date_parser() -> Callable:
-    return lambda s: datetime.strptime(s, '%Y-%m-%d %H:%M:%S')
+    return lambda s: datetime.strptime(s, "%Y-%m-%d %H:%M:%S")
 
 
-colour1 = '#0077bb'
-colour2 = '#33bbee'
-parser = '%Y-%m-%d %H:%M:%S'
+colour1 = "#0077bb"
+colour2 = "#33bbee"
+parser = "%Y-%m-%d %H:%M:%S"
 file_name = [
-    'raw_data_integer_float.csv',
-    'raw_data_datetime_float.csv',
-    'dataframe_small_datetime_integer.csv',
-    'dataframe_small_integer_integer.csv'
+    "raw_data_integer_float.csv",
+    "raw_data_datetime_float.csv",
+    "dataframe_small_datetime_integer.csv",
+    "dataframe_small_integer_integer.csv"
 ]
 abscissa_name = [
-    'abscissa',
-    'datetime',
-    'datetime',
-    'abscissa'
+    "abscissa",
+    "datetime",
+    "datetime",
+    "abscissa"
 ]
 ordinate_name = [
-    'ordinate',
-    'observed',
-    'observed',
-    'ordinate'
+    "ordinate",
+    "observed",
+    "observed",
+    "ordinate"
 ]
 ordinate_predicted_name = [
-    'ordinate_predicted',
-    'ordinate_predicted',
-    'ordinate_predicted',
-    'ordinate_predicted'
+    "ordinate_predicted",
+    "ordinate_predicted",
+    "ordinate_predicted",
+    "ordinate_predicted"
 ]
 graph_file_name = [
-    'cubic_spline_integer_float',
-    'cubic_spline_datetime_float',
-    'cubic_spline_dataframe_small_datetime_integer',
-    'cubic_spline_dataframe_small_integer_integer'
+    "cubic_spline_integer_float",
+    "cubic_spline_datetime_float",
+    "cubic_spline_dataframe_small_datetime_integer",
+    "cubic_spline_dataframe_small_integer_integer"
 ]
 date_time_parser = [None, date_parser(), date_parser(), None]
-date_formatter = [None, '%m-%d', '%m-%d', None]
+date_formatter = [None, "%m-%d", "%m-%d", None]
 column_names_sort = [False, False, False, False]
 figure_width_height = (8, 6)
-x_axis_label = 'Abscissa'
-y_axis_label = 'Ordinate'
-axis_title = 'Cubic Spline'
+x_axis_label = "Abscissa"
+y_axis_label = "Ordinate"
+axis_title = "Cubic Spline"
 
 
 def main():
@@ -102,7 +102,7 @@ def main():
         )
         if datetimeparser is not None:
             data[abscissaname] = pd.to_numeric(data[abscissaname])
-            print('filename: ', filename)
+            print("filename: ", filename)
             spline = ds.cubic_spline(
                 df=data,
                 abscissa=abscissaname,
@@ -110,10 +110,10 @@ def main():
             )
             data[ordinatepredictedname] = spline(data[abscissaname])
             data[abscissaname] = data[abscissaname]\
-                .astype(dtype='datetime64[ns]')
+                .astype(dtype="datetime64[ns]")
         else:
-            data[abscissaname] = data[abscissaname].astype(dtype='int')
-            print('filename: ', filename)
+            data[abscissaname] = data[abscissaname].astype(dtype="int")
+            print("filename: ", filename)
             spline = ds.cubic_spline(
                 df=data,
                 abscissa=abscissaname,
@@ -151,15 +151,15 @@ def plot_graph(
     ax.plot(
         df[columnx],
         df[columny],
-        marker='.',
-        linestyle='',
+        marker=".",
+        linestyle="",
         color=colour1
     )
     ax.plot(
         df[columnx],
         df[columnz],
         marker=None,
-        linestyle='-',
+        linestyle="-",
         color=colour2
     )
     if dateformat:
@@ -169,22 +169,22 @@ def plot_graph(
         ax.xaxis.set_minor_formatter(NullFormatter())
     ax.set_title(
         label=graphtitle,
-        
+
     )
     ax.set_xlabel(
         xlabel=xaxislabel,
-        
+
     )
     ax.set_ylabel(
         ylabel=yaxislabel,
-        
+
     )
     ds.despine(ax=ax)
     fig.savefig(
-        fname=f'{graphname}.svg',
-        format='svg'
+        fname=f"{graphname}.svg",
+        format="svg"
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
