@@ -2,7 +2,7 @@
 """
 Create line plots of actual and target for tracking weight loss.
 
-time -f '%e' ./weight_loss_tracker.py
+time -f "%e" ./weight_loss_tracker.py
 ./weight_loss_tracker.py
 """
 
@@ -20,18 +20,18 @@ def main():
     chdir(Path(__file__).parent.resolve())  # required for cron
     figure_width_height = (15, 7)
     file_name_data, file_name_graph = (
-        'weight.ods',
-        'weight.svg'
+        "weight.ods",
+        "weight.svg"
     )
     column_x, column_target, column_actual = (
-        'Date',
-        'Target',
-        'Actual'
+        "Date",
+        "Target",
+        "Actual"
     )
     x_axis_label, y_axis_label, axis_title = (
-        'Date',
-        'Weight (kg)',
-        'Weight Loss'
+        "Date",
+        "Weight (kg)",
+        "Weight Loss"
     )
     data = ds.read_file(
         file_name=file_name_data,
@@ -45,7 +45,7 @@ def main():
         labellegendy1=column_actual,
         labellegendy2=column_target,
         marker2=None,
-        linestyle1='None',
+        linestyle1="None",
     )
     ax.set_title(
         label=axis_title,
@@ -63,9 +63,9 @@ def main():
     ds.despine(ax=ax)
     fig.savefig(
         fname=file_name_graph,
-        format='svg'
+        format="svg"
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
