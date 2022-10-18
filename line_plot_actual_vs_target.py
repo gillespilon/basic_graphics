@@ -72,7 +72,10 @@ def main():
 
     )
     ax.legend(frameon=False)
-    ds.format_dates(fig, ax)
+    ds.format_dates(
+        fig=fig,
+        ax=ax
+    )
     ds.despine(ax=ax)
     fig.savefig(
         fname=file_name_graph,
