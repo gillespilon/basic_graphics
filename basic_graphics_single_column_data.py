@@ -22,6 +22,7 @@ def main():
     file_name_scatter_plot = Path("scatter_plot.svg")
     header_id = "basic-graphics-single-column-data"
     file_name_histogram = Path("histogram.svg")
+    file_name_run_chart = Path("run_chart.svg")
     file_name_box_plot = Path("box_plot.svg")
     subtitle = "Pretty graph"
     colour1 = "#0077bb"
@@ -124,6 +125,23 @@ def main():
         format="svg"
     )
     ds.html_figure(file_name=f"{file_name_stemandleaf_plot}")
+    fig, ax = ds.plot_line_x_y(
+        X=df[series_name_x],
+        y=df[series_name_y],
+        remove_spines=True
+    )
+    run_chart_title = f"Run chart of {series_name_y}"
+    ax.set_title(
+        label=run_chart_title,
+        fontsize=13
+    )
+    ax.set_ylabel(ylabel=series_name_y)
+    ax.set_xlabel(xlabel=series_name_x)
+    fig.savefig(
+        fname=file_name_run_chart,
+        format="svg"
+    )
+    ds.html_figure(file_name=f"{file_name_run_chart}")
     ds.html_end(
         original_stdout=original_stdout,
         output_url=output_url
