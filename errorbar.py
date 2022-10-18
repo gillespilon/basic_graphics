@@ -35,7 +35,7 @@ def main():
         'Leadership change',
         'Covid-19 government loans',
         'Concern about repaying on time',
-        'Percentage Molex business',
+        'Percentage of business',
         'Lawsuits or liens',
         'Reductions and restructuring',
         'Facility control',
