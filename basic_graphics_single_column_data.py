@@ -6,11 +6,8 @@ Examples of graphics from a single column of data
 from pathlib import Path
 
 from stemgraphic import stem_graphic as stg
-import statsmodels.formula.api as smf
 import statsmodels.api as sm
-import matplotlib.pyplot as plt
 import datasense as ds
-import pandas as pd
 import numpy as np
 
 
@@ -25,8 +22,6 @@ def main():
     file_name_run_chart = Path("run_chart.svg")
     file_name_box_plot = Path("box_plot.svg")
     subtitle = "Pretty graph"
-    colour1 = "#0077bb"
-    colour2 = "#33bbee"
     series_name_y = "y"
     series_name_x = "x"
     original_stdout = ds.html_begin(
