@@ -18,6 +18,7 @@ def main():
     file_name = Path("basic_graphics_single_column_data.csv")
     output_url = "basic_graphics_single_column_data.html"
     header_id = "basic-graphics-single-column-data"
+    file_name_histogram = Path("histogram.svg")
     file_name_box_plot = Path("box_plot.svg")
     subtitle = "Pretty graph"
     colour1 = "#0077bb"
@@ -66,6 +67,20 @@ def main():
             ) /
         np.sqrt(df[series_name].count())
     )
+    fig, ax = ds.plot_histogram(series=df[series_name])
+    histogram_plot_title = f"Histogram of {series_name}"
+    y_axis_label = "Count"
+    ax.set_title(
+        label=histogram_plot_title + "\n" + subtitle,
+        fontsize=13
+    )
+    ax.set_ylabel(ylabel=y_axis_label)
+    ax.set_xlabel(xlabel=series_name)
+    fig.savefig(
+        fname=file_name_histogram,
+        format="svg"
+    )
+    ds.html_figure(file_name=f"{file_name_histogram}")
     ds.html_end(
         original_stdout=original_stdout,
         output_url=output_url
