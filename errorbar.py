@@ -124,20 +124,18 @@ def main():
         #     left=0,
         #     right=1
         # )
-        ax.set_xlabel(xlabel='Answer',
-            ,
+        ax.set_xlabel(
+            xlabel='Answer',
             fontsize=12
         )
         ax.set_ylabel(
             ylabel='Proportion',
-            ,
             fontsize=12
         )
         ax.set_xticks(['1', '2'])
         ax.set_xticklabels(['no', 'yes'])
         fig.suptitle(
             t=f'Question {question_number}\n{question}',
-            ,
             fontsize=15
         )
         for proportion, count, x, y in zip(
