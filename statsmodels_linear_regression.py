@@ -35,7 +35,7 @@ def main():
         missing='drop'
     )
     results = model.fit()
-    df['predicted'] = results.predict(x)
+    df['predicted'] = results.predict(exog=x)
     print(results.summary())
     print('</pre>')
     fig = plt.figure(figsize=(8, 6))
