@@ -99,7 +99,7 @@ def main():
     fig, ax = ds.plot_scatter_line_x_y1_y2(
         X=df[series_name_x],
         y1=df[series_name_y],
-        y2=results.predict(),
+        y2=results.predict(exog=X),
         remove_spines=True
     )
     scatter_plot_title = f"Scatter plot of {series_name_y}"
