@@ -17,6 +17,7 @@ import numpy as np
 def main():
     header_title = "Basic graphics using a single column of data"
     file_name = Path("basic_graphics_single_column_data.csv")
+    file_name_stemandleaf_plot = Path("stemandleafplot.svg")
     output_url = "basic_graphics_single_column_data.html"
     file_name_scatter_plot = Path("scatter_plot.svg")
     header_id = "basic-graphics-single-column-data"
@@ -112,6 +113,17 @@ def main():
     print("Constant         :", results.params[0])
     print("Linear regression:", results.params[1])
     print()
+    fig, ax = stg(df=df[series_name_y])
+    stemandleaf_plot_title = f"Stem-and-leaf plot of {series_name_y}"
+    ax.set_title(
+        label=stemandleaf_plot_title,
+        fontsize=13
+    )
+    fig.savefig(
+        fname=file_name_stemandleaf_plot,
+        format="svg"
+    )
+    ds.html_figure(file_name=f"{file_name_stemandleaf_plot}")
     ds.html_end(
         original_stdout=original_stdout,
         output_url=output_url
