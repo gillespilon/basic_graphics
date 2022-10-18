@@ -8,12 +8,12 @@ from pathlib import Path
 from stemgraphic import stem_graphic as stg
 import statsmodels.api as sm
 import datasense as ds
+import pandas as pd
 import numpy as np
 
 
 def main():
     header_title = "Basic graphics using a single column of data"
-    file_name = Path("basic_graphics_single_column_data.csv")
     file_name_stemandleaf_plot = Path("stemandleafplot.svg")
     output_url = "basic_graphics_single_column_data.html"
     file_name_scatter_plot = Path("scatter_plot.svg")
@@ -29,7 +29,16 @@ def main():
         header_title=header_title,
         header_id=header_id
     )
-    df = ds.read_file(file_name=file_name)
+    data = {
+        "y": [
+            61.3, 71.4, 75.4, 54.6, 65, 88.8, 46.6, 91.4, 68, 61.1,
+            62.1, 98.6, 70.6, 76.5, 72.1, 61.6, 79.8, 78.1, 66.5, 66.9,
+            75.2, 83.4, 80.3, 64.1, 72.6, 82.8, 83, 74.1, 53.6, 56.1,
+            73.3, 62.4, 69.7, 57.4, 58.5, 73.6, 63.1, 63.7, 68.6, 91.2,
+            87.7, 67.1, 81.8, 79.7, 82.1, 74.7, 91, 79.7, 48.9, 71.2
+        ]
+    }
+    df = pd.DataFrame(data=data)
     df[series_name_x] = df.index
     fig, ax = ds.plot_boxplot(
         series=df[series_name_y],
