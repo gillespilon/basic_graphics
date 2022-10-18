@@ -15,11 +15,11 @@ import numpy as np
 def main():
     filename = ('cubic_spline_raw_data.csv')
     columns = ['raw_data_x', 'raw_data_y']
-    data = create_data(filename, columns)
+    data = create_data(columns)
     data.to_csv(filename, index=False)
 
 
-def create_data(filename, columns):
+def create_data(columns):
     raw_data_x_values = np.arange(10)
     raw_data_y_values = np.sin(raw_data_x_values)
     array = np.array([raw_data_x_values, raw_data_y_values])
