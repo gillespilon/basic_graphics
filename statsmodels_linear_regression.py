@@ -116,6 +116,7 @@ def main():
         fontsize=12,
 
     )
+    ds.despine(ax=ax)
     fig.savefig(
         fname=graphname,
         format="svg"
