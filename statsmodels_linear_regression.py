@@ -57,17 +57,17 @@ def main():
     ax.set_title(
         label='Regression analysis',
         fontsize=15,
-        
+
     )
     ax.set_xlabel(
         xlabel='X axis label',
         fontsize=12,
-        
+
     )
     ax.set_ylabel(
         ylabel='Y axis label',
         fontsize=12,
-        
+
     )
     fig.savefig(
         fname='y_vs_x.svg',
