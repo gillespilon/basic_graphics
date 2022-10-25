@@ -4,7 +4,6 @@ Demonstrate linear regression, confidence interval, and prediction
 interval with statsmodels
 """
 
-import statsmodels.api as sm
 import datasense as ds
 import pandas as pd
 
@@ -31,7 +30,6 @@ def main():
         header_title=header_title,
         header_id=header_id
     )
-    print("<pre style='white-space: pre-wrap;'>")
     data = {
         x_column: [10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5],
         y_column: [
@@ -39,25 +37,13 @@ def main():
         ]
     }
     df = pd.DataFrame(data=data)
-    x = sm.add_constant(data=df[x_column])
-    y = df[y_column]
-    model = sm.OLS(
-        endog=y,
-        exog=x,
-        missing="drop"
+    print("<pre style='white-space: pre-wrap;'>")
+    df_predictions = ds.linear_regression(
+        df=df,
+        x_column=x_column,
+        y_column=y_column,
+        prediction_column=prediction_column
     )
-    results = model.fit(
-        method="pinv",
-        cov_type="nonrobust"
-    )
-    print(results.summary())
-    print("</pre>")
-    df_predictions = (
-        results.get_prediction().summary_frame(alpha=0.05).sort_values(
-            by=prediction_column
-        )
-    )
-    df_predictions = df_predictions.join(other=df[[x_column, y_column]])
     fig, ax = ds.plot_scatter_line_x_y1_y2(
         X=df_predictions[x_column],
         y1=df_predictions[y_column],
