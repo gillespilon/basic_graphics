@@ -26,6 +26,7 @@ def main():
     colour1 = "#0077bb"
     colour2 = "#cc3311"
     colour3 = "#888888"
+    figsize = (8, 6)
     x_column = "x"
     y_column = "y"
     original_stdout = ds.html_begin(
@@ -60,21 +61,11 @@ def main():
         )
     )
     df_predictions = df_predictions.join(other=df[[x_column, y_column]])
-    fig = plt.figure(figsize=(8, 6))
-    ax = fig.add_subplot(111)
-    ax.plot(
-        df_predictions[x_column],
-        df_predictions[y_column],
-        marker=".",
-        linestyle="None",
-        color=colour1
-    )
-    ax.plot(
-        df_predictions[x_column],
-        df_predictions[prediction_column],
-        marker="None",
-        linestyle="-",
-        color=colour2
+    fig, ax = ds.plot_scatter_line_x_y1_y2(
+        X=df_predictions[x_column],
+        y1=df_predictions[y_column],
+        y2=df_predictions[prediction_column],
+        figsize=figsize
     )
     ax.fill_between(
         df_predictions[x_column],
