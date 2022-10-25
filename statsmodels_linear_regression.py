@@ -48,6 +48,7 @@ def main():
         y_column=y_column,
         prediction_column=prediction_column
     )
+    ds.style_graph()
     fig, ax = ds.plot_scatter_line_x_y1_y2(
         X=df_predictions[x_column],
         y1=df_predictions[y_column],
