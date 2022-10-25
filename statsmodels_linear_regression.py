@@ -6,26 +6,23 @@ interval with statsmodels
 
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
-from scipy import stats
 import datasense as ds
 import pandas as pd
-import numpy as np
 
 
 def main():
     output_url = "statsmodels_linear_regression.html"
     header_title = "Statsmodels linear regression"
-    lower_ci_column = "lower_confidence_interval"
-    upper_ci_column = "upper_confidence_interval"
-    lower_pi_column = "lower_prediction_interval"
-    upper_pi_column = "upper_prediction_interval"
     header_id = "statsmodels-linear-regression"
-    prediction_column = "predicted"
+    lower_ci_column = "mean_ci_lower"
+    upper_ci_column = "mean_ci_upper"
+    lower_pi_column = "obs_ci_lower"
+    upper_pi_column = "obs_ci_upper"
     title = "Regression analysis"
+    prediction_column = "mean"
     graphname = "y_vs_x.svg"
     xlabel = "X axis label"
     ylabel = "Y axis label"
-    error_column = "error"
     colour1 = "#0077bb"
     colour2 = "#cc3311"
     colour3 = "#888888"
@@ -55,67 +52,55 @@ def main():
         method="pinv",
         cov_type="nonrobust"
     )
-    df[prediction_column] = results.predict(exog=x)
     print(results.summary())
     print("</pre>")
-    df[error_column] = df[x_column].std() * np.sqrt(
-        1 / len(df[x_column]) + (df[x_column] - df[x_column].mean()) ** 2 /
-        np.sum((df[x_column] - df[x_column].mean()) ** 2)
+    df_predictions = (
+        results.get_prediction().summary_frame(alpha=0.05).sort_values(
+            by=prediction_column
+        )
     )
-    df[lower_ci_column] = df[prediction_column] - df[error_column]
-    df[upper_ci_column] = df[prediction_column] + df[error_column]
-    sum_squared_errors = (df[error_column] ** 2).sum()
-    standard_deviation_residuals = np.sqrt(
-        sum_squared_errors / (len(df[y_column]) - 2)
-    )
-    prediction_interval = 1.96 * standard_deviation_residuals
-    df[lower_pi_column] = df[prediction_column] - prediction_interval
-    df[upper_pi_column] = df[prediction_column] + prediction_interval
-    df = df.sort_values(by=x_column)
+    df_predictions = df_predictions.join(other=df[[x_column, y_column]])
     fig = plt.figure(figsize=(8, 6))
     ax = fig.add_subplot(111)
     ax.plot(
-        df[x_column],
-        df[y_column],
+        df_predictions[x_column],
+        df_predictions[y_column],
         marker=".",
         linestyle="None",
         color=colour1
     )
     ax.plot(
-        df[x_column],
-        df[prediction_column],
+        df_predictions[x_column],
+        df_predictions[prediction_column],
         marker="None",
         linestyle="-",
         color=colour2
     )
     ax.fill_between(
-        x=df[x_column],
-        y1=df[lower_ci_column],
-        y2=df[upper_ci_column],
+        df_predictions[x_column],
+        y1=df_predictions[lower_ci_column],
+        y2=df_predictions[upper_ci_column],
         color=colour3,
         alpha=0.4
     )
     ax.fill_between(
-        x=df[x_column],
-        y1=df[lower_pi_column],
-        y2=df[upper_pi_column],
+        x=df_predictions[x_column],
+        y1=df_predictions[lower_pi_column],
+        y2=df_predictions[upper_pi_column],
         color=colour3,
         alpha=0.2
     )
     ax.set_title(
         label=title,
-        fontsize=15,
-
+        fontsize=15
     )
     ax.set_xlabel(
         xlabel=xlabel,
-        fontsize=12,
-
+        fontsize=12
     )
     ax.set_ylabel(
         ylabel=ylabel,
-        fontsize=12,
-
+        fontsize=12
     )
     ds.despine(ax=ax)
     fig.savefig(
