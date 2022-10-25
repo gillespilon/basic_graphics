@@ -6,6 +6,7 @@ interval with statsmodels
 
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
+from scipy import stats
 import datasense as ds
 import pandas as pd
 import numpy as np
@@ -24,10 +25,10 @@ def main():
     graphname = "y_vs_x.svg"
     xlabel = "X axis label"
     ylabel = "Y axis label"
+    error_column = "error"
     colour1 = "#0077bb"
     colour2 = "#cc3311"
     colour3 = "#888888"
-    colerror = "error"
     x_column = "x"
     y_column = "y"
     original_stdout = ds.html_begin(
@@ -57,17 +58,17 @@ def main():
     df[prediction_column] = results.predict(exog=x)
     print(results.summary())
     print("</pre>")
-    df[colerror] = df[x_column].std() * np.sqrt(
+    df[error_column] = df[x_column].std() * np.sqrt(
         1 / len(df[x_column]) + (df[x_column] - df[x_column].mean()) ** 2 /
         np.sum((df[x_column] - df[x_column].mean()) ** 2)
     )
-    df[lower_ci_column] = df[prediction_column] - df[colerror]
-    df[upper_ci_column] = df[prediction_column] + df[colerror]
-    sum_squared_errors = (df[colerror] ** 2).sum()
-    std_deviation_prediction = np.sqrt(
-        1 / (len(df[y_column]) - 2) * sum_squared_errors
+    df[lower_ci_column] = df[prediction_column] - df[error_column]
+    df[upper_ci_column] = df[prediction_column] + df[error_column]
+    sum_squared_errors = (df[error_column] ** 2).sum()
+    standard_deviation_residuals = np.sqrt(
+        sum_squared_errors / (len(df[y_column]) - 2)
     )
-    prediction_interval = 1.96 * std_deviation_prediction
+    prediction_interval = 1.96 * standard_deviation_residuals
     df[lower_pi_column] = df[prediction_column] - prediction_interval
     df[upper_pi_column] = df[prediction_column] + prediction_interval
     df = df.sort_values(by=x_column)
