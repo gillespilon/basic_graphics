@@ -12,6 +12,9 @@ def main():
     output_url = "statsmodels_linear_regression.html"
     header_title = "Statsmodels linear regression"
     header_id = "statsmodels-linear-regression"
+    labellegendci = "Confidence interval"
+    labellegendpi = "Prediction interval"
+    labellegendy2 = "Linear regression"
     lower_ci_column = "mean_ci_lower"
     upper_ci_column = "mean_ci_upper"
     lower_pi_column = "obs_ci_lower"
@@ -22,6 +25,7 @@ def main():
     graphname = "y_vs_x.svg"
     xlabel = "X axis label"
     ylabel = "Y axis label"
+    labellegendy1 = "Data"
     figsize = (8, 6)
     x_column = "x"
     y_column = "y"
@@ -48,21 +52,25 @@ def main():
         X=df_predictions[x_column],
         y1=df_predictions[y_column],
         y2=df_predictions[prediction_column],
-        figsize=figsize
+        figsize=figsize,
+        labellegendy1=labellegendy1,
+        labellegendy2=labellegendy2
     )
     ax.fill_between(
         df_predictions[x_column],
         y1=df_predictions[lower_ci_column],
         y2=df_predictions[upper_ci_column],
         color=colour_shading,
-        alpha=0.4
+        alpha=0.4,
+        label=labellegendci
     )
     ax.fill_between(
         x=df_predictions[x_column],
         y1=df_predictions[lower_pi_column],
         y2=df_predictions[upper_pi_column],
         color=colour_shading,
-        alpha=0.2
+        alpha=0.2,
+        label=labellegendpi
     )
     ax.set_title(
         label=title,
@@ -76,7 +84,10 @@ def main():
         ylabel=ylabel,
         fontsize=12
     )
-    ds.despine(ax=ax)
+    ax.legend(
+        loc="upper left",
+        frameon=False
+    )
     fig.savefig(
         fname=graphname,
         format="svg"
