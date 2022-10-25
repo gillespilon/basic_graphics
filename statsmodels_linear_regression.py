@@ -4,7 +4,6 @@ Demonstrate linear regression, confidence interval, and prediction
 interval with statsmodels
 """
 
-import matplotlib.pyplot as plt
 import statsmodels.api as sm
 import datasense as ds
 import pandas as pd
@@ -19,13 +18,11 @@ def main():
     lower_pi_column = "obs_ci_lower"
     upper_pi_column = "obs_ci_upper"
     title = "Regression analysis"
+    colour_shading = "#888888"
     prediction_column = "mean"
     graphname = "y_vs_x.svg"
     xlabel = "X axis label"
     ylabel = "Y axis label"
-    colour1 = "#0077bb"
-    colour2 = "#cc3311"
-    colour3 = "#888888"
     figsize = (8, 6)
     x_column = "x"
     y_column = "y"
@@ -71,14 +68,14 @@ def main():
         df_predictions[x_column],
         y1=df_predictions[lower_ci_column],
         y2=df_predictions[upper_ci_column],
-        color=colour3,
+        color=colour_shading,
         alpha=0.4
     )
     ax.fill_between(
         x=df_predictions[x_column],
         y1=df_predictions[lower_pi_column],
         y2=df_predictions[upper_pi_column],
-        color=colour3,
+        color=colour_shading,
         alpha=0.2
     )
     ax.set_title(
