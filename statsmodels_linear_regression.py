@@ -41,7 +41,6 @@ def main():
         ]
     }
     df = pd.DataFrame(data=data)
-    print("<pre style='white-space: pre-wrap;'>")
     df_predictions = ds.linear_regression(
         df=df,
         x_column=x_column,
