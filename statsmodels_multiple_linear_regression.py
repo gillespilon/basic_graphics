@@ -4,8 +4,6 @@ Demonstrate multiple linear regression, confidence interval, and prediction
 interval with statsmodels
 """
 
-import matplotlib.pyplot as plt
-import statsmodels.api as sm
 import datasense as ds
 import pandas as pd
 
@@ -42,13 +40,6 @@ def main():
     x_column = ["interest_rate", "unemployment_rate"]
     prediction_column = "mean"
     y_column = "index_price"
-    figsize = (8, 6)
-    labellegendy1 = "Data"
-    labellegendy2 = "Linear regression"
-    graphnames = [
-        "interest_rate_vs_index_price.svg",
-        "unemployment_rate_vs_index_price.svg"
-    ]
     df = pd.DataFrame(
         data={
             "year": series_year,
@@ -58,55 +49,12 @@ def main():
             y_column: series_index_price
         }
     )
-    df_predictions = ds.linear_regression(
+    df_predictions, fitted_model = ds.linear_regression(
         df=df,
         x_column=x_column,
         y_column=y_column,
         prediction_column=prediction_column
     )
-    ds.style_graph()
-    # need to figure out how to plot multiple regression graphs
-    # for X, graphname in zip(x_column, graphnames):
-    #     print(df_predictions[X])
-    #     fig, ax = ds.plot_scatter_line_x_y1_y2(
-    #         X=df_predictions[X],
-    #         y1=df_predictions[y_column],
-    #         y2=df_predictions[prediction_column],
-    #         figsize=figsize,
-    #         labellegendy1=labellegendy1,
-    #         labellegendy2=labellegendy2
-    #     )
-    # ax.plot(
-    #     df["interest_rate"],
-    #     df[y_column],
-    #     marker=".",
-    #     linestyle="None",
-    #     color="#0077bb"
-    # )
-    # ax.plot(
-    #     df["interest_rate"],
-    #     df[y_column],
-    #     marker=".",
-    #     linestyle="None",
-    #     color="#cc3311"
-    # )
-    #     ax.set_title(
-    #         label="Regression analysis",
-    #         fontsize=15
-    #         )
-    #     ax.set_xlabel(
-    #         xlabel="X axis label",
-    #         fontsize=12
-    #     )
-    #     ax.set_ylabel(
-    #         ylabel="Y axis label",
-    #         fontsize=12
-    #     )
-    #     fig.savefig(
-    #         fname=graphname,
-    #         format="svg"
-    #     )
-    #     ds.html_figure(file_name=graphname)
     ds.html_end(
         original_stdout=original_stdout,
         output_url=output_url
