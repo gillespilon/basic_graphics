@@ -43,7 +43,7 @@ def main():
     df = pd.DataFrame(data=data)
     df_predictions = ds.linear_regression(
         df=df,
-        x_column=x_column,
+        x_column=[x_column],
         y_column=y_column,
         prediction_column=prediction_column
     )
