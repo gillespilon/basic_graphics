@@ -93,8 +93,11 @@ def main():
             zip(questions, question_numbers, question_columns):
         no = data[question_column].value_counts('1')[1]
         yes = data[question_column].value_counts(['2'])[2]
-        fig = plt.figure(figsize=figsize)
-        ax = fig.add_subplot(111)
+        fig, ax = plt.subplots(
+            nrows=1,
+            ncols=1,
+            figsize=figsize
+        )
         ax.errorbar(
             x=['1', '2'],
             y=[no, yes],
