@@ -29,7 +29,7 @@ fig, ax = plt.subplots(
     figsize=figsize
 )
 ax.boxplot(
-        data,
+        x=data,
         notch=True
         )
 fig.savefig(fname='boxplot_from_ndarrays.svg')
@@ -46,7 +46,7 @@ fig, ax = plt.subplots(
     figsize=figsize
 )
 ax.boxplot(
-        [data2['a'], data2['b'], data2['c'], data2['d']],
+        x=[data2['a'], data2['b'], data2['c'], data2['d']],
         notch=True
         )
 fig.savefig(fname='boxplot_from_dataframe.svg')
