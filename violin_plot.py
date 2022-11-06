@@ -37,7 +37,7 @@ fig.savefig(
 )
 # use pd.DataFrame
 data2 = pd.DataFrame(data=[nparray1, nparray2, nparray3, nparray4])\
-    .T\
+    .transpose()\
     .set_axis(
         labels=['a', 'b', 'c', 'd'],
         axis='columns'
