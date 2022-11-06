@@ -29,7 +29,7 @@ fig, ax = plt.subplots(
     figsize=figsize
 )
 ax.violinplot(
-        data,
+        dataset=data,
         showmedians=True
         )
 fig.savefig(
@@ -48,7 +48,7 @@ fig, ax = plt.subplots(
     figsize=figsize
 )
 ax.violinplot(
-        [data2['a'], data2['b'], data2['c'], data2['d']],
+        dataset=[data2['a'], data2['b'], data2['c'], data2['d']],
         showmedians=True
         )
 fig.savefig(
