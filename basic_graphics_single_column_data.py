@@ -9,7 +9,6 @@ from stemgraphic import stem_graphic as stg
 import statsmodels.api as sm
 import datasense as ds
 import pandas as pd
-import numpy as np
 import math
 
 
