@@ -10,6 +10,7 @@ import statsmodels.api as sm
 import datasense as ds
 import pandas as pd
 import numpy as np
+import math
 
 
 def main():
@@ -69,7 +70,7 @@ def main():
                 df[series_name_y].quantile(.75)
                 - df[series_name_y].quantile(.25)
             ) /
-        np.sqrt(df[series_name_y].count())
+        math.sqrt(df[series_name_y].count())
     )
     print(
         "Lower confidence value:",
@@ -77,7 +78,7 @@ def main():
                 df[series_name_y].quantile(.75)
                 - df[series_name_y].quantile(.25)
             ) /
-        np.sqrt(df[series_name_y].count())
+        math.sqrt(df[series_name_y].count())
     )
     fig, ax = ds.plot_histogram(series=df[series_name_y])
     histogram_plot_title = f"Histogram of {series_name_y}"
