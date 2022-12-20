@@ -98,7 +98,10 @@ def estimate_spline(
     Removes duplicate rows
     Sorts the dataframe by columnx in increasing order
     """
-    df = df.dropna(subset=[columnx, columny])
+    df = ds.delete_empty_rows(
+        df=df,
+        list_columns=[columnx, columny]
+    )
     df = df.sort_values(by=columnx, axis="rows", ascending=True)
     df = df.drop_duplicates(subset=columnx, keep="first")
     print("final dataframe", df.shape,
