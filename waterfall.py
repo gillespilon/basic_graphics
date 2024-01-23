@@ -1,9 +1,12 @@
 #! /usr/bin/env python3
 """
-Waterfall chart, often used in finance
+It is a visualization of the cumulative effect of sequentially introduced
+positive or negative values. These values can be time-based or category-based.
 
 Based on code by Chris Moffitt:
 https://pbpython.com/waterfall-chart.html
+
+TODO: add code to read an Excel or csv file.
 """
 
 from pathlib import Path
@@ -20,6 +23,8 @@ def main():
         "shipping"
     ]
     data = {"amount": [350000, -30000, -7500, -25000, 95000, -7000]}
+    negative_colour = "red"
+    positive_colour = "green"
     # trans is a DataFrame
     trans = pd.DataFrame(
         data=data,
@@ -35,14 +40,25 @@ def main():
     step = blank.reset_index(drop=True).repeat(3).shift(-1)
     step[1::3] = np.nan
     blank.loc["net"] = 0
+    # Plot with colors, keeping last bar green
     ax = trans.plot(
-        kind='bar',
+        kind="bar",
         stacked=True,
         bottom=blank,
         legend=None,
-        color="b",
         fontsize=12
     )
+    # Dynamically set bar colors based on values
+    for i, p in enumerate(ax.patches):
+        if trans.iloc[i]["amount"] > 0:
+            p.set_facecolor(positive_colour)
+        else:
+            p.set_facecolor(negative_colour)
+    # Change color of the last bar (index -1) to green
+    # ax.patches contains a list of bar objects in the plot
+    # ax.patches[-1] accesses the last bar in that list
+    # last_bar = ax.patches[-1]
+    # last_bar.set_facecolor('green')  # set desired color here
     ax.plot(
         step.index,
         step.values,
