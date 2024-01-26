@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 """
-Errorbar survery analysis
+Errorbar survey analysis
 
 ./errorbar.py
 """
