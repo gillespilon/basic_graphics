@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 '''
-Anatomy of a Matplotlib figure
+Anatomy of a Matplotlib figure, edited from the original for clarity
 '''
 
 from matplotlib.ticker import AutoMinorLocator, MultipleLocator
