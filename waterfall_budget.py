@@ -11,7 +11,6 @@ TODO: add code to read an Excel or csv file.
 
 import matplotlib.pyplot as plt
 import datasense as ds
-import pandas as pd
 import numpy as np
 
 
