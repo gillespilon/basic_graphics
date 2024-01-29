@@ -16,25 +16,15 @@ import numpy as np
 
 
 def main():
-    # index = [
-    #     "Sales",
-    #     "Returns",
-    #     "Credit fees",
-    #     "Rebates",
-    #     "Late charges",
-    #     "Shipping",
-    # ]
-    # data = {AMOUNT: [350000, -30000, -7500, -25000, 95000, -7000]}
-    # df = pd.DataFrame(data=data, index=index)
-    PATH_GRAPH_SVG = "waterfall_financial_analysis.svg"
-    FILE_NAME = "waterfall_financial_analysis.xlsx"
-    TITLE = "Budget"
+    PATH_GRAPH_SVG = "waterfall_budget.svg"
+    FILE_NAME = "waterfall_budget.xlsx"
     FIRST_BAR_COLOUR = "blue"
     LAST_BAR_COLOUR = "blue"
     POSITIVE_COLOUR = "red"
     NEGATIVE_COLOUR = "green"
     LAST_COLUMN = "2024B"
     GRID_ALPHA = 0.2
+    TITLE = "Budget"
     YLIM_MIN = 400
     YLIM_MAX = 455
     FORMAT = "svg"
