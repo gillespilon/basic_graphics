@@ -11,21 +11,10 @@ TODO: add code to read an Excel or csv file.
 
 import matplotlib.pyplot as plt
 import datasense as ds
-import pandas as pd
 import numpy as np
 
 
 def main():
-    # index = [
-    #     "Sales",
-    #     "Returns",
-    #     "Credit fees",
-    #     "Rebates",
-    #     "Late charges",
-    #     "Shipping",
-    # ]
-    # data = {AMOUNT: [350000, -30000, -7500, -25000, 95000, -7000]}
-    # df = pd.DataFrame(data=data, index=index)
     PATH_GRAPH_SVG = "waterfall.svg"
     TITLE = "Sales Waterfall"
     FILE_NAME = "waterfall.xlsx"
