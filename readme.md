@@ -17,3 +17,4 @@ Examples of Python code for basic visuals
 | violin_plot.py                                    | Violin plot using matplotlib                                                                      |
 | waterfall.py                                      | Basic waterfall chart                                                                             |
 | waterfall_budget.py                               | Yearly budget waterfall chart                                                                     |
+| waterfall_margin.py                               | Year over year margin waterfall chart                                                             |
