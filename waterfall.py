@@ -16,16 +16,16 @@ import numpy as np
 
 def main():
     PATH_GRAPH_SVG = "waterfall.svg"
-    TITLE = "Sales Waterfall"
     FILE_NAME = "waterfall.xlsx"
     FIRST_BAR_COLOUR = "blue"
+    TITLE = "Sales Waterfall"
     LAST_BAR_COLOUR = "blue"
     POSITIVE_COLOUR = "green"
     NEGATIVE_COLOUR = "red"
     LAST_COLUMN = "Net"
-    GRID_ALPHA = 0.2
     YLIM_MIN = 260000
     YLIM_MAX = 400000
+    GRID_ALPHA = 0.2
     FORMAT = "svg"
     df = ds.read_file(file_name=FILE_NAME)
     xlabel = df.columns[0]
