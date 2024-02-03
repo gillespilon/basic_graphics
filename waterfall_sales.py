@@ -15,8 +15,8 @@ import numpy as np
 
 
 def main():
-    PATH_GRAPH_SVG = "waterfall.svg"
-    FILE_NAME = "waterfall.xlsx"
+    PATH_GRAPH_SVG = "waterfall_sales.svg"
+    FILE_NAME = "waterfall_sales.xlsx"
     FIRST_BAR_COLOUR = "blue"
     TITLE = "Sales Waterfall"
     LAST_BAR_COLOUR = "blue"
