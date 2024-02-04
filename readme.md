@@ -4,6 +4,7 @@ Examples of Python code for basic visuals
 
 | Python script                                     | Description                                                                                       |
 | :---                                              | :---                                                                                              |
+| argpar.py                                         | Test bed for argpars                                                                              |
 | basic_graphics_single_column_data.py              | Examples of graphics from a single column of data                                                 |
 | box_plot.py                                       | Box plot using matplotlib                                                                         |
 | cubic_spline.py                                   | Cubic spline plot                                                                                 |
@@ -15,6 +16,7 @@ Examples of Python code for basic visuals
 | statsmodels_linear_regression.py                  | Demonstrate linear regression, confidence interval, and prediction interval with statsmodels      |
 | statsmodels_multiple_linear_regression.py         | Demonstrate multiple linear regression, confidence interval, prediction interval with statsmodels |
 | violin_plot.py                                    | Violin plot using matplotlib                                                                      |
-| waterfall.py                                      | Basic waterfall chart                                                                             |
+| waterfall.py                                      | Waterfall chart, parameters passed using argparse                                                 |
 | waterfall_budget.py                               | Yearly budget waterfall chart                                                                     |
 | waterfall_margin.py                               | Year over year margin waterfall chart                                                             |
+| waterfall_sales.py                                | Sales waterfall chart
