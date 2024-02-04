@@ -11,8 +11,8 @@ https://matplotlib.org/stable/tutorials/artists.html
 https://matplotlib.org/stable/api/_as_gen/matplotlib.artist.setp.html
 """
 
-import matplotlib.pyplot as plt
 import matplotlib.artist as mpla
+import matplotlib.pyplot as plt
 import datasense as ds
 import numpy as np
 
