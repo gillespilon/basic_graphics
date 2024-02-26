@@ -4,9 +4,8 @@ Create a waterfall chart. Arguments are passed using argparse.
 """
 
 from pathlib import Path
-import tkinter as tk
+from os import chdir
 import argparse
-import sys
 
 import datasense as ds
 import pandas as pd
@@ -14,7 +13,11 @@ import numpy as np
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Create a waterfall chart")
+    chdir(Path(__file__).parent.resolve())  # required for cron
+    parser = argparse.ArgumentParser(
+        prog="waterfall.py",
+        description="Create a waterfall chart"
+    )
     parser.add_argument(
         "-pf",
         "--path_or_file",
